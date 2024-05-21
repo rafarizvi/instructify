@@ -25,6 +25,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "googleapis": "^137.1.0",
-    "graphql": "^16.8.1"
+    "graphql": "^16.8.1",
+    "react-router-dom": "^6.23.1"
   }
 }
