@@ -1,6 +1,6 @@
-// client/src/components/VideoSearch.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+
 
 const VideoSearch = () => {
   const [query, setQuery] = useState('');
@@ -19,26 +19,35 @@ const VideoSearch = () => {
   };
 
   return (
-    <div>
-      <h1>Search YouTube Videos</h1>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for videos"
-        />
-        <button type="submit">Search</button>
+    <div className="container">
+      <h1 className="my-4">Search YouTube Videos</h1>
+      <form onSubmit={handleSearch} className="mb-4">
+        <div className="input-group">
+          <input
+            type="text"
+            className="form-control"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for videos"
+          />
+          <div className="input-group-append">
+            <button className="btn btn-primary" type="submit">Search</button>
+          </div>
+        </div>
       </form>
-      <div>
+      <div className="row">
         {videos.map((video) => (
-          <div key={video.videoId}>
-            <h3>{video.title}</h3>
-            <img src={video.thumbnail} alt={video.title} />
-            <p>{video.description}</p>
-            <a href={`https://www.youtube.com/watch?v=${video.videoId}`} target="_blank" rel="noopener noreferrer">
-              Watch on YouTube
-            </a>
+          <div key={video.videoId} className="col-md-4 mb-4">
+            <div className="card">
+              <img src={video.thumbnail} className="card-img-top" alt={video.title} />
+              <div className="card-body">
+                <h5 className="card-title">{video.title}</h5>
+                <p className="card-text">{video.description}</p>
+                <a href={`https://www.youtube.com/watch?v=${video.videoId}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                  Watch on YouTube
+                </a>
+              </div>
+            </div>
           </div>
         ))}
       </div>
