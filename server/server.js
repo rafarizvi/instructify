@@ -78,5 +78,4 @@ const startApolloServer = async () => {
   // Important for MERN Setup: When our application runs from production, it functions slightly differently than in development
   // In development, we run two servers concurrently that work together
   // In production, our Node server runs and delivers our client-side bundle from the dist/ folder 
-=======
 
