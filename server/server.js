@@ -18,6 +18,36 @@ const startApolloServer = async () => {
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
+
+  // Set up YouTube API client
+  const youtube = google.youtube({
+    version: 'v3',
+    auth: process.env.YOUTUBE_API_KEY // Make sure you have this key in your .env file      /* !!watch!!*/
+  });
+
+  // Endpoint to search for YouTube videos
+  app.get('/api/search', async (req, res) => {
+    const { query } = req.query;
+    try {
+      const response = await youtube.search.list({
+        part: 'snippet',
+        q: query,
+        maxResults: 10,
+        type: 'video'
+      });
+
+      const videos = response.data.items.map(item => ({
+        title: item.snippet.title,
+        description: item.snippet.description,
+        thumbnail: item.snippet.thumbnails.default.url,
+        videoId: item.id.videoId
+      }));
+
+      res.json(videos);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
   
   // Important for MERN Setup: When our application runs from production, it functions slightly differently than in development
   // In development, we run two servers concurrently that work together
