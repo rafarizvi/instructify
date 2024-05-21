@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import VideoSearch from '../components/videoSearch'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -33,3 +34,21 @@ function App() {
 }
 
 export default App
+
+
+
+<Link to="/search-videos">Search Videos</Link>
+
+{/* <Switch>
+        <Route exact path="/">
+          <Home />
+</Route>*/}
+
+        <Route path="/search-videos">
+          <VideoSearch />
+        
+        {/* </Route>
+      </Switch>
+    </div>
+  );
+} */}
