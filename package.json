@@ -24,6 +24,7 @@
     "apollo-server-express": "^3.13.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "google-auth-library": "^9.10.0",
     "googleapis": "^137.1.0",
     "graphql": "^16.8.1",
     "react-router-dom": "^6.23.1"
