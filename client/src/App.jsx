@@ -13,10 +13,12 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <Outlet />
-    </>
+    <React.Fragment>
+      <ApolloProvider client={client}>
+        <Navbar />
+        <Outlet />
+      </ApolloProvider>
+    </React.Fragment>
   );
 }
 

@@ -1,3 +1,22 @@
+@font-face {
+  font-family: 'Cheerio';
+  src: url('/src/assets/fonts/Cheerio.woff2') format('woff2'),
+       url('/src/assets/fonts/Cheerio.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.title, h1 {
+  font-family: 'Cheerio', Arial, sans-serif;
+  background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.title {
+  font-size: 1.4rem;
+}
+
 
 a {
   font-weight: 500;
@@ -14,8 +33,22 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 3.7em;
   line-height: 1.1;
+}
+
+header p {
+  line-height: 1.2;
+}
+
+
+.my-4 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.input-group {
+  width: 500px;
+  max-width: 200%;
 }
 
 button {
@@ -29,9 +62,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -47,5 +82,11 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@media (max-width: 767px) {
+  .input-group {
+    width: 100%;
   }
 }
