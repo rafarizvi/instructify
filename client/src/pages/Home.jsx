@@ -39,7 +39,7 @@ function Home() {
             </a>
           </div>
           <p className="read-the-docs">
-            Click on the Vite and React logos to learn more.
+            Click on the Vite and React logos to learn more about the technologies used to build this application.
           </p>
         </footer>
       </div>
