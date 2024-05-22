@@ -9,17 +9,24 @@ body, html {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
 }
 
+
 .container {
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  height: 100%; /* fix / clean up */
+  min-height: 100%;
   max-width: 1200px; /* Adjust this value as needed */
   margin: 0 auto;
-  padding: 20px;
+  padding: 2rem; /*or 20px */
 }
 
 .header {
@@ -101,6 +108,7 @@ body, html {
 .logo.react:hover {
   filter: drop-shadow(0 0 4em #61dafb) brightness(1.1);
 }
+
 
 @media (prefers-reduced-motion: no-preference) {
   .logo.react {
