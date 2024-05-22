@@ -27,17 +27,10 @@ function Home() {
           </ul>
         </section>
 
-        <section className="auth-buttons">
-          <button className="btn btn-secondary">Login</button>
-          <button className="btn btn-secondary">Sign Up</button>
-          <button className="btn btn-secondary">Logout</button>
-        </section>
       </main>
 
       <footer className="footer">
-        <p className="read-the-docs">
-          Click on the Vite and React logos to learn more.
-        </p>
+
       </footer>
     </div>
   );
