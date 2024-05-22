@@ -11,7 +11,8 @@ function Home() {
     <React.Fragment>
       <div className="container">
         <header className="header">
-          <h1>Instructify</h1>
+          <h1>instructify</h1>
+          <p>Empowering Knowledge Sharing, <br></br> One Tutorial at a Time</p>
         </header>
 
         <main className="main-content">
@@ -27,17 +28,10 @@ function Home() {
               ))}
             </ul>
           </section>
-
-          <section className="auth-buttons">
-            <button className="btn btn-secondary">Login</button>
-            <button className="btn btn-secondary">Sign Up</button>
-            <button className="btn btn-secondary">Logout</button>
-          </section>
         </main>
 
         <footer className="footer">
-  
-        <div>
+          <div>
             <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
               <img src={viteLogo} className="logo" alt="Vite logo" />
             </a>
@@ -46,7 +40,7 @@ function Home() {
             </a>
           </div>
           <p className="read-the-docs">
-            Click on the Vite and React logos to learn more.
+            Click on the Vite and React logos to learn more about the technologies used to build this application.
           </p>
         </footer>
       </div>

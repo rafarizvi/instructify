@@ -1,8 +1,22 @@
+@font-face {
+  font-family: 'Cheerio';
+  src: url('/src/assets/fonts/Cheerio.woff2') format('woff2'),
+       url('/src/assets/fonts/Cheerio.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.title, h1 {
+  font-family: 'Cheerio', Arial, sans-serif;
+  background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 body, html {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
 }
 
 #root {
@@ -29,10 +43,17 @@ body, html {
   padding: 2rem; /*or 20px */
 }
 
-
 .header {
   text-align: center;
   margin-bottom: 2rem;
+}
+
+.navbar-brand {
+  padding-left: 10px;
+}
+
+#navbarNav {
+  padding-left: 10px;
 }
 
 .main-content {
@@ -50,19 +71,20 @@ body, html {
 
 .category-link {
   text-decoration: none;
-  color: #646cff;
+  color: #5538da;
   transition: color 0.3s;
 }
 
 .category-link:hover {
-  color: #61dafb;
+  color: #2dd1ff;
 }
 
 .auth-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 2rem;
+ 
+  padding-right: 10px;
 }
 
 .btn {
@@ -74,12 +96,12 @@ body, html {
 }
 
 .btn-secondary {
-  background-color: #646cff;
+  background-color: #5538da;
   color: white;
 }
 
 .btn-secondary:hover {
-  background-color: #61dafb;
+  background-color: #057ce7;
 }
 
 .footer {
@@ -96,20 +118,30 @@ body, html {
 }
 
 .logo {
-  height: 5.2em;
-  padding: 1.5em;
+  height: 4.4em;
+  padding: 1em;
   will-change: filter;
   transition: filter 300ms;
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 4em #646cff) brightness(.9);
+  filter: drop-shadow(0 0 6em #5538da) brightness(.9);
+  transform: scale(1.1);
 }
 
 .logo.react:hover {
-  filter: drop-shadow(0 0 4em #61dafb) brightness(1.1);
+  filter: drop-shadow(0 0 6em #5538da) brightness(0.8);
+  transform: scale(1.1);
 }
 
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .logo.react {
@@ -123,5 +155,5 @@ body, html {
 
 .read-the-docs {
   color: #888;
-  margin-top: 2rem;
+  margin-top: 0.4rem;
 }
