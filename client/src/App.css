@@ -1,8 +1,22 @@
+@font-face {
+  font-family: 'Cheerio';
+  src: url('/src/assets/fonts/Cheerio.woff2') format('woff2'),
+       url('/src/assets/fonts/Cheerio.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.title, h1 {
+  font-family: 'Cheerio', Arial, sans-serif;
+  background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 body, html {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
 }
 
 #root {
@@ -57,20 +71,19 @@ body, html {
 
 .category-link {
   text-decoration: none;
-  color: #646cff;
+  color: #5538da;
   transition: color 0.3s;
 }
 
 .category-link:hover {
-  color: #61dafb;
+  color: #2dd1ff;
 }
 
 .auth-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 1rem;
-  margin-bottom: 0.1rem;
+ 
   padding-right: 10px;
 }
 
@@ -83,12 +96,12 @@ body, html {
 }
 
 .btn-secondary {
-  background-color: #646cff;
+  background-color: #5538da;
   color: white;
 }
 
 .btn-secondary:hover {
-  background-color: #61dafb;
+  background-color: #057ce7;
 }
 
 .footer {
@@ -112,12 +125,12 @@ body, html {
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 6em #646cff) brightness(.9);
+  filter: drop-shadow(0 0 6em #5538da) brightness(.9);
   transform: scale(1.1);
 }
 
 .logo.react:hover {
-  filter: drop-shadow(0 0 6em #61dafb) brightness(1.1);
+  filter: drop-shadow(0 0 6em #5538da) brightness(0.8);
   transform: scale(1.1);
 }
 

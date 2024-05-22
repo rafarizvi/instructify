@@ -11,7 +11,8 @@ function Home() {
     <React.Fragment>
       <div className="container">
         <header className="header">
-          <h1>Instructify</h1>
+          <h1>instructify</h1>
+          <p>Empowering Knowledge Sharing, <br></br> One Tutorial at a Time</p>
         </header>
 
         <main className="main-content">
