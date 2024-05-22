@@ -1,30 +1,26 @@
-// client/src/main.jsx
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import Home from './pages/Home';
-import VideoSearch from './components/VideoSearch';
+import VideoSearch from './components/videoSearch';
 import './index.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-// Create Router
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      {
-        index: true,
-        element: <Home />
-      },
-      {
-        path: '/search-videos',
-        element: <VideoSearch />
-      }
-    ]
-  }
+      { path: '/', element: <Home /> },
+      { path: '/search', element: <VideoSearch /> },
+    ],
+  },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+const container = document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );
