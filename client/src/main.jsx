@@ -1,3 +1,4 @@
+// client/src/main.jsx
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
 ]);
 
 const container = document.getElementById('root');
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
