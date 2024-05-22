@@ -27,17 +27,10 @@ function Home() {
               ))}
             </ul>
           </section>
-
-          <section className="auth-buttons">
-            <button className="btn btn-secondary">Login</button>
-            <button className="btn btn-secondary">Sign Up</button>
-            <button className="btn btn-secondary">Logout</button>
-          </section>
         </main>
 
         <footer className="footer">
-  
-        <div>
+          <div>
             <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
               <img src={viteLogo} className="logo" alt="Vite logo" />
             </a>
