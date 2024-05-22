@@ -32,11 +32,18 @@ type Comment {
 }
 
 type Query {
-    user(_id: String): User
+    user(_id: String!): User
     tutorials: [Tutorial!]
     categories: [Category!]
     comments: [Comment!]
   }
+
+type Mutation {
+  createUser(name: String!, email: String!, password: String!): User
+  createTutorial(title: String!, content: String!): Tutorial
+  createCategory(name: String!): Category
+  createComment(content: String!): Comment
+}
 `;
 
 module.exports = typeDefs;
