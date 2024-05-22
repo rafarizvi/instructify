@@ -1,41 +1,55 @@
 const typeDefs = `#graphql
 
-type User{
-  _id: ID!
-  name: String!
-  email: String!
-  password: String!
-  tutorials: [Tutorial!]
-  comments: [Comment!]
-}
+  type Profile {
+    _id: ID!
+    name: String!
+    email: String!
+    password: String!
+    tutorials: [Tutorial!]
+    comments: [Comment!]
+  }
 
-type Tutorial{
-  _id: ID!
-  title: String!
-  content: String!
-  author: User!
-  category: Category
-  comments: [Comment!]
-}
+  type Tutorial {
+    _id: ID!
+    title: String!
+    content: String!
+    author: Profile!
+    category: Category
+    comments: [Comment!]
+  }
 
-type Category {
-  _id: ID!
-  name: String!
-  tutorials: [Tutorial!]
-}
+  type Category {
+    _id: ID!
+    name: String!
+    tutorials: [Tutorial!]
+  }
 
-type Comment {
-  _id: ID!
-  content: String!
-  author: User!
-  tutorial: Tutorial
-}
+  type Comment {
+    _id: ID!
+    content: String!
+    author: Profile!
+    tutorial: Tutorial
+  }
 
-type Query {
-    user(_id: String): User
+  type Query {
+    profile(_id: String): Profile
     tutorials: [Tutorial!]
     categories: [Category!]
     comments: [Comment!]
+  }
+
+  type Auth {
+    token: ID!
+    profile: Profile
+  }
+
+  type Mutation {
+    addProfile(name: String!, email: String!, password: String!): Auth
+    login(email: String!, password: String!): Auth
+    addTutorial(profileId: ID!, title: String!, content: String!, category: String!): Tutorial
+    removeTutorial(_id: ID!): Tutorial
+    addComment(profileId: ID!, tutorialID: ID!, content: String!): Tutorial
+    removeComment(_id: ID!): Comment
   }
 `;
 
