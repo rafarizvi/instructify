@@ -102,15 +102,6 @@ body, html {
   filter: drop-shadow(0 0 4em #61dafb) brightness(1.1);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .logo.react {
     animation: logo-spin infinite 20s linear;
