@@ -1,59 +1,78 @@
 // client/src/components/VideoSearch.jsx
-
-import  { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
-const VideoSearch = () => {
-  const [query, setQuery] = useState('');
-  const [videos, setVideos] = useState([]);
+const YOUTUBE = 'https://www.googleapis.com/youtube/v3/search';
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+export async function getVideos(searchTerm) {
+  const apiKey = process.env.REACT_APP_YOUTUBE_API_KEY;
+  console.log("API Key:", apiKey);  // Add the console log here
+  try {
+    const response = await axios.get(YOUTUBE, {
+      params: {
+        part: 'snippet',
+        q: searchTerm,
+        type: 'video',
+        maxResults: 10,
+        key: apiKey,
+      },
+    });
+    return response.data.items;
+  } catch (error) {
+    console.error('Error fetching videos from YouTube API:', error);
+    throw error;
+  }
+}
+
+export default function VideoSearch() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [videos, setVideos] = useState([]);
+  const [error, setError] = useState(null);
+
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
+
     try {
-      const response = await axios.get('/api/search', {
-        params: { query }
-      });
-      setVideos(response.data);
+      const fetchedVideos = await getVideos(searchTerm);
+      setVideos(fetchedVideos);
     } catch (error) {
-      console.error('Error fetching videos:', error);
+      setError('Error fetching videos: ' + error.message);
     }
   };
 
   return (
-    <div className="container">
-      <h1 className="my-4">Search YouTube Videos</h1>
-      <form onSubmit={handleSearch} className="mb-4">
-        <div className="input-group">
-          <input
-            type="text"
-            className="form-control"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search for videos"
-          />
-          <div className="input-group-append">
-            <button className="btn btn-primary" type="submit">Search</button>
-          </div>
-        </div>
+    <div>
+      <h2>Video Search Page</h2>
+      <form onSubmit={handleFormSubmit}>
+        <input
+          type="text"
+          placeholder="Search for videos"
+          value={searchTerm}
+          onChange={handleInputChange}
+          className="form-control mb-2"
+        />
+        <button type="submit" className="btn btn-primary">Search</button>
       </form>
-      <div className="row">
-        {videos.map((video) => (
-          <div key={video.videoId} className="col-md-4 mb-4">
-            <div className="card">
-              <img src={video.thumbnail} className="card-img-top" alt={video.title} />
-              <div className="card-body">
-                <h5 className="card-title">{video.title}</h5>
-                <p className="card-text">{video.description}</p>
-                <a href={`https://www.youtube.com/watch?v=${video.videoId}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                  Watch on YouTube
-                </a>
+      {error && <div className="alert alert-danger mt-2">{error}</div>}
+      <ul className="mt-3">
+        {Array.isArray(videos) && videos.length > 0 ? (
+          videos.map((video) => (
+            <li key={video.id.videoId}>
+              <div>
+                <h3>{video.snippet.title}</h3>
+                <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
+            </li>
+          ))
+        ) : (
+          <li>No videos found</li>
+        )}
+      </ul>
     </div>
   );
-};
-
-export default VideoSearch;
+}
