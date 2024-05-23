@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../assets/instructify-logo.png'; // Import the logo
 
+
+
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -42,15 +44,16 @@ const Navbar = () => {
               <Link className="nav-link" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/search">Search Videos</Link>
+            <Link to="/login" className="btn btn-secondary nav-link">Login</Link>
             </li>
           </ul>
           <ul className="navbar-nav ml-auto auth-buttons">
             {!isLoggedIn ? (
               <>
                 <li className="nav-item">
-                  <button className="btn btn-secondary nav-link">Login</button>
+                  <Link className="btn btn-secondary nav-link" to="/login">Login</Link>
                 </li>
+
                 <li className="nav-item">
                   <button className="btn btn-secondary nav-link">Sign Up</button>
                 </li>
