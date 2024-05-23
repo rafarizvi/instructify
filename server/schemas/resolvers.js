@@ -2,17 +2,49 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-express');
 
-// Bringing in models 
-const Profile = require('../models/Profile')
-const Tutorial = require('../models/Tutorial')
-const Comment = require('../models/Comment')
-const Category = require('../models/Category')
+const { Profile, Category, Tutorial, Comment } = require('../models');
 
 const resolvers = {
   Query: {
-    // Get all profiles and populate all comments and tutorials
-    profile: async (parent, args, { _id }) => {
-      return Profile.findById(_id).populate('tutorials').populate('comments');
+    profile: async (_, { _id }) => {
+      const params = _id ? { _id } : {};
+      return Profile.findById(params);
     },
+
+    tutorials: async () => {
+      return Tutorial.find({});
+    },
+
+    categories: () => {
+      return Category.find({});
+    },
+
+    comments: () => {
+      return Comment.find({});
+    }
+  },
+
+  Profile: {
+    tutorials(parent) {
+      return Tutorial.findById(parent._id);
+    },
+    comments(parent) {
+      return Comment.findById(parent._id);
+    }
+  },
+
+  Tutorial: {
+    comments(parent) {
+      return Comment.findById(parent._id);
+    }
+  },
+
+  Category: {
+    tutorials(parent) {
+      return Tutorial.findById(parent._id);
+    }
   }
+
 }
+
+module.exports = resolvers;
