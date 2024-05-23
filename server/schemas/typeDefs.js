@@ -32,6 +32,7 @@ const typeDefs = `#graphql
   }
 
   type Query {
+    profiles: [Profile]
     profile(_id: String): Profile
     tutorials: [Tutorial!]
     categories: [Category!]
@@ -44,7 +45,7 @@ const typeDefs = `#graphql
   }
 
   type Mutation {
-    addProfile(name: String!, email: String!, password: String!): Auth
+    addProfile(name: String!, email: String!, password: String!): Profile
     login(email: String!, password: String!): Auth
     addTutorial(profileId: ID!, title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
@@ -54,4 +55,5 @@ const typeDefs = `#graphql
 `;
 
 module.exports = typeDefs;
+
 
