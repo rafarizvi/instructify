@@ -6,6 +6,8 @@ import Auth from '../utils/auth';
 
 const Login = () => {
   const [formState, setFormState] = useState({ email: '', password: '' });
+  const [validated] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [login, { error, data }] = useMutation(LOGIN_USER);
 
   const handleChange = (event) => {
@@ -19,24 +21,27 @@ const Login = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const { data } = await login({
-        variables: { ...formState },
-      });
-
-      if (data && data.login && data.login.token) {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();
+    } else {
+      try {
+        const { data } = await login({
+          variables: { ...formState },
+        });
+  
         Auth.login(data.login.token);
-      } else {
-        console.error("No token found in login response");
+      } catch (err) {
+        console.error(err);
+        setShowAlert(true);
       }
-    } catch (e) {
-      console.error(e);
+  
+      setFormState({
+        email: '',
+        password: '',
+      });
     }
-
-    setFormState({
-      email: '',
-      password: '',
-    });
+    validated(true);
   };
 
   return (

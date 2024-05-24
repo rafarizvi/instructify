@@ -3,18 +3,20 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../assets/instructify-logo.png'; // Import the logo
-import Login from './Login';
+import {LOGIN_USER} from '../utils/mutations';
+import Auth from '../utils/auth';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
 
-    const userLoggedIn = false; 
+    const userLoggedIn = Auth.loggedIn(); 
     setIsLoggedIn(userLoggedIn);
   }, []);
 
   const handleLogout = () => {
+    Auth.logout();
     // Handle logout logic here
     setIsLoggedIn(false);
   };
