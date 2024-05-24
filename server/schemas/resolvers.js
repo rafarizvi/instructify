@@ -29,7 +29,7 @@ const resolvers = {
 
   Profile: {
     tutorials: async (parent) => {
-      return Tutorial.find({ author: parent._id });
+      return Tutorial.find({ author: parent._id }).populate('category comments');
     },
     comments: async (parent) => {
       return Comment.find({ author: parent._id });
@@ -48,6 +48,11 @@ const resolvers = {
     }
   },
 
+  Comment: {
+    author: async (parent) => {
+      return Profile.findById(parent.author);
+    }
+  },
 
   Mutation: {
     addProfile: async (parent, args) => {
@@ -56,8 +61,5 @@ const resolvers = {
     }
   }
 }
-
-
-
 
 module.exports = resolvers;
