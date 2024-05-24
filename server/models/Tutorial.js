@@ -13,7 +13,7 @@ const tutorialSchema = new Schema({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Profile',
     required: true,
   },
   category: {
@@ -21,6 +21,11 @@ const tutorialSchema = new Schema({
     ref: 'Category',
     require: true
   },
+  comments: {
+    type: Schema.Types.ObjectId,
+    ref: 'Comment',
+    require: false
+  }
 })
 
   const Tutorial = model('Tutorial', tutorialSchema);

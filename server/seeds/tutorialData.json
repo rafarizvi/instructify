@@ -1,35 +1,22 @@
 [
   {
-    "name": "JavaScript"
+    "title": "JavaScript Basics",
+    "content": "Learn JS from scratch",
+    "authorName": "user1",
+    "categoryName": "Tech"
   },
+
   {
-    "name": "HTML"
+    "title": "Titration",
+    "content": "Determine the concentration of an identified analyte.",
+    "authorName": "user2",
+    "categoryName": "Academics"
   },
+
   {
-    "name": "CSS"
-  },
-  {
-    "name": "Node.js"
-  },
-  {
-    "name": "Express.js"
-  },
-  {
-    "name": "MySQL"
-  },
-  {
-    "name": "MongoDB"
-  },
-  {
-    "name": "React"
-  },
-  {
-    "name": "GraphQL"
-  },
-  {
-    "name": "Sequelize"
-  },
-  {
-    "name": "Handlebars.js"
+    "title": "Hang Curtains the Right Way",
+    "content": "Make your home look bigger and instantly more luxurious by hanging floor-length drapes 6 to 12 inches above the window frame or all the way to the ceiling, and extending your curtain rod out 3 to 6 inches on each side.",
+    "authorName": "user3",
+    "categoryName": "Home"
   }
 ]
