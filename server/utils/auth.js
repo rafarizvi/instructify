@@ -10,6 +10,8 @@ module.exports = {
       code: 'UNAUTHENTICATED',
     },
   }),
+<<<<<<< HEAD
+=======
   authMiddleware: function ({ req }) {
     // allows token to be sent via req.body, req.query, or headers
     let token = req.body.token || req.query.token || req.headers.authorization;
@@ -34,9 +36,13 @@ module.exports = {
     // return the request object so it can be passed to the resolver as `context`
     return req;
   },
+>>>>>>> 7e81c32432e9cdad89287892c7caf31c6f31f7fb
   signToken: function ({ email, name, _id }) {
     const payload = { email, name, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
+<<<<<<< HEAD
+=======
   
+>>>>>>> 7e81c32432e9cdad89287892c7caf31c6f31f7fb
