@@ -30,7 +30,7 @@ const resolvers = {
       const userLogin = await Profile.findOne({ email })
 
       if (!userLogin) {
-        throw AuthenticationError('Email or password are incorrect')
+        throw new AuthenticationError ('Email or password are incorrect')
       }
 
       const correctPwd = await userLogin.isCorrectPassword(password)
