@@ -1,62 +1,19 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-// const { AuthenticationError } = require('apollo-server-express');
-const { signToken, AuthenticationError } = require('../utils/auth');
-
-
-const {
-  Profile,
-  Category,
-  Tutorial,
-  Comment } = require('../models');
-const { findByIdAndUpdate } = require('../models/Profile');
-
 const resolvers = {
   Query: {
-    profiles: async () => {
-      return Profile.find({});
-    },
-
     profile: async (_, { _id }) => {
-      return Profile.findById(_id);
+      return Profile.findById(_id).populate('tutorials').populate('comments');
     },
-
-    tutorial: async () => {
-      return Tutorial.find({});
+    tutorials: async () => {
+      return Tutorial.find().populate('author').populate('comments');
     },
-
     categories: async () => {
-      return Category.find({});
+      return Category.find().populate('tutorials');
     },
-
     comments: async () => {
-      return Comment.find({});
+      return Comment.find().populate('author').populate('tutorial');
     }
   },
-
-  Profile: {
-    tutorial(parent) {
-      return Tutorial.findById(parent._id);
-    },
-    comments: async (parent) => {
-      return Comment.find({ author: parent._id });
-    }
-  },
-
-  Tutorial: {
-    comments: async (parent) => {
-      return Comment.find({ tutorial: parent._id });
-    }
-  },
-
-  Category: {
-    tutorial(parent) {
-      return Tutorial.findById(parent._id);
-    }
-  },
-
-  // Creating a user using their name, email and their password.
-  // Assigning signToken to profile.
+  
   Mutation: {
     addProfile: async (parent, { name, email, password }) => {
       const userProfile = new Profile.create({ name, email, password })
@@ -66,7 +23,6 @@ const resolvers = {
       return { token, userProfile }
     },
 
-    // Logging in user by their email and password.
     login: async (profile, { email, password }) => {
       const userLogin = await Profile.findOne({ email })
 
@@ -81,89 +37,86 @@ const resolvers = {
       }
     },
 
-    // Adding tutorial using mutations. Using context.user for auth purposes.
     addTutorial: async (parent, { title, content, category }, context) => {
-
       if (context.user) {
-        const tutorial = await Tutorial.create({
+        const addTutorial = await Tutorial.create({
           title,
           content,
           author: context.user.id,
           category
-        });
-      
-      const profile = await Profile.findByIdAndUpdate(context.user.id, 
-        { $addToSet: { tutorial: tutorial._id } },
-        { new: true, runValidators: true })
-
+        })
+  
+        const updateProfile = await Profile.findByIdAndUpdate(
+          context.user.id,
+          { $addToSet: { tutorials: tutorial._id } },
+          { new: true, runValidators: true } )
+  
         return Tutorial.findById(tutorial._id).populate('author');
-    }
-    throw new AuthenticationError
-  },
 
-  //Removing tutorial by finding tutorial by id
+      }
+
+      throw new AuthenticationError('Not authenticated');
+
+    },
     removeTutorial: async (parent, { _id }, context) => {
       if (context.user) {
-        const removeTutorial = await Tutorial.findById(_id)
 
-        const deleteTutorial = await Tutorial.findOneAndDelete(_id)
+      const findTutorial = await Tutorial.findById(_id)
 
-        const profile = await Profile.findByIdAndUpdate(
-          { _id: context.user.id },
-          { $pull: { tutorial: _id } },
-          { new: true, runValidators: true })
-          .populate('tutorial')
+      const deleteTutorial = await Tutorial.findByIdAndDelete(_id)
 
-          return deleteTutorial
-      }
-      throw new AuthenticationError
-    }
-  },
+      const updateProfile = await Profile.findByIdAndUpdate(tutorial.author, 
+        { $pull: { tutorials: _id } })
 
-  // Ability to add comments via typedefs using mutations
-  addComment: async (parent, { tutorialId, content }, context) => {
-    if (context.user) {
-      const findTutorial = await Tutorial.findById(tutorialId)
-
-      const addComment = await Comment.create({
-        content,
-        author: context.user.id,
-        tutorial: tutorialId })
-
-      const updateProfile = await findByIdAndUpdate(context.user.id, 
-        { $addToSet: { comments: comments._id } },
-        { new: true, runValidators: true })
-
-      const updateTutorial = await Tutorial.findByIdAndUpdate(
-        { $addToSet: { comments: comments._id } },
-        { new: true, runValidators: true })
-
-        return Comment.findById(comment.id).populate('author tutorial')
+      return tutorial
       }
 
-      throw new AuthenticationError
-  },
+      throw new AuthenticationError('Not authenticated');
+    },
+    addComment: async (parent, { tutorialId, content }, context) => {
+      if (context.user) {
 
-  // Removing user comment via typedefs using mutations
-  removeComment: async (parent, { _id }, context) => {
-    if (context.user) {
-      const findComment = await Comment.findById(_id)
+        const findTutorial = await Tutorial.findById(tutorialId);
+  
+        const addComment = await Comment.create({
+          content,
+          author: context.user.id,
+          tutorial: tutorialId
+        })
+  
+        const updateProfile = await Profile.findByIdAndUpdate(
+          context.user.id,
+          { $addToSet: { comments: addComment._id } },
+          { new: true, runValidators: true }
+        )
 
-      const deleteComment = await Comment.findByIdAndDelete(_id)
+        const updateTutorial = await Tutorial.findByIdAndUpdate(
+          tutorialId,
+          { $addToSet: { comments: addComment._id } },
+          { new: true, runValidators: true } )
 
-      const updateProfile = await Profile.findByIdAndUpdate(comment.author,
-        { $pull: { comments: comment._id } },
-        { new: true, runValidators: true })
+          return Comment.findById(addComment._id).populate('author tutorial');
+      }
 
-      const updateTutorial = await Tutorial.findByIdAndUpdate(comment.author, 
-        { $pull: { comments: comment._id } },
-        { new: true, runValidators: true })
+      throw new AuthenticationError('Not authenticated');
+    },
+    removeComment: async (parent, { _id }, context) => {
+      if (context.user) {  
+        const comment = await Comment.findById(_id);
 
-      return comment;
+        const deleteComment = await Comment.findByIdAndDelete(_id);
+
+        const updateProfile = await Profile.findByIdAndUpdate(comment.author, 
+          { $pull: { comments: _id } });
+
+        const updateTutorial = await Tutorial.findByIdAndUpdate(comment.tutorial, 
+          { $pull: { comments: _id } });
+        
+        return comment;
+      }
+      throw new AuthenticationError('Not authenticated');
     }
-    throw new AuthenticationError
   }
-}
-
+};
 
 module.exports = resolvers;
