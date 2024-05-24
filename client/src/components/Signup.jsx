@@ -1,10 +1,9 @@
-import { useState } from 'react';
+// client/src/components/Signup.jsx
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import { useMutation } from '@apollo/client';
 import { ADD_PROFILE } from '../utils/mutations';
-
-import Auth from '../utils/auth';
+// import Auth from '../utils/auth';
 
 const Signup = () => {
   const [formState, setFormState] = useState({
@@ -14,7 +13,6 @@ const Signup = () => {
   });
   const [addProfile, { error, data }] = useMutation(ADD_PROFILE);
 
-  // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -24,11 +22,8 @@ const Signup = () => {
     });
   };
 
-  // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
-
     try {
       const { data } = await addProfile({
         variables: { ...formState },
@@ -48,8 +43,7 @@ const Signup = () => {
           <div className="card-body">
             {data ? (
               <p>
-                Success! You may now head{' '}
-                <Link to="/">back to the homepage.</Link>
+                Success! You may now head <Link to="/">back to the homepage.</Link>
               </p>
             ) : (
               <form onSubmit={handleFormSubmit}>

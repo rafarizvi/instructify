@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import Home from './pages/Home';
 import VideoSearch from './components/videoSearch';
+import Login from './components/Login';
+import Signup from './components/Signup';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -12,8 +14,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      { path: '/', element: <Home /> },
-      { path: '/search', element: <VideoSearch /> },
+      { index : true, element: <Home /> },
+      { path: 'login', element: <Login /> },
+      { path:'signup', element: <Signup /> },
+      { path: 'videosearch', element: <VideoSearch /> }
     ],
   },
 ]);

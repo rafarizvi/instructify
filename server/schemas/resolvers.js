@@ -13,20 +13,23 @@ const { findByIdAndUpdate } = require('../models/Profile');
 
 const resolvers = {
   Query: {
+    profiles: async () => {
+      return Profile.find({});
+    },
+
     profile: async (_, { _id }) => {
-      const params = _id ? { _id } : {};
-      return Profile.findById(params);
+      return Profile.findById(_id);
     },
 
     tutorial: async () => {
       return Tutorial.find({});
     },
 
-    categories: () => {
+    categories: async () => {
       return Category.find({});
     },
 
-    comments: () => {
+    comments: async () => {
       return Comment.find({});
     }
   },
@@ -35,14 +38,14 @@ const resolvers = {
     tutorial(parent) {
       return Tutorial.findById(parent._id);
     },
-    comments(parent) {
-      return Comment.findById(parent._id);
+    comments: async (parent) => {
+      return Comment.find({ author: parent._id });
     }
   },
 
   Tutorial: {
-    comments(parent) {
-      return Comment.findById(parent._id);
+    comments: async (parent) => {
+      return Comment.find({ tutorial: parent._id });
     }
   },
 
