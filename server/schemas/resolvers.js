@@ -1,3 +1,6 @@
+const  {Profile} = require('../models');
+const {signToken, AuthenticationError} = require('../utils/auth');
+
 const resolvers = {
   Query: {
     profile: async (_, { _id }) => {
@@ -16,7 +19,7 @@ const resolvers = {
   
   Mutation: {
     addProfile: async (parent, { name, email, password }) => {
-      const userProfile = new Profile.create({ name, email, password })
+      const userProfile = await Profile.create({ name, email, password });
 
       const token = signToken(userProfile)
 
