@@ -61,25 +61,26 @@ const resolvers = {
 
   Mutation: {
     addProfile: async (parent, { name, email, password }) => {
-      const userProfile = await Profile.create({ name, email, password })
+      const profile = await Profile.create({ name, email, password });
+      const token = signToken(profile);
 
-      const token = signToken(userProfile)
-
-      return { token, userProfile }
+      return { token, profile };
     },
+    login: async (parent, { email, password }) => {
+      const profile = await Profile.findOne({ email });
 
-    login: async (profile, { email, password }) => {
-      const userLogin = await Profile.findOne({ email })
-
-      if (!userLogin) {
-        throw AuthenticationError('Email or password are incorrect')
+      if (!profile) {
+        throw AuthenticationError;
       }
 
-      const correctPwd = await userLogin.isCorrectPassword(password)
+      const correctPw = await profile.isCorrectPassword(password);
 
-      if (!correctPwd) {
-        throw AuthenticationError('Email or password are incorrect')
+      if (!correctPw) {
+        throw AuthenticationError;
       }
+
+      const token = signToken(profile);
+      return { token, profile };
     },
 
     addTutorial: async (parent, { title, content, category }, context) => {
