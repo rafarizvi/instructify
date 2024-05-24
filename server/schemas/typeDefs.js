@@ -5,7 +5,7 @@ const typeDefs = `#graphql
     name: String!
     email: String!
     password: String!
-    tutorials: [Tutorial!]
+    tutorial: [Tutorial!]
     comments: [Comment!]
   }
 
@@ -21,7 +21,7 @@ const typeDefs = `#graphql
   type Category {
     _id: ID!
     name: String!
-    tutorials: [Tutorial!]
+    tutorial: [Tutorial!]
   }
 
   type Comment {
@@ -33,7 +33,7 @@ const typeDefs = `#graphql
 
   type Query {
     profile(_id: String): Profile
-    tutorials: [Tutorial!]
+    tutorial: [Tutorial!]
     categories: [Category!]
     comments: [Comment!]
   }
@@ -48,7 +48,7 @@ const typeDefs = `#graphql
     login(email: String!, password: String!): Auth
     addTutorial(profileId: ID!, title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
-    addComment(profileId: ID!, tutorialID: ID!, content: String!): Tutorial
+    addComment(profileId: ID!, tutorialId: ID!, content: String!): Tutorial
     removeComment(_id: ID!): Comment
   }
 `;
