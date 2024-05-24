@@ -6,6 +6,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/Navbar';
 
+
+
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql',
   cache: new InMemoryCache(),
@@ -13,12 +15,10 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <React.Fragment>
-      <ApolloProvider client={client}>
-        <Navbar />
-        <Outlet />
-      </ApolloProvider>
-    </React.Fragment>
+    <ApolloProvider client={client}>
+      <Navbar />
+      <Outlet />
+    </ApolloProvider>
   );
 }
 
