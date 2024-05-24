@@ -1,59 +1,116 @@
-// client/src/components/VideoSearch.jsx
-
-import  { useState } from 'react';
+import { useState } from 'react';
+// import axios to make a GET request to the YouTube API
 import axios from 'axios';
 
-const VideoSearch = () => {
-  const [query, setQuery] = useState('');
-  const [videos, setVideos] = useState([]);
+//seting our constant for the API key
+const YOUTUBE = 'https://www.googleapis.com/youtube/v3/search';
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+
+// This function will make a GET request to the YouTube API and return a list of videos matching the search term.
+export async function getVideos(searchTerm) {
+  // We will use the API key from our.env file
+  const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+  //trying to get the data from the API
+  try {
+  // We will use the axios library to make a GET request to the YouTube API
+    const response = await axios.get(YOUTUBE, {
+  // then we set out query parameters
+      params: {
+        part: 'snippet',
+        q: searchTerm,
+        type: 'video',
+        maxResults: 10,
+        key: apiKey,
+      },
+    });
+    // We will return the data from the API
+    return response.data.items;
+    // If there is an error, we will log it and throw it
+  } catch (error) {
+    console.error('Error fetching videos from YouTube API:', error);
+    throw error;
+  }
+}
+//export functions to handle the form submission
+export default function VideoSearch() {
+  // We will set up our state variables
+  const [searchTerm, setSearchTerm] = useState('');
+  const [videos, setVideos] = useState([]);
+  const [selectedVideoId, setSelectedVideoId] = useState(null);
+  const [error, setError] = useState(null);
+
+  // We will set up our event handlers
+  const handleInputChange = (event) => {
+  // We will set the search term to the value of the input field
+    setSearchTerm(event.target.value);
+  };
+  // setting our prevent default function to stop the form from reloading the page
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
+
+    // We will make a GET request to the YouTube API
     try {
-      const response = await axios.get('/api/search', {
-        params: { query }
-      });
-      setVideos(response.data);
+      // We will set the state of the videos to the data returned from the API
+      const fetchedVideos = await getVideos(searchTerm);
+      // We will set the state of the videos to the data returned from the API
+      setVideos(fetchedVideos);
+      // We will set the state of the selectedVideoId to null
+      setSelectedVideoId(null); 
     } catch (error) {
-      console.error('Error fetching videos:', error);
+      setError('Error fetching videos: ' + error.message);
     }
   };
 
+  // This function will handle the video click event
+  const handleVideoClick = (videoId) => {
+    setSelectedVideoId(videoId);
+  };
+
   return (
-    <div className="container">
-      <h1 className="my-4">Search YouTube Videos</h1>
-      <form onSubmit={handleSearch} className="mb-4">
-        <div className="input-group">
-          <input
-            type="text"
-            className="form-control"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search for videos"
-          />
-          <div className="input-group-append">
-            <button className="btn btn-primary" type="submit">Search</button>
-          </div>
-        </div>
+    <div>
+      <h2>Video Search Page</h2>
+      <form onSubmit={handleFormSubmit}>
+        <input
+          type="text"
+          placeholder="Search for videos"
+          value={searchTerm}
+          onChange={handleInputChange}
+          className="form-control mb-2"
+        />
+        <button type="submit" className="btn btn-primary">Search</button>
       </form>
-      <div className="row">
-        {videos.map((video) => (
-          <div key={video.videoId} className="col-md-4 mb-4">
-            <div className="card">
-              <img src={video.thumbnail} className="card-img-top" alt={video.title} />
-              <div className="card-body">
-                <h5 className="card-title">{video.title}</h5>
-                <p className="card-text">{video.description}</p>
-                <a href={`https://www.youtube.com/watch?v=${video.videoId}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                  Watch on YouTube
-                </a>
+      {error && <div className="alert alert-danger mt-2">{error}</div>}
+      <ul className="mt-3">
+        {Array.isArray(videos) && videos.length > 0 ? (
+          videos.map((video) => (
+            <li key={video.id.videoId} style={{ cursor: 'pointer' }}>
+              <div onClick={() => handleVideoClick(video.id.videoId)}>
+                <h3>{video.snippet.title}</h3>
+                {selectedVideoId === video.id.videoId ? (
+                  <iframe
+                    width="560"
+                    height="315"
+                    src={`https://www.youtube.com/embed/${video.id.videoId}`}
+                    frameBorder="0"
+                    // acelerometer and gyroscope are needed for the video to work on mobile devices
+                    //autoplay is needed for the video to start playing automatically
+                    //allowFullScreen is needed for the video to be full screen
+                    //picture in picture is needed for the video to be in picture in picture mode
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title="Selected Video"
+                  ></iframe>
+                ) : (
+                  <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
+                )}
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
+            </li>
+          ))
+        ) : (
+          <li>No videos found</li>
+        )}
+      </ul>
     </div>
   );
-};
-
-export default VideoSearch;
+}

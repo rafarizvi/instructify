@@ -3,13 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../assets/instructify-logo.png'; // Import the logo
+import Login from './Login';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Check if the user is logged in (you can replace this with your actual authentication logic)
-    const userLoggedIn = false; // Replace with actual login check
+
+    const userLoggedIn = false; 
     setIsLoggedIn(userLoggedIn);
   }, []);
 
@@ -42,17 +43,17 @@ const Navbar = () => {
               <Link className="nav-link" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/search">Search Videos</Link>
+              <Link className="nav-link" to="/videoSearch">Search Videos</Link>
             </li>
           </ul>
           <ul className="navbar-nav ml-auto auth-buttons">
-            {!isLoggedIn ? (
+          {!isLoggedIn ? (
               <>
                 <li className="nav-item">
-                  <button className="btn btn-secondary nav-link">Login</button>
+                  <Link className="btn btn-secondary nav-link" to="/login">Login</Link>
                 </li>
                 <li className="nav-item">
-                  <button className="btn btn-secondary nav-link">Sign Up</button>
+                  <Link className="btn btn-secondary nav-link" to="/signup">Sign Up</Link>
                 </li>
               </>
             ) : (
