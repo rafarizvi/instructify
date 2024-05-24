@@ -32,7 +32,9 @@ const typeDefs = `#graphql
   }
 
   type Query {
+    profiles: [Profile!]
     profile(_id: String): Profile
+    me: Profile
     tutorials: [Tutorial!]
     categories: [Category!]
     comments: [Comment!]
