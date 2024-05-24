@@ -36,8 +36,10 @@ const resolvers = {
       const correctPwd = await userLogin.isCorrectPassword(password)
 
       if (!correctPwd) {
-        throw AuthenticationError('Email or password are incorrect')
+        throw new AuthenticationError('Email or password are incorrect')
       }
+      const token = signToken(userLogin);
+      return { token, user: userLogin };
     },
 
     addTutorial: async (parent, { title, content, category }, context) => {

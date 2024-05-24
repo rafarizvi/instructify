@@ -24,7 +24,11 @@ const Login = () => {
         variables: { ...formState },
       });
 
-      Auth.login(data.login.token);
+      if (data && data.login && data.login.token) {
+        Auth.login(data.login.token);
+      } else {
+        console.error("No token found in login response");
+      }
     } catch (e) {
       console.error(e);
     }
