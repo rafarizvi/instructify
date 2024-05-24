@@ -32,7 +32,6 @@ const typeDefs = `#graphql
   }
 
   type Query {
-    profiles: [Profile]
     profile(_id: String): Profile
     tutorials: [Tutorial!]
     categories: [Category!]
@@ -45,11 +44,11 @@ const typeDefs = `#graphql
   }
 
   type Mutation {
-    addProfile(name: String!, email: String!, password: String!): Profile
+    addProfile(name: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addTutorial(profileId: ID!, title: String!, content: String!, category: String!): Tutorial
+    addTutorial(title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
-    addComment(profileId: ID!, tutorialID: ID!, content: String!): Tutorial
+    addComment(tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
   }
 `;
