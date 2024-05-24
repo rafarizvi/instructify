@@ -1,7 +1,13 @@
+// Viewing all tutorials by user
+// Creating a tutorial
+// Posting a tutorial
+// Editing a tutorial
+// Deleting a tutorial
+// Logout
 // import React, { useState } from 'react';
 // import { useMutation } from '@apollo/client';
 // import { ADD_TUTORIAL, REMOVE_TUTORIAL, ALL_TUTORIALS } from '../utils/mutations';
-// import Auth from '../utils/auth'; // Ensure this import is uncommented
+// import Auth from '../utils/auth'; 
 
 // const Tutorial = () => {
 //   const [formState, setFormState] = useState({
