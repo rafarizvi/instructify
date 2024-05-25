@@ -1,6 +1,7 @@
 const { Profile, Category, Tutorial, Comment } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
+
 const resolvers = {
   Query: {
     profiles: async () => {
@@ -66,6 +67,7 @@ const resolvers = {
 
       return { token, profile };
     },
+
     login: async (parent, { email, password }) => {
       const profile = await Profile.findOne({ email });
 

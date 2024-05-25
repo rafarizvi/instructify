@@ -24,6 +24,7 @@ const Home = () => {
             <CategoryList
               categories={categories}
               title="Categories"
+              all="View all"
             />
           )}
         </div>
