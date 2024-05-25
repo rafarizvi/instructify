@@ -1,5 +1,6 @@
 const { Profile, Category, Tutorial, Comment } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
+const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
   Query: {
@@ -13,7 +14,11 @@ const resolvers = {
 
     me: async (parent, args, context) => {
       if (context.user) {
-        return Profile.findOne({ _id: context.user._id });
+        // populate  the tutorials created by the logged-in user
+        return Profile.findOne({ _id: context.user._id }).populate({
+          path: 'tutorials',
+          populate: 'category'
+        });
       }
       throw AuthenticationError;
     },
@@ -86,7 +91,7 @@ const resolvers = {
 
     addTutorial: async (parent, { title, category, content }, context) => {
       if (context.user) {
-        try {
+        
           // Find the category by name
           const categoryDoc = await Category.findOne({ name: category });
           if (!categoryDoc) {
@@ -96,25 +101,21 @@ const resolvers = {
           // Create the new tutorial
           const newTutorial = await Tutorial.create({
             title,
-            author: context.user.id,
+            author: context.user._id,
             category: categoryDoc._id,
             content
           });
 
           await Profile.findByIdAndUpdate(
-            context.user.id,
+            context.user._id,
             { $addToSet: { tutorials: newTutorial._id } },
             { new: true, runValidators: true })
 
-          return Tutorial.findById(newTutorial._id).populate('author');
+          return Tutorial.findById(newTutorial._id).populate('author category');
 
-          // return newTutorial;
-        } catch (error) {
-          throw new AuthenticationError('Not authenticated');
         }
-      }
-      throw AuthenticationError;
-    },
+  throw new AuthenticationError('Not authenticated');
+},
 
     //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
     //! profileId and profile._id is verified to be working to remove comments
