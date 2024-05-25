@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../assets/instructify-logo.png'; // Import the logo
-import {LOGIN_USER} from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const Navbar = () => {
@@ -59,9 +58,14 @@ const Navbar = () => {
                 </li>
               </>
             ) : (
+              <>
+              <li className="nav-item">
+              <Link className="btn btn-secondary nav-link" to="/tutorial">Tutorial</Link>
+                </li>
               <li className="nav-item">
                 <button className="btn btn-secondary nav-link" onClick={handleLogout}>Logout</button>
               </li>
+              </>
             )}
           </ul>
         </div>

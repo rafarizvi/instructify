@@ -1,139 +1,156 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { ADD_TUTORIAL, REMOVE_TUTORIAL, ALL_TUTORIALS } from '../utils/mutations';
+import { useQuery, useMutation } from '@apollo/client';
+import { ADD_TUTORIAL, REMOVE_TUTORIAL } from '../utils/mutations';
+import { ALL_TUTORIALS, GET_CATEGORIES } from '../utils/queries';
 import Auth from '../utils/auth';
 
 const Tutorial = () => {
+  // State for the form inputs
   const [formState, setFormState] = useState({
     title: '',
-    description: '',
-    link: '',
-    user: '',
+    content: '',
+    category: ''
   });
 
-  const [showAlert, setShowAlert] = useState(false);
+  // Query to fetch all tutorials
+  const { loading: tutorialsLoading, data: tutorialsData, error: tutorialsError } = useQuery(ALL_TUTORIALS);
+  // Query to fetch all categories
+  const { loading: categoriesLoading, data: categoriesData, error: categoriesError } = useQuery(GET_CATEGORIES);
 
-  const [addTutorial, { error: addError }] = useMutation(ADD_TUTORIAL, {
+  // Mutation to add a tutorial
+  const [addTutorial] = useMutation(ADD_TUTORIAL, {
     update(cache, { data: { addTutorial } }) {
       try {
+        // Update the cache with the new tutorial
         const { tutorials } = cache.readQuery({ query: ALL_TUTORIALS });
         cache.writeQuery({
           query: ALL_TUTORIALS,
-          data: { tutorials: [addTutorial, ...tutorials] },
+          data: { tutorials: [addTutorial, ...tutorials] }
         });
       } catch (e) {
         console.error(e);
       }
-    },
+    }
   });
 
-  const [removeTutorial, { error: removeError }] = useMutation(REMOVE_TUTORIAL, {
+  // Mutation to remove a tutorial
+  const [removeTutorial] = useMutation(REMOVE_TUTORIAL, {
     update(cache, { data: { removeTutorial } }) {
       try {
+        // Update the cache by removing the deleted tutorial
         const { tutorials } = cache.readQuery({ query: ALL_TUTORIALS });
         cache.writeQuery({
           query: ALL_TUTORIALS,
-          data: { tutorials: tutorials.filter((tutorial) => tutorial._id !== removeTutorial._id) },
+          data: { tutorials: tutorials.filter(tutorial => tutorial._id !== removeTutorial._id) }
         });
       } catch (e) {
         console.error(e);
       }
-    },
+    }
   });
 
-  const handleChange = (event) => {
+  // Handle form input changes
+  const handleChange = event => {
     const { name, value } = event.target;
     setFormState({
       ...formState,
-      [name]: value,
+      [name]: value
     });
   };
 
-  const handleFormSubmit = async (event) => {
+  // Handle form submission to add a new tutorial
+  const handleFormSubmit = async event => {
     event.preventDefault();
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    } else {
-      try {
-        await addTutorial({
-          variables: { ...formState },
-        });
-        setFormState({
-          title: '',
-          description: '',
-          link: '',
-          user: '',
-        });
-        window.location.assign('/dashboard');
-      } catch (e) {
-        console.error(e);
-        setShowAlert(true);
-      }
+    try {
+      // Call the addTutorial mutation with the form state
+      await addTutorial({
+        variables: { ...formState }
+      });
+
+      // Reset form state after submission
+      setFormState({
+        title: '',
+        content: '',
+        category: ''
+      });
+    } catch (e) {
+      console.error(e);
     }
   };
 
+  // Handle tutorial deletion
+  const handleDelete = async tutorialId => {
+    try {
+      // Call the removeTutorial mutation with the tutorial ID
+      await removeTutorial({
+        variables: { _id: tutorialId }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Show loading state if tutorials or categories are still loading
+  if (tutorialsLoading || categoriesLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // Show error messages if there was an error fetching tutorials or categories
+  if (tutorialsError) {
+    return <div>Error: {tutorialsError.message}</div>;
+  }
+
+  if (categoriesError) {
+    return <div>Error: {categoriesError.message}</div>;
+  }
+
   return (
     <div>
-      <h2>Add a Tutorial</h2>
-      {showAlert && (
-        <div className="alert alert-danger" role="alert">
-          Something went wrong with your submission!
-        </div>
-      )}
-      <form noValidate onSubmit={handleFormSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            className="form-control"
-            id="title"
-            name="title"
-            value={formState.title}
-            onChange={handleChange}
-            required
-          />
-          <div className="invalid-feedback">Please provide a title.</div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <textarea
-            className="form-control"
-            id="description"
-            name="description"
-            value={formState.description}
-            onChange={handleChange}
-            required
-          />
-          <div className="invalid-feedback">Please provide a description.</div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="link">Link</label>
-          <input
-            type="text"
-            className="form-control"
-            id="link"
-            name="link"
-            value={formState.link}
-            onChange={handleChange}
-            required
-          />
-          <div className="invalid-feedback">Please provide a link.</div>
-        </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+      <h2>Manage Tutorials</h2>
+      <form onSubmit={handleFormSubmit}>
+        <input
+          className="form-input"
+          placeholder="Title"
+          name="title"
+          type="text"
+          value={formState.title}
+          onChange={handleChange}
+        />
+        <input
+          className="form-input"
+          placeholder="Content"
+          name="content"
+          type="text"
+          value={formState.content}
+          onChange={handleChange}
+        />
+        <select
+          className="form-input"
+          name="category"
+          value={formState.category}
+          onChange={handleChange}
+        >
+          <option value="">Select a category</option>
+          {categoriesData.categories.map(category => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <button className="btn btn-block btn-info" style={{ cursor: 'pointer' }} type="submit">
+          Add Tutorial
+        </button>
       </form>
-
-      <h2>Remove a Tutorial</h2>
-      <button
-        type="button"
-        className="btn btn-danger"
-        onClick={() => removeTutorial({ variables: { id: formState.id } })}
-      >
-        Remove
-      </button>
-
-      {addError && <p>Error adding tutorial: {addError.message}</p>}
-      {removeError && <p>Error removing tutorial: {removeError.message}</p>}
+      <div>
+        {tutorialsData && tutorialsData.tutorials.map(tutorial => (
+          <div key={tutorial._id}>
+            <h3>{tutorial.title}</h3>
+            <p>{tutorial.content}</p>
+            <p>Category: {tutorial.category?.name || "Unknown"}</p>
+            <button onClick={() => handleDelete(tutorial._id)}>Delete</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
