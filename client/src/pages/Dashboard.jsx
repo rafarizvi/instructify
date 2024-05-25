@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_TUTORIALS } from '../utils/queries';
+import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
 
 const Dashboard = () => {
-  const { loading, data, error, refetch } = useQuery(QUERY_TUTORIALS);
+  const { loading, data, error, refetch } = useQuery(QUERY_USER_TUTORIALS);
 
   const [updateTutorial] = useMutation(UPDATE_TUTORIAL, {
     onCompleted: () => refetch(),
@@ -61,9 +61,9 @@ const Dashboard = () => {
   return (
     <div>
       <h1>Dashboard</h1>
-      <h2>All Tutorials</h2>
+      <h2>Your Tutorials</h2>
       <div>
-        {data.tutorials.map(tutorial => (
+        {data.me.tutorials.map(tutorial => (
           <div key={tutorial._id}>
             <h3>{tutorial.title}</h3>
             <p>{tutorial.content}</p>

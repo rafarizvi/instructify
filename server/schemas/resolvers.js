@@ -14,7 +14,11 @@ const resolvers = {
 
     me: async (parent, args, context) => {
       if (context.user) {
-        return Profile.findOne({ _id: context.user._id });
+        // populate  the tutorials created by the logged-in user
+        return Profile.findOne({ _id: context.user._id }).populate({
+          path: 'tutorials',
+          populate: 'category'
+        });
       }
       throw AuthenticationError;
     },

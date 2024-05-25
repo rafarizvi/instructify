@@ -59,3 +59,40 @@ export const QUERY_PROFILE_ID = gql`
     }
   }
 `;
+
+export const QUERY_USER_TUTORIALS = gql`
+  query Me {
+    me {
+      _id
+      name
+      email
+      tutorials {
+        _id
+        title
+        content
+        category {
+          _id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const QUERY_ALL_TUTORIALS = gql`
+  query AllTutorials {
+    tutorials {
+      _id
+      title
+      content
+      author {
+        _id
+        name
+      }
+      category {
+        _id
+        name
+      }
+    }
+  }
+`;

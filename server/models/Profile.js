@@ -20,6 +20,14 @@ const profileSchema = new Schema({
     required: true,
     minlength: 5,
   },
+
+  //adding reference to Tutorial model so we can populate in our queries
+  tutorials: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Tutorial',
+    }
+  ],
 })
 
 // set up pre-save middleware to create password
