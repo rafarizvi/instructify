@@ -156,7 +156,7 @@ const resolvers = {
     //! profileId and profile._id is verified to be working to remove comments
 
     addComment: async (parent, { tutorialId, content }, context) => {
-      // if (context.user) {
+      if (context.user) {
 
         const findTutorial = await Tutorial.findById(tutorialId);
 
@@ -180,9 +180,9 @@ const resolvers = {
           { new: true, runValidators: true })
 
         return Comment.findById(addComment._id).populate('author tutorial');
-      // }
+      }
 
-      // throw new AuthenticationError('Not authenticated');
+      throw new AuthenticationError('Not authenticated');
     },
 
     //! If remove mutation does not work, please remove "context" throughout the code and use profileId instead -tb
