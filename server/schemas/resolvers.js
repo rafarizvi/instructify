@@ -110,44 +110,8 @@ const resolvers = {
 
           // return newTutorial;
         } catch (error) {
-          throw new Error('Error creating tutorial: ' + error.message);
+          throw new AuthenticationError('Not authenticated');
         }
-      }
-      throw AuthenticationError;
-    },
-
-    removeTutorial: async (parent, { _id }, context) => {
-      if (context.user) {
-        const findTutorial = await Tutorial.findById(_id);
-
-        await Tutorial.findByIdAndDelete(_id)
-
-        await Profile.findByIdAndUpdate(Tutorial.author,
-          { $pull: { tutorials: _id } })
-
-        return findTutorial
-      }
-      throw AuthenticationError;
-    },
-
-    updateTutorial: async (parent, { _id, title, category, content, author }, context) => {
-      if (context.user) {
-      try {
-
-        const categoryDoc = await Category.findOne({ name: category });
-          if (!categoryDoc) {
-            throw new Error('Category not found');
-          }
-   
-        const findTutorial = await Tutorial.findById(_id);
-
-        // find tutorial by id and update with new values
-        let update = await Tutorial.findOneAndUpdate({ _id }, { title, categoryDoc, content });
-        return update;
-
-      } catch (error) {
-        throw new Error('Error updating tutorial: ' + error.message);
-      }
       }
       throw AuthenticationError;
     },
@@ -155,15 +119,60 @@ const resolvers = {
     //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
     //! profileId and profile._id is verified to be working to remove comments
 
-    addComment: async (parent, { tutorialId, content }, context) => {
-      // if (context.user) {
+    removeTutorial: async (parent, { _id }, context) => {
+      if (context.user) {
+        try {
+          const findTutorial = await Tutorial.findById(_id);
 
+          await Tutorial.findByIdAndDelete(_id)
+
+          await Profile.findByIdAndUpdate(Tutorial.author,
+            { $pull: { tutorials: _id } })
+
+          return findTutorial
+
+        } catch (error) {
+          throw new AuthenticationError('Not authenticated');
+        }
+      }
+    },
+        
+    //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
+    //! profileId and profile._id is verified to be working to remove comments
+
+    updateTutorial: async (parent, { _id, title, category, content, author }, context) => {
+      if (context.user) {
+        try {
+
+          const categoryDoc = await Category.findOne({ name: category });
+          if (!categoryDoc) {
+            throw new Error('Category not found');
+          }
+
+          const findTutorial = await Tutorial.findById(_id);
+
+          // find tutorial by id and update with new values
+          let update = await Tutorial.findOneAndUpdate({ _id }, { title, categoryDoc, content });
+          return update;
+
+        } catch (error) {
+          throw new AuthenticationError('Not authenticated');
+        }
+      }
+    },
+
+    //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
+    //! profileId and profile._id is verified to be working to remove comments
+
+    addComment: async (parent, { tutorialId, content }, context) => {
+      if (context.user) {
+      try {
         const findTutorial = await Tutorial.findById(tutorialId);
 
         const addComment = await Comment.create({
           content,
           author: context.user.id,
-          // author: profile._id,
+          // author: profileId._id,
           tutorial: tutorialId
         })
 
@@ -180,9 +189,10 @@ const resolvers = {
           { new: true, runValidators: true })
 
         return Comment.findById(addComment._id).populate('author tutorial');
-      // }
-
-      // throw new AuthenticationError('Not authenticated');
+        } catch (error) {
+          throw new AuthenticationError('Not authenticated');
+        }
+      }
     },
 
     //! If remove mutation does not work, please remove "context" throughout the code and use profileId instead -tb
@@ -190,33 +200,40 @@ const resolvers = {
 
     removeComment: async (parent, { _id }, context) => {
       if (context.user) {
+      try {
         const comment = await Comment.findById(_id);
 
         const deleteComment = await Comment.findByIdAndDelete(_id);
 
         const updateProfile = await Profile.findByIdAndUpdate(comment.author,
-          { $pull: { comments: _id } });
+          { $pull: { comments: _id } },
+          { new: true, runValidators: true })
+
 
         const updateTutorial = await Tutorial.findByIdAndUpdate(comment.tutorial,
-          { $pull: { comments: _id } });
+          { $pull: { comments: _id } },
+          { new: true, runValidators: true });
 
         return comment;
+
+        } catch (error) {
+          throw new AuthenticationError('Not authenticated');
+        }
       }
-      throw new AuthenticationError('Not authenticated');
     },
 
     updateComment: async (parent, { _id, content }, context) => {
       if (context.user) {
       try {
         // find tutorial by id and update with new values
-        let update = await Comment.findOneAndUpdate({ _id }, { content });
-        return update;
+        const updateComment = await Comment.findOneAndUpdate({ _id }, { content });
 
-      } catch (error) {
-        throw new Error('Error updating tutorial: ' + error.message);
+        return updateComment;
+
+        } catch (error) {
+          throw new AuthenticationError('Not authenticated');
+        }
       }
-      }
-      throw AuthenticationError;
     },
   }
 };
