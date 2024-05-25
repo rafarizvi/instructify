@@ -152,7 +152,8 @@ const resolvers = {
       throw AuthenticationError;
     },
 
-
+    //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
+    //! profileId and profile._id is verified to be working to remove comments
 
     addComment: async (parent, { tutorialId, content }, context) => {
       // if (context.user) {
@@ -161,12 +162,14 @@ const resolvers = {
 
         const addComment = await Comment.create({
           content,
-          // author: context.user.id,
+          author: context.user.id,
+          // author: profile._id,
           tutorial: tutorialId
         })
 
         const updateProfile = await Profile.findByIdAndUpdate(
           context.user.id,
+          // profileId._id,
           { $addToSet: { comments: addComment._id } },
           { new: true, runValidators: true }
         )
@@ -181,6 +184,9 @@ const resolvers = {
 
       // throw new AuthenticationError('Not authenticated');
     },
+
+    //! If remove mutation does not work, please remove "context" throughout the code and use profileId instead -tb
+    //! profileId is verified to be working to remove comments
 
     removeComment: async (parent, { _id }, context) => {
       if (context.user) {
