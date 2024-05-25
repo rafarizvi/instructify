@@ -3,18 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../assets/instructify-logo.png'; // Import the logo
-import Login from './Login';
+import Auth from '../utils/auth';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
 
-    const userLoggedIn = false; 
+    const userLoggedIn = Auth.loggedIn(); 
     setIsLoggedIn(userLoggedIn);
   }, []);
 
   const handleLogout = () => {
+    Auth.logout();
     // Handle logout logic here
     setIsLoggedIn(false);
   };
@@ -57,9 +58,17 @@ const Navbar = () => {
                 </li>
               </>
             ) : (
+              <>
+              <li className="nav-item">
+              <Link className="btn btn-secondary nav-link" to="/tutorial">Tutorial</Link>
+                </li>
               <li className="nav-item">
                 <button className="btn btn-secondary nav-link" onClick={handleLogout}>Logout</button>
               </li>
+              <li className="nav-item">
+                <Link className="btn btn-secondary nav-link" to="/dashboard">Dasboard</Link>
+                </li>
+              </>
             )}
           </ul>
         </div>
@@ -69,3 +78,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
