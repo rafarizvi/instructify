@@ -16,7 +16,7 @@ export const LOGIN_USER = gql`
 
 // Adding profile using name, password and email
 export const ADD_PROFILE = gql`
-  mutation addProfile($name: String!, $email: Sting!, $password: String!) {
+  mutation addProfile($name: String!, $email: String!, $password: String!) {
     addProfile(name: $name, email: $email, password: $password) {
       token
       profile {
@@ -28,10 +28,10 @@ export const ADD_PROFILE = gql`
   }
 `;
 
-// Adding the ability to add a tutorial. Using users ID, along with title, the content and the category it belongs to
+// Adding the ability to add a tutorial
 export const ADD_TUTORIAL = gql`
-  mutation addTutorial($profile: ID!, $title: String!, $content: String!, $category: String!) {
-    addTutorial(profile: $profile, title: $title, content: $content, category: $category) {
+  mutation addTutorial($title: String!, $content: String!, $category: String!) {
+    addTutorial(title: $title, content: $content, category: $category) {
       _id
       title
       content
@@ -40,23 +40,39 @@ export const ADD_TUTORIAL = gql`
         name
         email
       }
-      category{
+      category {
         _id
         name
       }
     }
   }
-`
+`;
+
 // Ability to remove a tutorial based on its ID
 export const REMOVE_TUTORIAL = gql`
   mutation removeTutorial($id: ID!) {
     removeTutorial(_id: $id) {
       _id
-      # title
     }
   }
-`
-// Ability to add a comment, going off the users information as well and the tutorial they are commenting on
+`;
+
+// Ability to update a tutorial
+export const UPDATE_TUTORIAL = gql`
+  mutation updateTutorial($id: ID!, $title: String!, $category: String!, $content: String!) {
+    updateTutorial(_id: $id, title: $title, category: $category, content: $content) {
+      _id
+      title
+      content
+      category {
+        _id
+        name
+      }
+    }
+  }
+`;
+
+// Ability to add a comment
 export const ADD_COMMENT = gql`
   mutation addComment($profileId: ID!, $tutorialId: ID!, $content: String!) {
     addComment(profileId: $profileId, tutorialId: $tutorialId, content: $content) {
@@ -68,18 +84,18 @@ export const ADD_COMMENT = gql`
       }
       tutorial {
         _id
-        # title
+        title
       }
     }
   }
-`
-// Ability to remove comment based on the ID
-export const REMOVE_CONTENT = gql`
-  mutation removeComment($_id: ID!) {
-    removeComment(_id: $_id) {
+`;
+
+// Ability to remove a comment based on the ID
+export const REMOVE_COMMENT = gql`
+  mutation removeComment($id: ID!) {
+    removeComment(_id: $id) {
       _id
-      # content
+      content
     }
   }
-`
-
+`;

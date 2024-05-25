@@ -1,7 +1,7 @@
-// client/src/pages/Home.jsx
-
+import React from 'react';
 // import { Link } from 'react-router-dom';
-
+import { useQuery } from '@apollo/client'; // Import useQuery from @apollo/client
+import { QUERY_ALL_TUTORIALS } from '../utils/queries'; // Import the query
 import { useQuery } from '@apollo/client';
 
 import CategoryList from '../components/categories';
@@ -13,6 +13,9 @@ const Home = () => {
   const { loading, data } = useQuery(QUERY_CATEGORIES);
   const categories = data?.categories || [];
   console.log(categories);
+
+  // Fetch all tutorials
+  const { loading, data, error } = useQuery(QUERY_ALL_TUTORIALS);
 
   return (
     <main>
@@ -29,7 +32,7 @@ const Home = () => {
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 
