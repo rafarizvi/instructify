@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import VideoSearch from './components/videoSearch';
 import Login from './components/Login';
 import Signup from './components/Signup';
-// import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard';
 import Tutorial from './components/Tutorial';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       { index : true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path:'signup', element: <Signup /> },
-      // { path: 'dashboard', element: <Dashboard /> },
+      { path: 'dashboard', element: <Dashboard /> },
       { path: 'tutorial', element: <Tutorial /> },
       { path: 'videosearch', element: <VideoSearch /> }
       

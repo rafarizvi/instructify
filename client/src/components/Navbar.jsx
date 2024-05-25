@@ -65,6 +65,9 @@ const Navbar = () => {
               <li className="nav-item">
                 <button className="btn btn-secondary nav-link" onClick={handleLogout}>Logout</button>
               </li>
+              <li className="nav-item">
+                <Link className="btn btn-secondary nav-link" to="/dashboard">Dasboard</Link>
+                </li>
               </>
             )}
           </ul>

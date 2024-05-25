@@ -68,6 +68,21 @@ export const REMOVE_TUTORIAL = gql`
   }
 `;
 
+// Ability to update a tutorial based on its ID
+export const UPDATE_TUTORIAL = gql`
+  mutation updateTutorial($_id: ID!, $title: String, $content: String, $category: String) {
+    updateTutorial(_id: $_id, title: $title, content: $content, category: $category) {
+      _id
+      title
+      content
+      category {
+        _id
+        name
+      }
+    }
+  }
+`;
+
 // Ability to add a comment, going off the users information as well and the tutorial they are commenting on
 export const ADD_COMMENT = gql`
   mutation addComment($tutorialId: ID!, $content: String!) {

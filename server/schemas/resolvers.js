@@ -94,6 +94,7 @@ const resolvers = {
 
       throw new AuthenticationError('Not authenticated');
     },
+    
 
     // Mutation to add a new comment to a tutorial
     addComment: async (parent, { tutorialId, content }, context) => {
