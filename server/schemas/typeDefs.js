@@ -19,10 +19,10 @@ const typeDefs = `#graphql
   }
 
   type Category {
-    _id: ID!
-    name: String!
-    tutorials: [Tutorial!]
-  }
+  _id: ID!
+  name: String!
+  tutorials: [Tutorial]
+}
 
   type Comment {
     _id: ID!
