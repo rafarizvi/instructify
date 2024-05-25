@@ -17,7 +17,7 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
-  
+
 
     tutorials: async () => {
       return Tutorial.find({}).populate('author category comments');
@@ -83,42 +83,76 @@ const resolvers = {
       return { token, profile };
     },
 
-    addTutorial: async (parent, { title, content, category }, context) => {
+
+    addTutorial: async (parent, { title, category, content }, context) => {
       if (context.user) {
-        const addTutorial = await Tutorial.create({
-          title,
-          content,
-          author: context.user.id,
-          category
-        })
+        try {
+          // Find the category by name
+          const categoryDoc = await Category.findOne({ name: category });
+          if (!categoryDoc) {
+            throw new Error('Category not found');
+          }
 
-        const updateProfile = await Profile.findByIdAndUpdate(
-          context.user.id,
-          { $addToSet: { tutorials: tutorial._id } },
-          { new: true, runValidators: true })
+          // Create the new tutorial
+          const newTutorial = await Tutorial.create({
+            title,
+            author: context.user.id,
+            category: categoryDoc._id,
+            content
+          });
 
-        return Tutorial.findById(tutorial._id).populate('author');
+          await Profile.findByIdAndUpdate(
+            context.user.id,
+            { $addToSet: { tutorials: newTutorial._id } },
+            { new: true, runValidators: true })
 
+          return Tutorial.findById(newTutorial._id).populate('author');
+
+          // return newTutorial;
+        } catch (error) {
+          throw new Error('Error creating tutorial: ' + error.message);
+        }
       }
-
-      throw new AuthenticationError('Not authenticated');
-
+      throw AuthenticationError;
     },
 
     removeTutorial: async (parent, { _id }, context) => {
       if (context.user) {
+        const findTutorial = await Tutorial.findById(_id);
 
-        const findTutorial = await Tutorial.findById(_id)
+        await Tutorial.findByIdAndDelete(_id)
 
-        const deleteTutorial = await Tutorial.findByIdAndDelete(_id)
-
-        const updateProfile = await Profile.findByIdAndUpdate(Tutorial.author,
+        await Profile.findByIdAndUpdate(Tutorial.author,
           { $pull: { tutorials: _id } })
 
-        return tutorial
+        return findTutorial
       }
-      throw new AuthenticationError('Not authenticated');
+      throw AuthenticationError;
     },
+
+    updateTutorial: async (parent, { _id, title, category, content, author }, context) => {
+      if (context.user) {
+      try {
+
+        const categoryDoc = await Category.findOne({ name: category });
+          if (!categoryDoc) {
+            throw new Error('Category not found');
+          }
+   
+        const findTutorial = await Tutorial.findById(_id);
+
+        // find tutorial by id and update with new values
+        let update = await Tutorial.findOneAndUpdate({ _id }, { title, categoryDoc, content });
+        return update;
+
+      } catch (error) {
+        throw new Error('Error creating tutorial: ' + error.message);
+      }
+      }
+      throw AuthenticationError;
+    },
+
+
 
     addComment: async (parent, { tutorialId, content }, context) => {
       if (context.user) {
@@ -147,25 +181,6 @@ const resolvers = {
 
       throw new AuthenticationError('Not authenticated');
     },
-
-        // Add a third argument to the resolver to access data in our `context`
-        addComment: async (parent, { profileId, tutorial }, context) => {
-          // If context has a `user` property, that means the user executing this mutation has a valid JWT and is logged in
-          if (context.user) {
-            return Profile.findOneAndUpdate(
-              { _id: profileId },
-              {
-                $addToSet: { skills: skill },
-              },
-              {
-                new: true,
-                runValidators: true,
-              }
-            );
-          }
-          // If user attempts to execute this mutation and isn't logged in, throw an error
-          throw AuthenticationError;
-        },
 
 
     removeComment: async (parent, { _id }, context) => {

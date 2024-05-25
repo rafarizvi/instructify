@@ -50,11 +50,11 @@ const typeDefs = `#graphql
     login(email: String!, password: String!): Auth
     addTutorial(title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
+    updateTutorial(_id: ID!, title: String, content: String, category: String, author: String): Tutorial
     addComment(tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
   }
 `;
 
 module.exports = typeDefs;
-
 
