@@ -14,7 +14,7 @@ const typeDefs = `#graphql
     title: String!
     content: String!
     author: Profile!
-    category: Category
+    category: Category!
     comments: [Comment!]
   }
 

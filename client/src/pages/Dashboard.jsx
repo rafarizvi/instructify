@@ -1,130 +1,112 @@
-// Viewing all tutorials by user
-// Creating a tutorial
-// Posting a tutorial
-// Editing a tutorial
-// Deleting a tutorial
-// Logout
-// import React, { useState } from 'react';
-// import { useMutation } from '@apollo/client';
-// import { ADD_TUTORIAL, REMOVE_TUTORIAL, ALL_TUTORIALS } from '../utils/mutations';
-// import Auth from '../utils/auth'; 
+import React, { useState } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY_TUTORIALS } from '../utils/queries';
+import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
 
-// const Tutorial = () => {
-//   const [formState, setFormState] = useState({
-//     title: '',
-//     description: '',
-//     link: '',
-//     user: '',
-//   });
+const Dashboard = () => {
+  const { loading, data, error, refetch } = useQuery(QUERY_TUTORIALS);
 
-//   const [addTutorial] = useMutation(ADD_TUTORIAL, {
-//     update(cache, { data: { addTutorial } }) {
-//       try {
-//         const { tutorials } = cache.readQuery({ query: ALL_TUTORIALS });
-//         cache.writeQuery({
-//           query: ALL_TUTORIALS,
-//           data: { tutorials: [addTutorial, ...tutorials] },
-//         });
-//       } catch (e) {
-//         console.error(e);
-//       }
-//     },
-//   });
+  const [updateTutorial] = useMutation(UPDATE_TUTORIAL, {
+    onCompleted: () => refetch(),
+  });
+  const [removeTutorial] = useMutation(REMOVE_TUTORIAL, {
+    onCompleted: () => refetch(),
+  });
 
-//   const [removeTutorial] = useMutation(REMOVE_TUTORIAL, {
-//     update(cache, { data: { removeTutorial } }) {
-//       try {
-//         const { tutorials } = cache.readQuery({ query: ALL_TUTORIALS });
-//         cache.writeQuery({
-//           query: ALL_TUTORIALS,
-//           data: { tutorials: tutorials.filter((tutorial) => tutorial._id !== removeTutorial._id) },
-//         });
-//       } catch (e) {
-//         console.error(e);
-//       }
-//     },
-//   });
+  const [editFormState, setEditFormState] = useState({
+    _id: '',
+    title: '',
+    content: '',
+    category: ''
+  });
 
-//   const handleChange = (event) => {
-//     const { name, value } = event.target;
-//     setFormState({
-//       ...formState,
-//       [name]: value,
-//     });
-//   };
+  const handleEditChange = event => {
+    const { name, value } = event.target;
+    setEditFormState({
+      ...editFormState,
+      [name]: value
+    });
+  };
 
-//   const handleFormSubmit = async (event) => {
-//     event.preventDefault();
-//     try {
-//       await addTutorial({
-//         variables: { ...formState },
-//       });
+  const handleEditSubmit = async event => {
+    event.preventDefault();
+    try {
+      await updateTutorial({
+        variables: { ...editFormState }
+      });
+      setEditFormState({ _id: '', title: '', content: '', category: '' });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-//       setFormState({
-//         title: '',
-//         description: '',
-//         link: '',
-//         user: Auth.getProfile().data._id, // Assuming you store the user ID in Auth profile
-//       });
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   };
+  const handleDelete = async tutorialId => {
+    try {
+      await removeTutorial({
+        variables: { id: tutorialId }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-//   const handleDelete = async (tutorialId) => {
-//     try {
-//       await removeTutorial({
-//         variables: { tutorialId },
-//       });
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-//   return (
-//     <div>
-//       <h2>Manage Tutorials</h2>
-//       <form onSubmit={handleFormSubmit}>
-//         <input
-//           className="form-input"
-//           placeholder="Title"
-//           name="title"
-//           type="text"
-//           value={formState.title}
-//           onChange={handleChange}
-//         />
-//         <input
-//           className="form-input"
-//           placeholder="Description"
-//           name="description"
-//           type="text"
-//           value={formState.description}
-//           onChange={handleChange}
-//         />
-//         <input
-//           className="form-input"
-//           placeholder="Link"
-//           name="link"
-//           type="text"
-//           value={formState.link}
-//           onChange={handleChange}
-//         />
-//         <button className="btn btn-block btn-info" style={{ cursor: 'pointer' }} type="submit">
-//           Add Tutorial
-//         </button>
-//       </form>
-//       {/* Example list of tutorials for displaying and deletion */}
-//       <div>
-//         {/* Replace with actual tutorial data */}
-//         {data && data.tutorials.map((tutorial) => (
-//           <div key={tutorial._id}>
-//             <h3>{tutorial.title}</h3>
-//             <button onClick={() => handleDelete(tutorial._id)}>Delete</button>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
-// export default Tutorial;
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <h2>All Tutorials</h2>
+      <div>
+        {data.tutorials.map(tutorial => (
+          <div key={tutorial._id}>
+            <h3>{tutorial.title}</h3>
+            <p>{tutorial.content}</p>
+            <p>Category: {tutorial.category?.name || 'Unknown'}</p>
+            <button onClick={() => setEditFormState(tutorial)}>Edit</button>
+            <button onClick={() => handleDelete(tutorial._id)}>Delete</button>
+          </div>
+        ))}
+      </div>
+      {editFormState._id && (
+        <form onSubmit={handleEditSubmit}>
+          <h3>Edit Tutorial</h3>
+          <input
+            className="form-input"
+            placeholder="Title"
+            name="title"
+            type="text"
+            value={editFormState.title}
+            onChange={handleEditChange}
+          />
+          <input
+            className="form-input"
+            placeholder="Content"
+            name="content"
+            type="text"
+            value={editFormState.content}
+            onChange={handleEditChange}
+          />
+          <input
+            className="form-input"
+            placeholder="Category"
+            name="category"
+            type="text"
+            value={editFormState.category}
+            onChange={handleEditChange}
+          />
+          <button className="btn btn-block btn-info" style={{ cursor: 'pointer' }} type="submit">
+            Update Tutorial
+          </button>
+        </form>
+      )}
+    </div>
+  );
+};
+
+export default Dashboard;
