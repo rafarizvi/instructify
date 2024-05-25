@@ -146,7 +146,7 @@ const resolvers = {
         return update;
 
       } catch (error) {
-        throw new Error('Error creating tutorial: ' + error.message);
+        throw new Error('Error updating tutorial: ' + error.message);
       }
       }
       throw AuthenticationError;
@@ -155,13 +155,13 @@ const resolvers = {
 
 
     addComment: async (parent, { tutorialId, content }, context) => {
-      if (context.user) {
+      // if (context.user) {
 
         const findTutorial = await Tutorial.findById(tutorialId);
 
         const addComment = await Comment.create({
           content,
-          author: context.user.id,
+          // author: context.user.id,
           tutorial: tutorialId
         })
 
@@ -177,11 +177,10 @@ const resolvers = {
           { new: true, runValidators: true })
 
         return Comment.findById(addComment._id).populate('author tutorial');
-      }
+      // }
 
-      throw new AuthenticationError('Not authenticated');
+      // throw new AuthenticationError('Not authenticated');
     },
-
 
     removeComment: async (parent, { _id }, context) => {
       if (context.user) {
@@ -198,7 +197,21 @@ const resolvers = {
         return comment;
       }
       throw new AuthenticationError('Not authenticated');
-    }
+    },
+
+    updateComment: async (parent, { _id, content }, context) => {
+      if (context.user) {
+      try {
+        // find tutorial by id and update with new values
+        let update = await Comment.findOneAndUpdate({ _id }, { content });
+        return update;
+
+      } catch (error) {
+        throw new Error('Error updating tutorial: ' + error.message);
+      }
+      }
+      throw AuthenticationError;
+    },
   }
 };
 

@@ -53,6 +53,7 @@ const typeDefs = `#graphql
     updateTutorial(_id: ID!, title: String, content: String, category: String, author: String): Tutorial
     addComment(tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
+    updateComment(_id: ID!, content: String): Comment
   }
 `;
 
