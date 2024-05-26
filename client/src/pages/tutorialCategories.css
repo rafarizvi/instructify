@@ -1,0 +1,32 @@
+.categoryDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tutorialCard {
+  background: rgba(106, 163, 255, 0);
+  border: none;
+  border-radius: 20px;
+}
+
+.tutorialImg {
+  border-radius: 20px;
+}
+
+.tutorialContent a:hover {
+  text-shadow: 1px 1px 4px rgba(12, 3, 255, 0.435);
+}
+
+.tutorialBtn {
+  box-shadow: 1px 5px 5px rgba(54, 90, 162, 0.492);
+  background: linear-gradient(39deg, rgb(159, 167, 251) 10%, rgb(99, 182, 246) 100%);
+  
+  border: 1px solid rgb(170, 106, 22);
+  border-radius: 20px;
+  margin: 10px;
+}
+
+.tutorialBtn:hover {
+  background: linear-gradient(39deg, rgb(228, 210, 255) 0%, rgba(6, 93, 255, 0.471) 100%);}
+  
