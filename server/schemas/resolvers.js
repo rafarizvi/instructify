@@ -22,7 +22,10 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
-
+    // added query for locating single tutorial by its id and populating author, category and comments associated with it -tb
+    tutorial: async (parent, { _id }) => {
+      return Tutorial.findById(_id).populate('author category comments');
+    },
 
     tutorials: async () => {
       return Tutorial.find({}).populate('author category comments');

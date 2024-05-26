@@ -36,6 +36,7 @@ const typeDefs = `#graphql
     profile(_id: String): Profile
     me: Profile
     tutorials: [Tutorial!]
+    tutorial(_id: ID!): Tutorial
     categories: [Category!]
     comments: [Comment!]
   }
