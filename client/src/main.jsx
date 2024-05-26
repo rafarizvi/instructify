@@ -10,6 +10,8 @@ import Dashboard from './pages/Dashboard';
 import Tutorial from './components/Tutorial';
 // import All from './pages/All';
 
+import GetTutorial from './pages/SingleTutorial';
+
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -24,9 +26,9 @@ const router = createBrowserRouter([
       { path: 'videosearch', element: <VideoSearch /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'tutorial', element: <Tutorial /> },
-      // { path: 'all', element: <All /> }
-      
-    ],
+      { path: 'tutorial/:id', element: <GetTutorial /> },
+      // { path: 'all', element: <All /> }    
+],
   },
 ]);
 
