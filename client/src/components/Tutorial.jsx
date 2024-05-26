@@ -63,45 +63,50 @@ const Tutorial = () => {
   if (categoriesError) {
     return <div>Error: {categoriesError.message}</div>;
   }
-
   return (
-    <div>
-      <h2>Add Tutorial</h2>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          className="form-input"
-          placeholder="Title"
-          name="title"
-          type="text"
-          value={formState.title}
-          onChange={handleChange}
-        />
-        <input
-          className="form-input"
-          placeholder="Content"
-          name="content"
-          type="text"
-          value={formState.content}
-          onChange={handleChange}
-        />
-        <select
-          className="form-input"
-          name="category"
-          value={formState.category}
-          onChange={handleChange}
-        >
-          <option value="">Select a category</option>
-          {categoriesData.categories.map(category => (
-            <option key={category._id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-        <button className="btn btn-block btn-info" style={{ cursor: 'pointer' }} type="submit">
+    <div className="add-tutorial-container text-center">
+      <h2 className="text-center">Add Tutorial</h2>
+      <form onSubmit={handleFormSubmit} className="form-container">
+        <div className="form-group">
+          <input
+            className="form-input"
+            placeholder="Title"
+            name="title"
+            type="text"
+            value={formState.title}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <textarea
+            className="form-input"
+            placeholder="Content"
+            name="content"
+            rows="10"
+            value={formState.content}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group">
+          <select
+            className="form-input"
+            name="category"
+            value={formState.category}
+            onChange={handleChange}
+          >
+            <option value="">Select a category</option>
+            {categoriesData.categories.map(category => (
+              <option key={category._id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button className="btn-submit" type="submit">
           Add Tutorial
         </button>
       </form>
-      {error && <p>Error: {error.message}</p>}
+      {error && <p className="error-message">Error: {error.message}</p>}
     </div>
   );
 };

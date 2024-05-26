@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery } from '@apollo/client';
 import CategoryList from '../components/categories';
 import { GET_CATEGORIES } from '../utils/queries'

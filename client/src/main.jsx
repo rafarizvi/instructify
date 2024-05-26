@@ -24,9 +24,8 @@ const router = createBrowserRouter([
       { path: 'videosearch', element: <VideoSearch /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'tutorial', element: <Tutorial /> },
-      // { path: 'all', element: <All /> }
-      
-    ],
+      // { path: 'all', element: <All /> }    
+],
   },
 ]);
 
