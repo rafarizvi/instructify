@@ -165,24 +165,20 @@ const resolvers = {
       }
     },
 
-    //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
-    //! profileId and profile._id is verified to be working to remove comments
 
-    addComment: async (parent, { tutorialId, content }, context) => {
+    // added profileId and removed context.user from code. Removed finding tutorial by id and instead replaced it with creating a comment and then finding and updating the tutorial. Then returning the mutation with the populated data
+    addComment: async (parent, { profileId, tutorialId, content }, context) => {
       if (context.user) {
       try {
-        const findTutorial = await Tutorial.findById(tutorialId);
 
         const addComment = await Comment.create({
           content,
-          author: context.user.id,
-          // author: profileId._id,
+          author: profileId,
           tutorial: tutorialId
         })
 
         const updateProfile = await Profile.findByIdAndUpdate(
-          context.user.id,
-          // profileId._id,
+          profileId._id,
           { $addToSet: { comments: addComment._id } },
           { new: true, runValidators: true }
         )
@@ -192,7 +188,7 @@ const resolvers = {
           { $addToSet: { comments: addComment._id } },
           { new: true, runValidators: true })
 
-        return Comment.findById(addComment._id).populate('author tutorial');
+        return addComment.populate('author tutorial');
         } catch (error) {
           throw new AuthenticationError('Not authenticated');
         }

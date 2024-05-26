@@ -27,7 +27,8 @@ const typeDefs = `#graphql
   type Comment {
     _id: ID!
     content: String!
-    author: Profile!
+    #had to make profile nullable due to issues. Will add back -tb
+    author: Profile
     tutorial: Tutorial
   }
 
@@ -52,7 +53,8 @@ const typeDefs = `#graphql
     addTutorial(title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
     updateTutorial(_id: ID!, title: String, content: String, category: String, author: String): Tutorial
-    addComment(tutorialId: ID!, content: String!): Comment
+    # added profile ID to comments
+    addComment(profileId: ID!, tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
     updateComment(_id: ID!, content: String): Comment
   }
