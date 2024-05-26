@@ -1,18 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@apollo/client'; // Import useQuery from @apollo/client
-import { QUERY_ALL_TUTORIALS } from '../utils/queries'; // Import the query
+import { useQuery } from '@apollo/client';
+import { QUERY_ALL_TUTORIALS } from '../utils/queries';
 
 function Home() {
-  const categories = ["Category1", "Category2", "Category3"]; // Example categories
+  const categories = ["Category1", "Category2", "Category3"]; 
 
   // Fetch all tutorials
   const { loading, data, error } = useQuery(QUERY_ALL_TUTORIALS);
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 pt-5"> 
+      {/* Introductory Section */}
+
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-12">
           <h1 className="mb-4">instructify</h1>
           <p className="lead">Empowering Knowledge Sharing,<br /> One Tutorial at a Time</p>
           <section className="categories mb-4">
@@ -28,8 +30,11 @@ function Home() {
             </ul>
           </section>
         </div>
+      </div>
 
-        <div className="col-md-6">
+      {/* Tutorials Section */}
+      <div className="row mt-5">
+        <div className="col-12">
           <section className="tutorials">
             <h2 className="h4">All Tutorials</h2>
             {loading ? (
@@ -39,7 +44,7 @@ function Home() {
             ) : (
               <div className="row">
                 {data.tutorials.map(tutorial => (
-                  <div key={tutorial._id} className="col-md-6 mb-4">
+                  <div key={tutorial._id} className="col-md-3 mb-4">
                     <div className="card h-100">
                       <div className="card-body d-flex flex-column">
                         <h5 className="card-title">{tutorial.title}</h5>
