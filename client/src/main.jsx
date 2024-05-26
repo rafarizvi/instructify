@@ -8,7 +8,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Dashboard from './pages/Dashboard';
 import Tutorial from './components/Tutorial';
-// import All from './pages/All';
+import All from './pages/All';
 
 import GetTutorial from './pages/SingleTutorial';
 
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'tutorial', element: <Tutorial /> },
       { path: 'tutorial/:id', element: <GetTutorial /> },
-      // { path: 'all', element: <All /> }    
+      { path: 'all', element: <All /> }    
 ],
   },
 ]);
@@ -39,3 +39,4 @@ root.render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
+
