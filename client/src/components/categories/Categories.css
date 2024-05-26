@@ -1,0 +1,26 @@
+
+.catDiv {
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.catBtn {
+  height: 100px;
+  width: 300px;
+  border-radius: 50px;
+  align-content: center;
+  background: linear-gradient(278deg, rgba(49,168,215,1) 0%, rgba(60,41,147,1) 100%);
+  box-shadow: 1px 5px 5px rgba(54, 90, 162, 0.492);
+}
+
+@keyframes hover {
+  from {scale: 100%;}
+  to {scale: 105%;}
+}
+
+.catBtn:hover {
+  animation-name: hover;
+  animation-duration: 0.5s;
+  scale: 105%;
+}

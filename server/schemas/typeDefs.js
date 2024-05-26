@@ -14,7 +14,7 @@ const typeDefs = `#graphql
     title: String!
     content: String!
     author: Profile!
-    category: Category
+    category: Category!
     comments: [Comment!]
   }
 
@@ -32,7 +32,9 @@ const typeDefs = `#graphql
   }
 
   type Query {
+    profiles: [Profile!]
     profile(_id: String): Profile
+    me: Profile
     tutorials: [Tutorial!]
     categories: [Category!]
     comments: [Comment!]
@@ -48,11 +50,12 @@ const typeDefs = `#graphql
     login(email: String!, password: String!): Auth
     addTutorial(title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
+    updateTutorial(_id: ID!, title: String, content: String, category: String, author: String): Tutorial
     addComment(tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
+    updateComment(_id: ID!, content: String): Comment
   }
 `;
 
 module.exports = typeDefs;
-
 

@@ -9,5 +9,17 @@
 
   {
     "name": "Home"
+  },
+
+  {
+    "name": "Arts"
+  },
+
+  {
+    "name": "Lifestyle/Hobbies"
+  },
+
+  {
+    "name": "Business/Financial"
   }
 ]

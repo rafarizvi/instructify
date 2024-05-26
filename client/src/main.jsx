@@ -6,6 +6,10 @@ import Home from './pages/Home';
 import VideoSearch from './components/videoSearch';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Dashboard from './pages/Dashboard';
+import Tutorial from './components/Tutorial';
+// import All from './pages/All';
+
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -17,7 +21,11 @@ const router = createBrowserRouter([
       { index : true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path:'signup', element: <Signup /> },
-      { path: 'videosearch', element: <VideoSearch /> }
+      { path: 'videosearch', element: <VideoSearch /> },
+      { path: 'dashboard', element: <Dashboard /> },
+      { path: 'tutorial', element: <Tutorial /> },
+      // { path: 'all', element: <All /> }
+      
     ],
   },
 ]);
