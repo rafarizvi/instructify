@@ -32,7 +32,8 @@ const Dashboard = () => {
     event.preventDefault();
     try {
       await updateTutorial({
-        variables: { ...editFormState }
+        // added to remove "object object" in text field
+        variables: { ...editFormState, category: editFormState.category.name }
       });
       setEditFormState({ _id: '', title: '', content: '', category: '' });
     } catch (e) {
@@ -68,8 +69,15 @@ const Dashboard = () => {
             <div key={tutorial._id} className="tutorial-card">
               <h3 className="tutorial-title">{tutorial.title}</h3>
               <p className="tutorial-content">{tutorial.content}</p>
-              <p className="tutorial-category">Category: {tutorial.category?.name || 'test'}</p>
-              <button className="btn-edit" onClick={() => setEditFormState(tutorial)}>
+              <p className="tutorial-category">Category: {tutorial.category?.name || 'No category'}</p>
+              <button className="btn-edit" onClick={() => setEditFormState({
+                // added to remove "object object" in text field
+                // edit button will now show all current info from original tutorial
+                _id: tutorial._id,
+                title: tutorial.title,
+                content: tutorial.content,
+                category: tutorial.category.name
+              })}>
                 Edit
               </button>
               <button className="btn-delete" onClick={() => handleDelete(tutorial._id)}>
