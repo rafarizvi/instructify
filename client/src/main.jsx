@@ -8,6 +8,8 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Dashboard from './pages/Dashboard';
 import Tutorial from './components/Tutorial';
+// import All from './pages/All';
+
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -21,7 +23,8 @@ const router = createBrowserRouter([
       { path:'signup', element: <Signup /> },
       { path: 'videosearch', element: <VideoSearch /> },
       { path: 'dashboard', element: <Dashboard /> },
-      { path: 'tutorial', element: <Tutorial /> }
+      { path: 'tutorial', element: <Tutorial /> },
+      // { path: 'all', element: <All /> }
       
     ],
   },

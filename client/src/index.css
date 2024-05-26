@@ -1,9 +1,16 @@
+
 @font-face {
   font-family: 'Cheerio';
   src: url('/src/assets/fonts/Cheerio.woff2') format('woff2'),
        url('/src/assets/fonts/Cheerio.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+}
+
+body {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .title, h1 {
@@ -43,7 +50,7 @@ header p {
 
 
 .my-4 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 .input-group {

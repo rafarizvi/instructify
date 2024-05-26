@@ -2,6 +2,7 @@ const { Profile, Category, Tutorial, Comment } = require('../models');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 
+
 const resolvers = {
   Query: {
     profiles: async () => {
@@ -71,6 +72,7 @@ const resolvers = {
 
       return { token, profile };
     },
+
     login: async (parent, { email, password }) => {
       const profile = await Profile.findOne({ email });
 
