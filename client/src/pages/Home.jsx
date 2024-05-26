@@ -1,21 +1,21 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client'; // Import useQuery from @apollo/client
-import { QUERY_ALL_TUTORIALS } from '../utils/queries'; // Import the query
-import { useQuery } from '@apollo/client';
+// import { QUERY_ALL_TUTORIALS } from '../utils/queries'; // Import the query
+
 
 import CategoryList from '../components/categories';
 
-import { QUERY_CATEGORIES } from '../utils/queries'
+import { GET_CATEGORIES } from '../utils/queries'
 
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_CATEGORIES);
+  const { loading, data } = useQuery(GET_CATEGORIES);
   const categories = data?.categories || [];
   console.log(categories);
 
   // Fetch all tutorials
-  const { loading, data, error } = useQuery(QUERY_ALL_TUTORIALS);
+  // const { loading, data, error } = useQuery(QUERY_ALL_TUTORIALS);
 
   return (
     <main>
@@ -32,7 +32,7 @@ const Home = () => {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
