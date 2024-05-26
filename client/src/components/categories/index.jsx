@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import './Categories.css';
 
 const CategoryList = ({ categories, title, all }) => {
+
+
+
+  const navigate = useNavigate();
+  const handleButtonClick = (buttonName) => {
+    navigate('/categories', { state: { clickButton: buttonName } });
+  };
 
   return (
     <div>
@@ -22,14 +30,14 @@ const CategoryList = ({ categories, title, all }) => {
         {categories &&
           categories.map((category) => (
             <div key={category._id}>
-              <Link
+              <button
                 className="btn btn-squared category-link"
-                to={`/${category.name.toLowerCase()}`}
+                onClick={() => handleButtonClick(category.name)}
               >
                 <h4 className="bg-dark text-light p-2 m-0 catBtn">
                   {category.name} <br />
                 </h4>
-              </Link>
+              </button>
             </div>
           ))}
       </div>

@@ -9,6 +9,7 @@ import Signup from './components/Signup';
 import Dashboard from './pages/Dashboard';
 import Tutorial from './components/Tutorial';
 // import All from './pages/All';
+import TutorialCategories from './pages/TutorialCategories';
 
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: 'videosearch', element: <VideoSearch /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'tutorial', element: <Tutorial /> },
+      { path: 'categories', element: <TutorialCategories /> },
       // { path: 'all', element: <All /> }
       
     ],
