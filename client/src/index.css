@@ -6,6 +6,7 @@
   font-style: normal;
 }
 
+/* Global Typography Styles */
 .title, h1 {
   font-family: 'Cheerio', Arial, sans-serif;
   background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
@@ -17,30 +18,34 @@
   font-size: 1.4rem;
 }
 
-
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
 
+p {
+  align-items: center;
+}
+
+/* Global Body Styles */
 body {
   display: flex;
   min-height: 100vh;
 }
 
 h1 {
-  font-size: 3.7em;
+  font-size: 4em;
   line-height: 1.1;
 }
 
 header p {
   line-height: 1.2;
 }
-
 
 .my-4 {
   font-family: Arial, Helvetica, sans-serif;
@@ -49,6 +54,11 @@ header p {
 .input-group {
   width: 500px;
   max-width: 200%;
+}
+
+.no-videos-found {
+  color: #776f6f;
+  font-style: italic;
 }
 
 button {
@@ -85,6 +95,7 @@ button:focus-visible {
   }
 }
 
+/* Responsive Design for Global Styles */
 @media (max-width: 767px) {
   .input-group {
     width: 100%;
