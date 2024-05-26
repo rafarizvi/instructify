@@ -95,4 +95,21 @@ export const QUERY_ALL_TUTORIALS = gql`
       }
     }
   }
-`;
+  `
+
+  // adding query to retrieve all comments based on a single tutorial -tb
+  export const QUERY_GET_TUTORIAL_COMMENTS = gql`
+    query GetTutorialComments($tutorialId: ID!) {
+      tutorial(_id: $tutorialId) {
+        _id
+        comments {
+          _id
+          content 
+          author {
+            _id
+            name
+          }
+        }
+      }
+    }
+    `
