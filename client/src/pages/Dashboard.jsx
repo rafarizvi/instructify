@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // adding link to have user redirect to another page
 
 const Dashboard = () => {
   const { loading, data, error, refetch } = useQuery(QUERY_USER_TUTORIALS);
+  const [expandedTutorialId, setExpandedTutorialId] = useState(null);
 
   const [updateTutorial] = useMutation(UPDATE_TUTORIAL, {
     onCompleted: () => window.location.reload(), // Reload the page on completion
@@ -56,6 +57,10 @@ const Dashboard = () => {
     }
   };
 
+  const toggleExpand = tutorialId => {
+    setExpandedTutorialId(expandedTutorialId === tutorialId ? null : tutorialId);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -73,9 +78,14 @@ const Dashboard = () => {
           {data.me.tutorials.map((tutorial) => (
             <div key={tutorial._id} className="tutorial-card">
               <h3 className="tutorial-title">{tutorial.title}</h3>
-              <p className="tutorial-content">{tutorial.content}</p>
+              <p className="tutorial-content">
+                {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 500)}...`}
+              </p>
               <p className="tutorial-category">Category: {tutorial.category?.name || 'No category'}</p>
               <Link to={`/tutorial/${tutorial._id}`} className="btn-view">View</Link>
+              <button onClick={() => toggleExpand(tutorial._id)}>
+                {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
+              </button>
               <button className="btn-edit" onClick={() => setEditFormState({
                 _id: tutorial._id,
                 title: tutorial.title,
