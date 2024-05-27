@@ -1,23 +1,22 @@
 import { useState } from 'react';
-// Import axios to make a GET request to the YouTube API
 import axios from 'axios';
-// Import mutation to save video to tutorial
 import { useMutation } from '@apollo/client'; // Import useMutation
 import { SAVE_VIDEO_TO_TUTORIAL } from '../utils/mutations';
 
-// Setting our constant for the API endpoint
+// setting our constant for the API key
 const YOUTUBE = 'https://www.googleapis.com/youtube/v3/search';
 
 // This function will make a GET request to the YouTube API and return a list of videos matching the search term.
 export async function getVideos(searchTerm) {
   // We will use the API key from our .env file
   const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
-  
-  // Trying to get the data from the API
+  console.log('Using API Key:', apiKey); // Debugging statement to check if API key is being read correctly
+
+  // trying to get the data from the API
   try {
     // We will use the axios library to make a GET request to the YouTube API
     const response = await axios.get(YOUTUBE, {
-      // Setting query parameters
+      // then we set out query parameters
       params: {
         part: 'snippet',
         q: searchTerm,
@@ -28,61 +27,67 @@ export async function getVideos(searchTerm) {
     });
     // We will return the data from the API
     return response.data.items;
+    // If there is an error, we will log it and throw it
   } catch (error) {
     console.error('Error fetching videos from YouTube API:', error);
+    if (error.response && error.response.status === 403) {
+      console.error('Access to YouTube API forbidden. Check your API key and permissions.');
+    }
     throw error;
   }
 }
 
-// Exporting the VideoSearch component to handle the form submission and video display
+// export functions to handle the form submission
 export default function VideoSearch() {
-  // Setting up state variables
+  // We will set up our state variables
   const [searchTerm, setSearchTerm] = useState('');
   const [videos, setVideos] = useState([]);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
   const [error, setError] = useState(null);
 
-  // Setting a function to handle save video using mutation
+  // set a function to handle save video using mutation
   const [saveVideo] = useMutation(SAVE_VIDEO_TO_TUTORIAL, {
     onCompleted: () => alert('Video saved to your tutorials!'),
     onError: (error) => alert('Error saving video: ' + error.message),
   });
 
-  // Event handler for input change
+  // We will set up our event handlers
   const handleInputChange = (event) => {
-    // Setting the search term to the value of the input field
+    // We will set the search term to the value of the input field
     setSearchTerm(event.target.value);
   };
 
-  // Event handler for form submission
+  // setting our prevent default function to stop the form from reloading the page
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     setError(null);
 
-    // Making a GET request to the YouTube API
+    // We will make a GET request to the YouTube API
     try {
-      // Setting the state of the videos to the data returned from the API
+      // We will set the state of the videos to the data returned from the API
       const fetchedVideos = await getVideos(searchTerm);
+      // We will set the state of the videos to the data returned from the API
       setVideos(fetchedVideos);
+      // We will set the state of the selectedVideoId to null
       setSelectedVideoId(null);
     } catch (error) {
       setError('Error fetching videos: ' + error.message);
     }
   };
 
-  // Event handler for video click
+  // This function will handle the video click event
   const handleVideoClick = (videoId) => {
     setSelectedVideoId(videoId);
   };
 
-  // Handling the save button for the video
+  // handling the save button for the video
   const handleSaveVideo = (video) => {
     saveVideo({
       variables: {
         title: video.snippet.title,
         videoId: video.id.videoId,
         thumbnail: video.snippet.thumbnails.default.url,
-        content: 'Default content for the tutorial.', // Ensure content is provided
+        content: 'Default content for the tutorial.',
       },
     });
   };
@@ -113,10 +118,10 @@ export default function VideoSearch() {
                     height="315"
                     src={`https://www.youtube.com/embed/${video.id.videoId}`}
                     frameBorder="0"
-                    // Accelerometer and gyroscope are needed for the video to work on mobile devices
-                    // Autoplay is needed for the video to start playing automatically
-                    // AllowFullScreen is needed for the video to be full screen
-                    // Picture in picture is needed for the video to be in picture in picture mode
+                    // acelerometer and gyroscope are needed for the video to work on mobile devices
+                    // autoplay is needed for the video to start playing automatically
+                    // allowFullScreen is needed for the video to be full screen
+                    // picture in picture is needed for the video to be in picture in picture mode
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     title="Selected Video"
