@@ -237,7 +237,61 @@ const resolvers = {
         }
       }
     },
-  }
+
+    // Mutation to save a video as a tutorial
+    saveVideoToTutorial: async (parent, { title, videoId, thumbnail, content }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in!');
+      }
+
+      try {
+        // Log the incoming parameters
+        console.log('Saving video to tutorial with parameters:', { title, videoId, thumbnail, content });
+
+        // Create the new tutorial
+        const tutorial = await Tutorial.create({
+          title,
+          videoId,
+          thumbnail,
+          content, // Include content here
+          author: context.user._id,
+        });
+
+        // Log the created tutorial
+        console.log('Created tutorial:', tutorial);
+
+        // Update the profile with the new tutorial
+        const updatedProfile = await Profile.findByIdAndUpdate(
+          context.user._id,
+          { $addToSet: { tutorials: tutorial._id } },
+          { new: true }
+        );
+
+        // Log the updated profile
+        console.log('Updated profile:', updatedProfile);
+
+        // Check if the tutorial was successfully created
+        if (!tutorial) {
+          throw new Error('Failed to create tutorial');
+        }
+
+        // Check if the profile was successfully updated
+        if (!updatedProfile) {
+          throw new Error('Failed to update profile with new tutorial');
+        }
+
+        return tutorial;
+      } catch (error) {
+        // Log the error for debugging
+        console.error('Error saving video to tutorial:', error);
+        throw new Error('Error saving video to tutorial');
+      }
+    },
+  },
 };
+
+
+
+
 
 module.exports = resolvers;

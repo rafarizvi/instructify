@@ -1,20 +1,23 @@
 import { useState } from 'react';
-// import axios to make a GET request to the YouTube API
+// Import axios to make a GET request to the YouTube API
 import axios from 'axios';
+// Import mutation to save video to tutorial
+import { useMutation } from '@apollo/client'; // Import useMutation
+import { SAVE_VIDEO_TO_TUTORIAL } from '../utils/mutations';
 
-//seting our constant for the API key
+// Setting our constant for the API endpoint
 const YOUTUBE = 'https://www.googleapis.com/youtube/v3/search';
-
 
 // This function will make a GET request to the YouTube API and return a list of videos matching the search term.
 export async function getVideos(searchTerm) {
-  // We will use the API key from our.env file
+  // We will use the API key from our .env file
   const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
-  //trying to get the data from the API
+  
+  // Trying to get the data from the API
   try {
-  // We will use the axios library to make a GET request to the YouTube API
+    // We will use the axios library to make a GET request to the YouTube API
     const response = await axios.get(YOUTUBE, {
-  // then we set out query parameters
+      // Setting query parameters
       params: {
         part: 'snippet',
         q: searchTerm,
@@ -25,46 +28,63 @@ export async function getVideos(searchTerm) {
     });
     // We will return the data from the API
     return response.data.items;
-    // If there is an error, we will log it and throw it
   } catch (error) {
     console.error('Error fetching videos from YouTube API:', error);
     throw error;
   }
 }
-//export functions to handle the form submission
+
+// Exporting the VideoSearch component to handle the form submission and video display
 export default function VideoSearch() {
-  // We will set up our state variables
+  // Setting up state variables
   const [searchTerm, setSearchTerm] = useState('');
   const [videos, setVideos] = useState([]);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
   const [error, setError] = useState(null);
 
-  // We will set up our event handlers
+  // Setting a function to handle save video using mutation
+  const [saveVideo] = useMutation(SAVE_VIDEO_TO_TUTORIAL, {
+    onCompleted: () => alert('Video saved to your tutorials!'),
+    onError: (error) => alert('Error saving video: ' + error.message),
+  });
+
+  // Event handler for input change
   const handleInputChange = (event) => {
-  // We will set the search term to the value of the input field
+    // Setting the search term to the value of the input field
     setSearchTerm(event.target.value);
   };
-  // setting our prevent default function to stop the form from reloading the page
+
+  // Event handler for form submission
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     setError(null);
 
-    // We will make a GET request to the YouTube API
+    // Making a GET request to the YouTube API
     try {
-      // We will set the state of the videos to the data returned from the API
+      // Setting the state of the videos to the data returned from the API
       const fetchedVideos = await getVideos(searchTerm);
-      // We will set the state of the videos to the data returned from the API
       setVideos(fetchedVideos);
-      // We will set the state of the selectedVideoId to null
-      setSelectedVideoId(null); 
+      setSelectedVideoId(null);
     } catch (error) {
       setError('Error fetching videos: ' + error.message);
     }
   };
 
-  // This function will handle the video click event
+  // Event handler for video click
   const handleVideoClick = (videoId) => {
     setSelectedVideoId(videoId);
+  };
+
+  // Handling the save button for the video
+  const handleSaveVideo = (video) => {
+    saveVideo({
+      variables: {
+        title: video.snippet.title,
+        videoId: video.id.videoId,
+        thumbnail: video.snippet.thumbnails.default.url,
+        content: 'Default content for the tutorial.', // Ensure content is provided
+      },
+    });
   };
 
   return (
@@ -93,10 +113,10 @@ export default function VideoSearch() {
                     height="315"
                     src={`https://www.youtube.com/embed/${video.id.videoId}`}
                     frameBorder="0"
-                    // acelerometer and gyroscope are needed for the video to work on mobile devices
-                    //autoplay is needed for the video to start playing automatically
-                    //allowFullScreen is needed for the video to be full screen
-                    //picture in picture is needed for the video to be in picture in picture mode
+                    // Accelerometer and gyroscope are needed for the video to work on mobile devices
+                    // Autoplay is needed for the video to start playing automatically
+                    // AllowFullScreen is needed for the video to be full screen
+                    // Picture in picture is needed for the video to be in picture in picture mode
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     title="Selected Video"
@@ -105,6 +125,9 @@ export default function VideoSearch() {
                   <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
                 )}
               </div>
+              <button className="btn btn-secondary mt-2" onClick={() => handleSaveVideo(video)}>
+                Save to My Tutorials
+              </button>
             </li>
           ))
         ) : (
@@ -114,4 +137,3 @@ export default function VideoSearch() {
     </div>
   );
 }
-
