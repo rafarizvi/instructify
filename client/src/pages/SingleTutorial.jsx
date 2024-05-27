@@ -73,7 +73,7 @@ const GetTutorial = () => {
 
   // Adding the ability to leave a comment which will show the users name, if there is no name the name 'guest' will be given to whoever write the comment. If the user id matches the user id who wrote the comment, the user will be able to delete the the comment. If the user does not own the comment, the delete button will not show
   return (
-    <div className='text-center'>
+    <div className='text-center singleTutorial'>
       <h1>{title}</h1>
       <p>{content}</p>
       <p>By: {author.name}</p>

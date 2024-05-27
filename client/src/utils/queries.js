@@ -123,20 +123,6 @@ export const QUERY_ALL_TUTORIALS = gql`
   }
 `;
 
-export const UPDATE_TUTORIAL = gql`
-  mutation UpdateTutorial($id: ID!, $category: String!) {
-    updateTutorial(id: $id, category: $category) {
-      _id
-      title
-      content
-      category {
-        _id
-        name
-      }
-    }
-  }
-`;
-
 
   // adding query to retrieve all comments based on a single tutorial -tb
   export const QUERY_GET_TUTORIAL_COMMENTS = gql`
