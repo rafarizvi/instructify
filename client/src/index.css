@@ -25,7 +25,7 @@ body {
 }
 
 /* so the user can leave space in their content field for their tutorial*/
-.tutorial-content {
+.singleTutorial{
   white-space: pre-wrap;
 }
 
@@ -70,6 +70,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
+  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
