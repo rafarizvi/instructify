@@ -9,7 +9,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { 
   Home, 
   Dashboard,
-  SingleTutorial } from './pages';
+  SingleTutorial,
+  All } from './pages';
 
 //importing from components index.js
 import { 
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'tutorial', element: <Tutorial /> },
       { path: 'tutorial/:id', element: <SingleTutorial /> },
-      // { path: 'all', element: <All /> }    
+      { path: 'all', element: <All /> }    
 ],
   },
 ]);
