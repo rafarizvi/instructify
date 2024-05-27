@@ -5,23 +5,27 @@ import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
 import { Link } from 'react-router-dom'; // adding link to have user redirect to another page
 
 const Dashboard = () => {
+  // use apollo to fetch all tutorials by users
   const { loading, data, error, refetch } = useQuery(QUERY_USER_TUTORIALS);
   const [expandedTutorialId, setExpandedTutorialId] = useState(null);
 
+  // use apollo to update an tutorial only by the author
   const [updateTutorial] = useMutation(UPDATE_TUTORIAL, {
     onCompleted: () => window.location.reload(), // Reload the page on completion
   });
+  // using apollo to remove tutorials by the author
   const [removeTutorial] = useMutation(REMOVE_TUTORIAL, {
     onCompleted: () => refetch(),
   });
 
+   // State for handling the edit form
   const [editFormState, setEditFormState] = useState({
     _id: '',
     title: '',
     content: '',
     category: ''
   });
-
+  // Handle change in the edit form inputs
   const handleEditChange = event => {
     const { name, value } = event.target;
     setEditFormState({
@@ -29,7 +33,7 @@ const Dashboard = () => {
       [name]: value
     });
   };
-
+   // Handle submission of the edit form
   const handleEditSubmit = async event => {
     event.preventDefault();
     try {
@@ -46,7 +50,7 @@ const Dashboard = () => {
       console.error(e);
     }
   };
-
+  // Handle deletion of a tutorial
   const handleDelete = async tutorialId => {
     try {
       await removeTutorial({
@@ -60,15 +64,15 @@ const Dashboard = () => {
   const toggleExpand = tutorialId => {
     setExpandedTutorialId(expandedTutorialId === tutorialId ? null : tutorialId);
   };
-
+  // show loading while the data is fetched
   if (loading) {
     return <div>Loading...</div>;
   }
-
+  // show and error message if there is an error
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
+   // Render the dashboard with tutorials
   return (
     <div className="dashboard-container">
       <div className="dashboard-content text-center">

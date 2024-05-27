@@ -8,7 +8,7 @@ function All() {
 
   // Fetch all tutorials
   const { loading, data, error } = useQuery(QUERY_ALL_TUTORIALS);
-
+  
   return (
     <main className="container mt-5 pt-5"> {/* Increased padding-top */}
       <div className="row">
