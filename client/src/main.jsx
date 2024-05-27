@@ -1,32 +1,24 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import Home from './pages/Home';
-import VideoSearch from './components/videoSearch';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Dashboard from './pages/Dashboard';
-import Tutorial from './components/Tutorial';
-// import All from './pages/All';
-import TutorialCategories from './pages/TutorialCategories';
-import ViewTutorial from './pages/ViewTutorial';
-
 import './index.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 //importing from pages index.js
 import { 
   Home, 
   Dashboard,
   SingleTutorial,
-  All } from './pages';
+  All,
+  TutorialCategories,
+  ViewTutorial} from './pages';
 
 //importing from components index.js
 import { 
   VideoSearch, 
   Login, Signup, 
-  Tutorial } from './components';
+  Tutorial, } from './components';
 
 const router = createBrowserRouter([
   {
@@ -40,8 +32,7 @@ const router = createBrowserRouter([
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'tutorial', element: <Tutorial /> },
       { path: 'categories', element: <TutorialCategories /> },
-      { path: '/categories/view-tutorial', element: <ViewTutorial /> }
-
+      { path: '/categories/view-tutorial', element: <ViewTutorial /> },
       { path: 'tutorial/:id', element: <SingleTutorial /> },
       { path: 'all', element: <All /> }    
 ],

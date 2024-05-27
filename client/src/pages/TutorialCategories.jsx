@@ -53,8 +53,6 @@ const TutorialCategories = () => {
     navigate('/categories/view-tutorial', { state: { clickButton: buttonId } });
   };
 
-
-
   return (
     <div>
       {clickButton === 'Tech' &&
@@ -86,21 +84,21 @@ const TutorialCategories = () => {
             {academics &&
               academics.map((academics) => (
                 <div key={academics._id}>
-                  <a><Button className='tutorialBtn'>
+                  <Button className='tutorialBtn'
+                  onClick={() => handleButtonClick(academics._id)}
+                  >
                     <Card style={{ width: '18rem' }} className="tutorialCard">
                       <Card.Img variant="top" className='tutorialImg' />
                       <Card.Body className='tutorialContent'>
                         <Card.Title>{academics.title}</Card.Title>
                       </Card.Body>
                     </Card>
-                  </Button></a>
+                  </Button>
                 </div>
               ))}
           </div>
         </div>
       }
-
-
 
       {clickButton === 'Home' &&
         <div>
@@ -108,20 +106,21 @@ const TutorialCategories = () => {
             {home &&
               home.map((home) => (
                 <div key={home._id}>
-                  <a><Button className='tutorialBtn'>
+                  <Button className='tutorialBtn'
+                  onClick={() => handleButtonClick(home._id)}
+                  >
                     <Card style={{ width: '18rem' }} className="tutorialCard">
                       <Card.Img variant="top" className='tutorialImg' />
                       <Card.Body className='tutorialContent'>
                         <Card.Title>{home.title}</Card.Title>
                       </Card.Body>
                     </Card>
-                  </Button></a>
+                  </Button>
                 </div>
               ))}
           </div>
         </div>
       }
-
 
       {clickButton === 'Arts' &&
         <div>
@@ -129,20 +128,21 @@ const TutorialCategories = () => {
             {arts &&
               arts.map((arts) => (
                 <div key={arts._id}>
-                  <a><Button className='tutorialBtn'>
+                  <Button className='tutorialBtn'
+                  onClick={() => handleButtonClick(arts._id)}
+                  >
                     <Card style={{ width: '18rem' }} className="tutorialCard">
                       <Card.Img variant="top" className='tutorialImg' />
                       <Card.Body className='tutorialContent'>
                         <Card.Title>{arts.title}</Card.Title>
                       </Card.Body>
                     </Card>
-                  </Button></a>
+                  </Button>
                 </div>
               ))}
           </div>
         </div>
       }
-
 
       {clickButton === 'Lifestyle/Hobbies' &&
         <div>
@@ -150,20 +150,21 @@ const TutorialCategories = () => {
             {lifestyleHobbies &&
               lifestyleHobbies.map((lifestyleHobbies) => (
                 <div key={lifestyleHobbies._id}>
-                  <a><Button className='tutorialBtn'>
+                  <Button className='tutorialBtn'
+                  onClick={() => handleButtonClick(lifestyleHobbies._id)}
+                  >
                     <Card style={{ width: '18rem' }} className="tutorialCard">
                       <Card.Img variant="top" className='tutorialImg' />
                       <Card.Body className='tutorialContent'>
                         <Card.Title>{lifestyleHobbies.title}</Card.Title>
                       </Card.Body>
                     </Card>
-                  </Button></a>
+                  </Button>
                 </div>
               ))}
           </div>
         </div>
       }
-
 
       {clickButton === 'Business/Financial' &&
         <div>
@@ -171,14 +172,16 @@ const TutorialCategories = () => {
             {businessFinancial &&
               businessFinancial.map((businessFinancial) => (
                 <div key={businessFinancial._id}>
-                  <a><Button className='tutorialBtn'>
+                  <Button className='tutorialBtn'
+                  onClick={() => handleButtonClick(businessFinancial._id)}
+                  >
                     <Card style={{ width: '18rem' }} className="tutorialCard">
                       <Card.Img variant="top" className='tutorialImg' />
                       <Card.Body className='tutorialContent'>
                         <Card.Title>{businessFinancial.title}</Card.Title>
                       </Card.Body>
                     </Card>
-                  </Button></a>
+                  </Button>
                 </div>
               ))}
           </div>
