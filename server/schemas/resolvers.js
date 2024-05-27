@@ -144,25 +144,27 @@ const resolvers = {
     //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
     //! profileId and profile._id is verified to be working to remove comments
 
-    updateTutorial: async (parent, { _id, title, category, content, author }, context) => {
+    updateTutorial: async (parent, { _id, title, category, content }, context) => {
       if (context.user) {
-        try {
-
-          const categoryDoc = await Category.findOne({ name: category });
-          if (!categoryDoc) {
-            throw new Error('Category not found');
-          }
-
-          const findTutorial = await Tutorial.findById(_id);
-
-          // find tutorial by id and update with new values
-          let update = await Tutorial.findOneAndUpdate({ _id }, { title, categoryDoc, content });
-          return update;
-
-        } catch (error) {
-          throw new AuthenticationError('Not authenticated');
+        // Find the category document by name
+        const categoryDoc = await Category.findOne({ name: category });
+        if (!categoryDoc) {
+          throw new Error('Category not found');
         }
+        // Find and update the tutorial by id with new values
+        const updatedTutorial = await Tutorial.findOneAndUpdate(
+          { _id },
+          {
+            title,
+            category: categoryDoc._id, // Ensure this is the category's ID
+            content
+          },
+          { new: true }  // Return the updated document
+        ).populate('author category'); // Ensure the category field is populated
+
+        return updatedTutorial;
       }
+      throw new AuthenticationError('Not authenticated');
     },
 
 
