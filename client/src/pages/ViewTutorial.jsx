@@ -17,13 +17,13 @@ import Carousel from 'react-bootstrap/Carousel';
 import Card from 'react-bootstrap/Card';
 
 
-import { QUERY_ALL_TUTORIALS } from '../utils/queries';
+import { QUERY_TUTORIALS } from '../utils/queries';
 
 const ViewTutorial = () => {
   const location = useLocation();
   const { clickButton } = location.state || {};
   // const [selectedTutorial, setSelectedTutorial] = useState(null);
-  const { loading, data } = useQuery(QUERY_ALL_TUTORIALS);
+  const { loading, data } = useQuery(QUERY_TUTORIALS);
   const tutorials = data?.tutorials || [];
 
 
@@ -72,13 +72,25 @@ const ViewTutorial = () => {
 
               <Card className='tutorialCard'>
                 <Card.Body>
-                  <h2 style={{'fontWeight': 'bold'}}>{clickedTutorial.title}</h2>
-                  {/* <h6 style={{'fontStyle': 'italic'}}></h6> */}
+                  <h2 style={{ 'fontWeight':'bold'}}>{clickedTutorial.title}</h2>
                   <h5>By {clickedTutorial.author.name}</h5>
                   <span className="badge text-bg-info">{clickedTutorial.category.name}</span>
-                  <div style={{'paddingTop':'5%'}}>
-                  <p>{clickedTutorial.content} Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora neque quam aliquam maxime atque officiis vel. Hic deleniti quibusdam culpa quidem velit sapiente, error aliquam asperiores inventore ducimus eum non!</p>
+                  <div style={{ 'paddingTop': '5%' }}>
+                    <p style={{'fontSize':'18px'}}>{clickedTutorial.content} Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora neque quam aliquam maxime atque officiis vel. Hic deleniti quibusdam culpa quidem velit sapiente, error aliquam asperiores inventore ducimus eum non!</p>
                   </div>
+
+                  <div className='commentDiv'>
+                    <h4 style={{'fontWeight':'bold', 'paddingBottom': '10px'}}>Comments</h4>
+                    {clickedTutorial.comments.map((comments) => (
+                      <div key={comments._id}>
+                        <span className="badge text-bg-secondary">{comments.author.name}</span>
+                        <p>{comments.content}</p>
+                      </div>
+
+                    ))}
+                  </div>
+
+
                 </Card.Body>
               </Card>
 

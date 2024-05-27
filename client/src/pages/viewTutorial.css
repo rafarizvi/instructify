@@ -11,11 +11,14 @@
   /* text-align: center; */
 }
 
-.tutorialCard h6 {
-  /* width: 50%; */
-  border: solid 2px blue;
+.commentDiv {
+  border: solid 2px rgb(106, 106, 106);
+  border-radius: 10px;
+  margin-top: 10%;
+  padding: 3%;
 }
 
-.test{
-  'font-weight': 'bold';
+.commentDiv p {
+  border-bottom: solid 1px rgb(134, 134, 134);
+  padding-bottom: 1%;
 }
