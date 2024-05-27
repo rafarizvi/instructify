@@ -22,7 +22,6 @@ import { QUERY_TUTORIALS } from '../utils/queries';
 const ViewTutorial = () => {
   const location = useLocation();
   const { clickButton } = location.state || {};
-  // const [selectedTutorial, setSelectedTutorial] = useState(null);
   const { loading, data } = useQuery(QUERY_TUTORIALS);
   const tutorials = data?.tutorials || [];
 
@@ -30,7 +29,6 @@ const ViewTutorial = () => {
   const clickedTutorial = [];
   tutorials.map((tutorial) => {
     if (tutorial._id === clickButton) {
-      console.log(tutorial);
       clickedTutorial.push(tutorial);
     }
   });
@@ -64,7 +62,6 @@ const ViewTutorial = () => {
         </Carousel.Item>
       </Carousel>
 
-      {/* Card to display tutorial */}
       <div className='tutorialDiv'>
         {clickedTutorial &&
           clickedTutorial.map((clickedTutorial) => (
@@ -86,11 +83,8 @@ const ViewTutorial = () => {
                         <span className="badge text-bg-secondary">{comments.author.name}</span>
                         <p>{comments.content}</p>
                       </div>
-
                     ))}
                   </div>
-
-
                 </Card.Body>
               </Card>
 
