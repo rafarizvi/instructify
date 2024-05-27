@@ -98,7 +98,7 @@ const resolvers = {
           // Find the category by name
           const categoryDoc = await Category.findOne({ name: category });
           if (!categoryDoc) {
-            throw new Error('Category not found');
+            throw new Error('You need to add a category.');
           }
 
           // Create the new tutorial
@@ -146,27 +146,26 @@ const resolvers = {
 
     updateTutorial: async (parent, { _id, title, category, content }, context) => {
       if (context.user) {
-        // Find the category document by name
-        const categoryDoc = await Category.findOne({ name: category });
-        if (!categoryDoc) {
-          throw new Error('Category not found');
+        try {
+          const categoryDoc = await Category.findOne({ name: category });
+          if (!categoryDoc) {
+            throw new Error('Category not found');
+          }
+    
+          const updatedTutorial = await Tutorial.findByIdAndUpdate(
+            _id,
+            { title, content, category: categoryDoc._id },
+            { new: true }
+          ).populate('category');
+    
+          return updatedTutorial;
+        } catch (error) {
+          console.error('Update tutorial error:', error);
+          throw new AuthenticationError('Not authenticated');
         }
-        // Find and update the tutorial by id with new values
-        const updatedTutorial = await Tutorial.findOneAndUpdate(
-          { _id },
-          {
-            title,
-            category: categoryDoc._id, // Ensure this is the category's ID
-            content
-          },
-          { new: true }  // Return the updated document
-        ).populate('author category'); // Ensure the category field is populated
-
-        return updatedTutorial;
       }
-      throw new AuthenticationError('Not authenticated');
     },
-
+    
 
     // added profileId and removed context.user from code. Removed finding tutorial by id and instead replaced it with creating a comment and then finding and updating the tutorial. Then returning the mutation with the populated data
     addComment: async (parent, { profileId, tutorialId, content }, context) => {
@@ -237,7 +236,61 @@ const resolvers = {
         }
       }
     },
-  }
+
+    // Mutation to save a video as a tutorial
+    saveVideoToTutorial: async (parent, { title, videoId, thumbnail, content }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in!');
+      }
+
+      try {
+        // Log the incoming parameters
+        console.log('Saving video to tutorial with parameters:', { title, videoId, thumbnail, content });
+
+        // Create the new tutorial
+        const tutorial = await Tutorial.create({
+          title,
+          videoId,
+          thumbnail,
+          content, // Include content here
+          author: context.user._id,
+        });
+
+        // Log the created tutorial
+        console.log('Created tutorial:', tutorial);
+
+        // Update the profile with the new tutorial
+        const updatedProfile = await Profile.findByIdAndUpdate(
+          context.user._id,
+          { $addToSet: { tutorials: tutorial._id } },
+          { new: true }
+        );
+
+        // Log the updated profile
+        console.log('Updated profile:', updatedProfile);
+
+        // Check if the tutorial was successfully created
+        if (!tutorial) {
+          throw new Error('Failed to create tutorial');
+        }
+
+        // Check if the profile was successfully updated
+        if (!updatedProfile) {
+          throw new Error('Failed to update profile with new tutorial');
+        }
+
+        return tutorial;
+      } catch (error) {
+        // Log the error for debugging
+        console.error('Error saving video to tutorial:', error);
+        throw new Error('Error saving video to tutorial');
+      }
+    },
+  },
 };
+
+
+
+
 
 module.exports = resolvers;

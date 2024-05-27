@@ -4,15 +4,25 @@ import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
 import { Link } from 'react-router-dom'; // adding link to have user redirect to another page
 
+// addding categories that can be used via dropdown for user
+const categoryList = [
+  'Tech',
+  'Academics',
+  'Home',
+  'Arts',
+  'Lifestyle/Hobbies',
+  'Business/Financial',
+];
+
 const Dashboard = () => {
   const { loading, data, error, refetch } = useQuery(QUERY_USER_TUTORIALS);
-  const [expandedTutorialId, setExpandedTutorialId] = useState(null);
-
   const [updateTutorial] = useMutation(UPDATE_TUTORIAL, {
-    onCompleted: () => window.location.reload(), // Reload the page on completion
+    onCompleted: () => refetch(),
+    onError: (error) => console.error('Update Tutorial Error:', error),
   });
   const [removeTutorial] = useMutation(REMOVE_TUTORIAL, {
     onCompleted: () => refetch(),
+    onError: (error) => console.error('Remove Tutorial Error:', error),
   });
 
   const [editFormState, setEditFormState] = useState({
@@ -22,7 +32,9 @@ const Dashboard = () => {
     category: ''
   });
 
-  const handleEditChange = event => {
+  const [expandedTutorialId, setExpandedTutorialId] = useState(null);
+
+  const handleEditChange = (event) => {
     const { name, value } = event.target;
     setEditFormState({
       ...editFormState,
@@ -30,34 +42,35 @@ const Dashboard = () => {
     });
   };
 
-  const handleEditSubmit = async event => {
+  const handleEditSubmit = async (event) => {
     event.preventDefault();
+    console.log('Submitting edit form with state:', editFormState);
     try {
       await updateTutorial({
         variables: {
           id: editFormState._id,
           title: editFormState.title,
           content: editFormState.content,
-          category: editFormState.category
-        }
+          category: editFormState.category,
+        },
       });
       setEditFormState({ _id: '', title: '', content: '', category: '' });
     } catch (e) {
-      console.error(e);
+      console.error('Error during mutation:', e);
     }
   };
 
-  const handleDelete = async tutorialId => {
+  const handleDelete = async (tutorialId) => {
     try {
       await removeTutorial({
         variables: { id: tutorialId }
       });
     } catch (e) {
-      console.error(e);
+      console.error('Error during mutation:', e);
     }
   };
 
-  const toggleExpand = tutorialId => {
+  const toggleExpand = (tutorialId) => {
     setExpandedTutorialId(expandedTutorialId === tutorialId ? null : tutorialId);
   };
 
@@ -78,19 +91,19 @@ const Dashboard = () => {
           {data.me.tutorials.map((tutorial) => (
             <div key={tutorial._id} className="tutorial-card">
               <h3 className="tutorial-title">{tutorial.title}</h3>
-              <p className="tutorial-content">
-                {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 500)}...`}
-              </p>
+              <div className="tutorial-content" style={{ whiteSpace: 'pre-wrap' }}>
+                {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 100)}...`}
+              </div>
               <p className="tutorial-category">Category: {tutorial.category?.name || 'No category'}</p>
-              <Link to={`/tutorial/${tutorial._id}`} className="btn-view">View</Link>
               <button onClick={() => toggleExpand(tutorial._id)}>
                 {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
               </button>
+              <Link to={`/tutorial/${tutorial._id}`} className="btn-view">View</Link>
               <button className="btn-edit" onClick={() => setEditFormState({
                 _id: tutorial._id,
                 title: tutorial.title,
                 content: tutorial.content,
-                category: tutorial.category ? tutorial.category.name : ''
+                category: tutorial.category.name
               })}>
                 Edit
               </button>
@@ -110,7 +123,6 @@ const Dashboard = () => {
                       type="text"
                       value={editFormState.title}
                       onChange={handleEditChange}
-                      required
                     />
                   </div>
                   <div className="form-group">
@@ -123,21 +135,24 @@ const Dashboard = () => {
                       rows="10"
                       value={editFormState.content}
                       onChange={handleEditChange}
-                      required
                     />
                   </div>
                   <div className="form-group">
                     <label htmlFor="category">Category</label>
-                    <input
+                    <select
                       className="form-control"
                       id="category"
-                      placeholder="Category"
                       name="category"
-                      type="text"
                       value={editFormState.category}
                       onChange={handleEditChange}
-                      required
-                    />
+                    >
+                      <option value="">Select a category</option>
+                      {categoryList.map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <button className="btn-submit" type="submit">
                     Update Tutorial

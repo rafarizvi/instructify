@@ -9,8 +9,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { 
   Home, 
   Dashboard,
-  All,
-  SingleTutorial } from './pages';
+  SingleTutorial,
+  All } from './pages';
 
 //importing from components index.js
 import { 
@@ -42,4 +42,3 @@ root.render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-
