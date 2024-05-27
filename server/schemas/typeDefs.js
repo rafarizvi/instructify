@@ -52,7 +52,7 @@ const typeDefs = `#graphql
     login(email: String!, password: String!): Auth
     addTutorial(title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
-    updateTutorial(_id: ID!, title: String, content: String, category: String, author: String): Tutorial
+    updateTutorial(_id: ID!, title: String, content: String, category: String): Tutorial
     # added profile ID to comments
     addComment(profileId: ID!, tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment

@@ -98,7 +98,7 @@ const resolvers = {
           // Find the category by name
           const categoryDoc = await Category.findOne({ name: category });
           if (!categoryDoc) {
-            throw new Error('Category not found');
+            throw new Error('You need to add a category.');
           }
 
           // Create the new tutorial
@@ -144,27 +144,28 @@ const resolvers = {
     //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
     //! profileId and profile._id is verified to be working to remove comments
 
-    updateTutorial: async (parent, { _id, title, category, content, author }, context) => {
+    updateTutorial: async (parent, { _id, title, category, content }, context) => {
       if (context.user) {
         try {
-
           const categoryDoc = await Category.findOne({ name: category });
           if (!categoryDoc) {
             throw new Error('Category not found');
           }
-
-          const findTutorial = await Tutorial.findById(_id);
-
-          // find tutorial by id and update with new values
-          let update = await Tutorial.findOneAndUpdate({ _id }, { title, categoryDoc, content });
-          return update;
-
+    
+          const updatedTutorial = await Tutorial.findByIdAndUpdate(
+            _id,
+            { title, content, category: categoryDoc._id },
+            { new: true }
+          ).populate('category');
+    
+          return updatedTutorial;
         } catch (error) {
+          console.error('Update tutorial error:', error);
           throw new AuthenticationError('Not authenticated');
         }
       }
     },
-
+    
 
     // added profileId and removed context.user from code. Removed finding tutorial by id and instead replaced it with creating a comment and then finding and updating the tutorial. Then returning the mutation with the populated data
     addComment: async (parent, { profileId, tutorialId, content }, context) => {
