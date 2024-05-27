@@ -24,6 +24,11 @@ body {
   font-size: 1.4rem;
 }
 
+/* so the user can leave space in their content field for their tutorial*/
+.singleTutorial{
+  white-space: pre-wrap;
+}
+
 
 a {
   font-weight: 500;

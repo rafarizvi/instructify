@@ -1,4 +1,3 @@
-// client/src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,7 +8,6 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-
     const userLoggedIn = Auth.loggedIn(); 
     setIsLoggedIn(userLoggedIn);
   }, []);
@@ -47,8 +45,8 @@ const Navbar = () => {
               <Link className="nav-link" to="/videoSearch">Search Videos</Link>
             </li>
           </ul>
-          <ul className="navbar-nav ml-auto auth-buttons">
-          {!isLoggedIn ? (
+          <ul className="navbar-nav ml-auto auth-button">
+            {!isLoggedIn ? (
               <>
                 <li className="nav-item">
                   <Link className="btn btn-secondary nav-link" to="/login">Login</Link>
@@ -59,14 +57,14 @@ const Navbar = () => {
               </>
             ) : (
               <>
-              <li className="nav-item">
-              <Link className="btn btn-secondary nav-link" to="/tutorial">Tutorial</Link>
+                <li className="nav-item">
+                  <Link className="btn btn-secondary nav-link" to="/tutorial">Create Tutorial</Link>
                 </li>
-              <li className="nav-item">
-                <button className="btn btn-secondary nav-link" onClick={handleLogout}>Logout</button>
-              </li>
-              <li className="nav-item">
-                <Link className="btn btn-secondary nav-link" to="/dashboard">Dasboard</Link>
+                <li className="nav-item">
+                  <Link className="btn btn-secondary nav-link" to="/dashboard">Dashboard</Link>
+                </li>
+                <li className="nav-item">
+                  <button className="btn btn-secondary nav-link" onClick={handleLogout}>Logout</button>
                 </li>
               </>
             )}
@@ -78,4 +76,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

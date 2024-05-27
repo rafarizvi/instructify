@@ -1,4 +1,3 @@
-// client/src/main.jsx
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
@@ -15,6 +14,20 @@ import ViewTutorial from './pages/ViewTutorial';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+
+//importing from pages index.js
+import { 
+  Home, 
+  Dashboard,
+  SingleTutorial,
+  All } from './pages';
+
+//importing from components index.js
+import { 
+  VideoSearch, 
+  Login, Signup, 
+  Tutorial } from './components';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -29,9 +42,9 @@ const router = createBrowserRouter([
       { path: 'categories', element: <TutorialCategories /> },
       { path: '/categories/view-tutorial', element: <ViewTutorial /> }
 
-      // { path: 'all', element: <All /> }
-      
-    ],
+      { path: 'tutorial/:id', element: <SingleTutorial /> },
+      { path: 'all', element: <All /> }    
+],
   },
 ]);
 
