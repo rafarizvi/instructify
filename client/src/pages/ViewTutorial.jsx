@@ -5,44 +5,39 @@
 // if true. render
 
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
-import '../pages/tutorialCategories.css'
+import '../pages/viewTutorial.css'
 
 // React bootsrap imports
 import Carousel from 'react-bootstrap/Carousel';
 // import ExampleCarouselImage from 'components/ExampleCarouselImage';
 import Card from 'react-bootstrap/Card';
-import '../pages/viewTutorial.css'
+
 
 import { QUERY_ALL_TUTORIALS } from '../utils/queries';
 
 const ViewTutorial = () => {
   const location = useLocation();
   const { clickButton } = location.state || {};
-  const [selectedTutorial, setSelectedTutorial] = useState(null);
+  // const [selectedTutorial, setSelectedTutorial] = useState(null);
   const { loading, data } = useQuery(QUERY_ALL_TUTORIALS);
   const tutorials = data?.tutorials || [];
 
-  
-  useEffect(() => {
-    if (clickButton && tutorials.length > 0) {
-      const findTutorial = async () => {
-        const tutorial = tutorials.find(tutorial => tutorial._id === clickButton);
-        if (tutorial) {
-          setSelectedTutorial(tutorial);
-        }
-      };
-      findTutorial();
-    }
-  }, [clickButton, tutorials]);
 
+  const clickedTutorial = [];
+  tutorials.map((tutorial) => {
+    if (tutorial._id === clickButton) {
+      console.log(tutorial);
+      clickedTutorial.push(tutorial);
+    }
+  });
 
   return (
     <>
-    {/* Image carousel of added */}
+      {/* Image carousel of added */}
       <Carousel>
         <Carousel.Item>
           {/* <ExampleCarouselImage text="First slide" /> */}
@@ -69,13 +64,28 @@ const ViewTutorial = () => {
         </Carousel.Item>
       </Carousel>
 
-    {/* Card to display tutorial */}
-      <Card style={{ width: '18rem' }}>
-        <Card.Body>
-          <Card.Title>{selectedTutorial.title}</Card.Title>
-          <Card.Text>{selectedTutorial.title}</Card.Text>
-        </Card.Body>
-      </Card>
+      {/* Card to display tutorial */}
+      <div className='tutorialDiv'>
+        {clickedTutorial &&
+          clickedTutorial.map((clickedTutorial) => (
+            <div key={clickedTutorial._id}>
+
+              <Card className='tutorialCard'>
+                <Card.Body>
+                  <h2 style={{'fontWeight': 'bold'}}>{clickedTutorial.title}</h2>
+                  {/* <h6 style={{'fontStyle': 'italic'}}></h6> */}
+                  <h5>By {clickedTutorial.author.name}</h5>
+                  <span className="badge text-bg-info">{clickedTutorial.category.name}</span>
+                  <div style={{'paddingTop':'5%'}}>
+                  <p>{clickedTutorial.content} Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora neque quam aliquam maxime atque officiis vel. Hic deleniti quibusdam culpa quidem velit sapiente, error aliquam asperiores inventore ducimus eum non!</p>
+                  </div>
+                </Card.Body>
+              </Card>
+
+            </div>
+          ))}
+      </div>
+
     </>
   );
 };

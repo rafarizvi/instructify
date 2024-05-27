@@ -6,7 +6,6 @@ import './Categories.css';
 const CategoryList = ({ categories, title, all }) => {
 
 
-
   const navigate = useNavigate();
   const handleButtonClick = (buttonName) => {
     navigate('/categories', { state: { clickButton: buttonName } });

@@ -1,0 +1,21 @@
+.tutorialDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+}
+
+.tutorialCard {
+  display: flex;
+  flex-wrap: wrap;
+  /* text-align: center; */
+}
+
+.tutorialCard h6 {
+  /* width: 50%; */
+  border: solid 2px blue;
+}
+
+.test{
+  'font-weight': 'bold';
+}
