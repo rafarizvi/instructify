@@ -1,17 +1,24 @@
-// client/src/main.jsx
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import Home from './pages/Home';
-import VideoSearch from './components/videoSearch';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Dashboard from './pages/Dashboard';
-import Tutorial from './components/Tutorial';
-// import All from './pages/All';
-
 import './index.css';
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+//importing from pages index.js
+import { 
+  Home, 
+  Dashboard,
+  SingleTutorial,
+  All,
+  TutorialCategories,
+  ViewTutorial} from './pages';
+
+//importing from components index.js
+import { 
+  VideoSearch, 
+  Login, Signup, 
+  Tutorial, } from './components';
 
 const router = createBrowserRouter([
   {
@@ -24,9 +31,11 @@ const router = createBrowserRouter([
       { path: 'videosearch', element: <VideoSearch /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'tutorial', element: <Tutorial /> },
-      // { path: 'all', element: <All /> }
-      
-    ],
+      { path: 'categories', element: <TutorialCategories /> },
+      { path: '/categories/view-tutorial', element: <ViewTutorial /> },
+      { path: 'tutorial/:id', element: <SingleTutorial /> },
+      { path: 'all', element: <All /> }    
+],
   },
 ]);
 

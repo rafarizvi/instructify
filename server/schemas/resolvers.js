@@ -2,7 +2,6 @@ const { Profile, Category, Tutorial, Comment } = require('../models');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 
-
 const resolvers = {
   Query: {
     profiles: async () => {
@@ -23,7 +22,10 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
-
+    // added query for locating single tutorial by its id and populating author, category and comments associated with it -tb
+    tutorial: async (parent, { _id }) => {
+      return Tutorial.findById(_id).populate('author category comments');
+    },
 
     tutorials: async () => {
       return Tutorial.find({}).populate('author category comments');
@@ -72,7 +74,6 @@ const resolvers = {
 
       return { token, profile };
     },
-
     login: async (parent, { email, password }) => {
       const profile = await Profile.findOne({ email });
 
@@ -97,7 +98,7 @@ const resolvers = {
           // Find the category by name
           const categoryDoc = await Category.findOne({ name: category });
           if (!categoryDoc) {
-            throw new Error('Category not found');
+            throw new Error('You need to add a category.');
           }
 
           // Create the new tutorial
@@ -143,45 +144,42 @@ const resolvers = {
     //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
     //! profileId and profile._id is verified to be working to remove comments
 
-    updateTutorial: async (parent, { _id, title, category, content, author }, context) => {
+    updateTutorial: async (parent, { _id, title, category, content }, context) => {
       if (context.user) {
         try {
-
           const categoryDoc = await Category.findOne({ name: category });
           if (!categoryDoc) {
             throw new Error('Category not found');
           }
-
-          const findTutorial = await Tutorial.findById(_id);
-
-          // find tutorial by id and update with new values
-          let update = await Tutorial.findOneAndUpdate({ _id }, { title, categoryDoc, content });
-          return update;
-
+    
+          const updatedTutorial = await Tutorial.findByIdAndUpdate(
+            _id,
+            { title, content, category: categoryDoc._id },
+            { new: true }
+          ).populate('category');
+    
+          return updatedTutorial;
         } catch (error) {
+          console.error('Update tutorial error:', error);
           throw new AuthenticationError('Not authenticated');
         }
       }
     },
+    
 
-    //! If remove mutation does not work, please remove "context" throughout the code and use "profileId" instead. Instead of context.user.id, use profile._id as well  -tb
-    //! profileId and profile._id is verified to be working to remove comments
-
-    addComment: async (parent, { tutorialId, content }, context) => {
+    // added profileId and removed context.user from code. Removed finding tutorial by id and instead replaced it with creating a comment and then finding and updating the tutorial. Then returning the mutation with the populated data
+    addComment: async (parent, { profileId, tutorialId, content }, context) => {
       if (context.user) {
       try {
-        const findTutorial = await Tutorial.findById(tutorialId);
 
         const addComment = await Comment.create({
           content,
-          author: context.user.id,
-          // author: profileId._id,
+          author: profileId,
           tutorial: tutorialId
         })
 
         const updateProfile = await Profile.findByIdAndUpdate(
-          context.user.id,
-          // profileId._id,
+          profileId._id,
           { $addToSet: { comments: addComment._id } },
           { new: true, runValidators: true }
         )
@@ -191,7 +189,7 @@ const resolvers = {
           { $addToSet: { comments: addComment._id } },
           { new: true, runValidators: true })
 
-        return Comment.findById(addComment._id).populate('author tutorial');
+        return addComment.populate('author tutorial');
         } catch (error) {
           throw new AuthenticationError('Not authenticated');
         }
@@ -238,7 +236,61 @@ const resolvers = {
         }
       }
     },
-  }
+
+    // Mutation to save a video as a tutorial
+    saveVideoToTutorial: async (parent, { title, videoId, thumbnail, content }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in!');
+      }
+
+      try {
+        // Log the incoming parameters
+        console.log('Saving video to tutorial with parameters:', { title, videoId, thumbnail, content });
+
+        // Create the new tutorial
+        const tutorial = await Tutorial.create({
+          title,
+          videoId,
+          thumbnail,
+          content, // Include content here
+          author: context.user._id,
+        });
+
+        // Log the created tutorial
+        console.log('Created tutorial:', tutorial);
+
+        // Update the profile with the new tutorial
+        const updatedProfile = await Profile.findByIdAndUpdate(
+          context.user._id,
+          { $addToSet: { tutorials: tutorial._id } },
+          { new: true }
+        );
+
+        // Log the updated profile
+        console.log('Updated profile:', updatedProfile);
+
+        // Check if the tutorial was successfully created
+        if (!tutorial) {
+          throw new Error('Failed to create tutorial');
+        }
+
+        // Check if the profile was successfully updated
+        if (!updatedProfile) {
+          throw new Error('Failed to update profile with new tutorial');
+        }
+
+        return tutorial;
+      } catch (error) {
+        // Log the error for debugging
+        console.error('Error saving video to tutorial:', error);
+        throw new Error('Error saving video to tutorial');
+      }
+    },
+  },
 };
+
+
+
+
 
 module.exports = resolvers;

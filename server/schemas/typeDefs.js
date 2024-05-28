@@ -13,6 +13,8 @@ const typeDefs = `#graphql
     _id: ID!
     title: String!
     content: String!
+    videoId: String!
+    thumbnail: String!
     author: Profile!
     category: Category!
     comments: [Comment!]
@@ -27,7 +29,8 @@ const typeDefs = `#graphql
   type Comment {
     _id: ID!
     content: String!
-    author: Profile!
+    #had to make profile nullable due to issues. Will add back -tb
+    author: Profile
     tutorial: Tutorial
   }
 
@@ -36,6 +39,7 @@ const typeDefs = `#graphql
     profile(_id: String): Profile
     me: Profile
     tutorials: [Tutorial!]
+    tutorial(_id: ID!): Tutorial
     categories: [Category!]
     comments: [Comment!]
   }
@@ -50,10 +54,12 @@ const typeDefs = `#graphql
     login(email: String!, password: String!): Auth
     addTutorial(title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
-    updateTutorial(_id: ID!, title: String, content: String, category: String, author: String): Tutorial
-    addComment(tutorialId: ID!, content: String!): Comment
+    updateTutorial(_id: ID!, title: String, content: String, category: String): Tutorial
+    # added profile ID to comments
+    addComment(profileId: ID!, tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
     updateComment(_id: ID!, content: String): Comment
+    saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String! content: String!): Tutorial
   }
 `;
 

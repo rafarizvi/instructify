@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import '../App.css';
 import '../index.css';
-// import axios to make a GET request to the YouTube API
 import axios from 'axios';
+import { useMutation } from '@apollo/client'; // Import useMutation
+import { SAVE_VIDEO_TO_TUTORIAL } from '../utils/mutations';
 
+// setting our constant for the API key
 // setting our constant for the API key
 const YOUTUBE = 'https://www.googleapis.com/youtube/v3/search';
 
@@ -14,7 +16,9 @@ export async function getVideos(searchTerm) {
   // trying to get the data from the API
   try {
     // We will use the axios library to make a GET request to the YouTube API
+    // We will use the axios library to make a GET request to the YouTube API
     const response = await axios.get(YOUTUBE, {
+      // then we set out query parameters
       // then we set out query parameters
       params: {
         part: 'snippet',
@@ -29,6 +33,9 @@ export async function getVideos(searchTerm) {
     // If there is an error, we will log it and throw it
   } catch (error) {
     console.error('Error fetching videos from YouTube API:', error);
+    if (error.response && error.response.status === 403) {
+      console.error('Access to YouTube API forbidden. Check your API key and permissions.');
+    }
     throw error;
   }
 }
@@ -40,6 +47,12 @@ export default function VideoSearch() {
   const [videos, setVideos] = useState([]);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
   const [error, setError] = useState(null);
+
+  // set a function to handle save video using mutation
+  const [saveVideo] = useMutation(SAVE_VIDEO_TO_TUTORIAL, {
+    onCompleted: () => alert('Video saved to your tutorials!'),
+    onError: (error) => alert('Error saving video: ' + error.message),
+  });
 
   // We will set up our event handlers
   const handleInputChange = (event) => {
@@ -58,7 +71,7 @@ export default function VideoSearch() {
       const fetchedVideos = await getVideos(term);
       setVideos(fetchedVideos);
       // We will set the state of the selectedVideoId to null
-      setSelectedVideoId(null); 
+      setSelectedVideoId(null);
     } catch (error) {
       setError('Error fetching videos: ' + error.message);
     }
@@ -67,6 +80,18 @@ export default function VideoSearch() {
   // This function will handle the video click event
   const handleVideoClick = (videoId) => {
     setSelectedVideoId(videoId);
+  };
+
+  // handling the save button for the video
+  const handleSaveVideo = (video) => {
+    saveVideo({
+      variables: {
+        title: video.snippet.title,
+        videoId: video.id.videoId,
+        thumbnail: video.snippet.thumbnails.default.url,
+        content: 'Default content for the tutorial.',
+      },
+    });
   };
 
   return (
@@ -108,6 +133,9 @@ export default function VideoSearch() {
                   <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
                 )}
               </div>
+              <button className="btn btn-secondary mt-2" onClick={() => handleSaveVideo(video)}>
+                Save to My Tutorials
+              </button>
             </li>
           ))
         ) : (
@@ -117,4 +145,3 @@ export default function VideoSearch() {
     </div>
   );
 }
-
