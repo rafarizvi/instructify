@@ -7,18 +7,22 @@
     "start": "node server/server.js",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
     "install": "cd server && npm i && cd ../client && npm i",
-    "build": "cd client && npm run build",
+    "build": "vite build",
     "seed": "cd server && npm run seed",
-    "render-build": "npm install && npm run build"
+    "render-build": "npm install && npm run build",
+    "dev": "vite",
+    "serve": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "vite": "^5.2.11"
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
+    "@apollo/server": "^4.10.4",
     "apollo-server": "^3.13.0",
     "apollo-server-caching": "^3.3.0",
     "apollo-server-express": "^3.13.0",
@@ -33,6 +37,7 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "prop-types": "^15.8.1",
+    "react-bootstrap": "^2.10.2",
     "react-router-dom": "^6.23.1"
   }
 }
