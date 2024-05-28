@@ -17,6 +17,7 @@ export const QUERY_TUTORIALS = gql`
       }
       comments {
         content
+          _id
         author {
           name
           _id
@@ -96,8 +97,8 @@ export const QUERY_ALL_TUTORIALS = gql`
     }
   }
   `
-  // Pulling all info for a single tutorial, including the comments + category
-  export const QUERY_GET_TUTORIAL_DETAILS = gql`
+// Pulling all info for a single tutorial, including the comments + category
+export const QUERY_GET_TUTORIAL_DETAILS = gql`
   query GetSingleTutorial($tutorialId: ID!) {
     tutorial(_id: $tutorialId) {
       _id
@@ -124,8 +125,8 @@ export const QUERY_ALL_TUTORIALS = gql`
 `;
 
 
-  // adding query to retrieve all comments based on a single tutorial -tb
-  export const QUERY_GET_TUTORIAL_COMMENTS = gql`
+// adding query to retrieve all comments based on a single tutorial -tb
+export const QUERY_GET_TUTORIAL_COMMENTS = gql`
     query GetTutorialComments($tutorialId: ID!) {
       tutorial(_id: $tutorialId) {
         _id
