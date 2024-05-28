@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import '../App.css';
+import '../index.css';
 import axios from 'axios';
 import { useMutation } from '@apollo/client'; // Import useMutation
 import { SAVE_VIDEO_TO_TUTORIAL } from '../utils/mutations';
 
+// setting our constant for the API key
 // setting our constant for the API key
 const YOUTUBE = 'https://www.googleapis.com/youtube/v3/search';
 
@@ -10,16 +13,16 @@ const YOUTUBE = 'https://www.googleapis.com/youtube/v3/search';
 export async function getVideos(searchTerm) {
   // We will use the API key from our .env file
   const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
-  console.log('Using API Key:', apiKey); // Debugging statement to check if API key is being read correctly
-
   // trying to get the data from the API
   try {
     // We will use the axios library to make a GET request to the YouTube API
+    // We will use the axios library to make a GET request to the YouTube API
     const response = await axios.get(YOUTUBE, {
+      // then we set out query parameters
       // then we set out query parameters
       params: {
         part: 'snippet',
-        q: searchTerm,
+        q: 'How to ' + searchTerm,
         type: 'video',
         maxResults: 10,
         key: apiKey,
@@ -61,12 +64,11 @@ export default function VideoSearch() {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     setError(null);
-
+    const term = searchTerm.trim() === '' ? 'search for videos' : searchTerm;
     // We will make a GET request to the YouTube API
     try {
       // We will set the state of the videos to the data returned from the API
-      const fetchedVideos = await getVideos(searchTerm);
-      // We will set the state of the videos to the data returned from the API
+      const fetchedVideos = await getVideos(term);
       setVideos(fetchedVideos);
       // We will set the state of the selectedVideoId to null
       setSelectedVideoId(null);
@@ -93,17 +95,18 @@ export default function VideoSearch() {
   };
 
   return (
-    <div>
-      <h2>Video Search Page</h2>
-      <form onSubmit={handleFormSubmit}>
+    <div className="video-search-container">
+      <h2 className="video-search-title">Video Search Page</h2>
+      <form onSubmit={handleFormSubmit} className="search-bar">
+        <div className="search-prefix">How to</div>
         <input
           type="text"
-          placeholder="Search for videos"
+          placeholder="search for videos"
           value={searchTerm}
           onChange={handleInputChange}
-          className="form-control mb-2"
+          className="search-input"
         />
-        <button type="submit" className="btn btn-primary">Search</button>
+        <button type="submit" className="search-button">Search</button>
       </form>
       {error && <div className="alert alert-danger mt-2">{error}</div>}
       <ul className="mt-3">
@@ -118,7 +121,7 @@ export default function VideoSearch() {
                     height="315"
                     src={`https://www.youtube.com/embed/${video.id.videoId}`}
                     frameBorder="0"
-                    // acelerometer and gyroscope are needed for the video to work on mobile devices
+                    // accelerometer and gyroscope are needed for the video to work on mobile devices
                     // autoplay is needed for the video to start playing automatically
                     // allowFullScreen is needed for the video to be full screen
                     // picture in picture is needed for the video to be in picture in picture mode
@@ -136,7 +139,7 @@ export default function VideoSearch() {
             </li>
           ))
         ) : (
-          <li>No videos found</li>
+          <li className="no-videos-found">No videos found</li>
         )}
       </ul>
     </div>
