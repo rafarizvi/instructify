@@ -106,12 +106,12 @@ export const SAVE_VIDEO_TO_TUTORIAL = gql`
     saveVideoToTutorial(title: $title, videoId: $videoId, thumbnail: $thumbnail, content: $content, tutorialId: $tutorialId) {
       _id
       title
-      videoId
-      thumbnail
-      content
-      tutorial {
+      videos {
         _id
         title
+        videoId
+        thumbnail
+        content
       }
     }
   }

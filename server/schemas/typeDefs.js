@@ -18,6 +18,7 @@ const typeDefs = `#graphql
     author: Profile!
     category: Category
     comments: [Comment!]
+    videos: [Video!]!
   }
 
   type Category {
@@ -49,6 +50,14 @@ const typeDefs = `#graphql
     profile: Profile
   }
 
+  type Video {
+    _id: ID!
+    title: String!
+    videoId: String!
+    thumbnail: String!
+    content: String!
+  }
+
   type Mutation {
     addProfile(name: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
@@ -59,7 +68,7 @@ const typeDefs = `#graphql
     addComment(profileId: ID!, tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
     updateComment(_id: ID!, content: String): Comment
-    saveVideoToTutorial(title: String!, videoId: String, thumbnail: String, content: String!): Tutorial
+    saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String!, content: String!, tutorialId:ID!): Tutorial
 }
 `;
 

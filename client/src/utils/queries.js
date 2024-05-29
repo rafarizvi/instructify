@@ -120,9 +120,16 @@ export const QUERY_GET_TUTORIAL_DETAILS = gql`
           name
         }
       }
+      videos {
+        _id
+        title
+        videoId
+        thumbnail
+        content
+      }
     }
   }
-`;
+`
 
 
 // adding query to retrieve all comments based on a single tutorial -tb

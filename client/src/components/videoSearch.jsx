@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import '../App.css';
 import '../index.css';
 import { useMutation, useQuery } from '@apollo/client';
 import { SAVE_VIDEO_TO_TUTORIAL } from '../utils/mutations';
-import { QUERY_USER_TUTORIALS } from '../utils/queries'; // Import the query
+import { QUERY_USER_TUTORIALS, QUERY_GET_TUTORIAL_DETAILS } from '../utils/queries';
 import { getVideos } from '../utils/youtubeApi';
 
 export default function VideoSearch() {
   const [searchTerm, setSearchTerm] = useState('');
   const [videos, setVideos] = useState([]);
   const [selectedVideoId, setSelectedVideoId] = useState(null);
-  const [savingVideoId, setSavingVideoId] = useState(null); // Track the video being saved
+  const [savingVideoId, setSavingVideoId] = useState(null);
   const [error, setError] = useState(null);
   const [selectedTutorialId, setSelectedTutorialId] = useState('');
 
@@ -18,10 +18,30 @@ export default function VideoSearch() {
   const tutorials = data?.me?.tutorials || [];
 
   const [saveVideo] = useMutation(SAVE_VIDEO_TO_TUTORIAL, {
+    update(cache, { data: { saveVideoToTutorial } }) {
+      const { _id: tutorialId, videos } = saveVideoToTutorial;
+      const existingTutorial = cache.readQuery({
+        query: QUERY_GET_TUTORIAL_DETAILS,
+        variables: { tutorialId },
+      });
+
+      if (existingTutorial) {
+        cache.writeQuery({
+          query: QUERY_GET_TUTORIAL_DETAILS,
+          variables: { tutorialId },
+          data: {
+            tutorial: {
+              ...existingTutorial.tutorial,
+              videos: [...existingTutorial.tutorial.videos, ...videos],
+            },
+          },
+        });
+      }
+    },
     onCompleted: () => {
       alert('Video saved to your tutorials!');
-      setSavingVideoId(null); // Reset the saving video ID
-      setSelectedTutorialId(''); // Reset the selected tutorial ID
+      setSavingVideoId(null);
+      setSelectedTutorialId('');
     },
     onError: (error) => alert('Error saving video: ' + error.message),
   });
@@ -57,6 +77,15 @@ export default function VideoSearch() {
       alert('Please select a tutorial to save the video to.');
       return;
     }
+  
+    console.log('Saving video with parameters:', {
+      title: video.snippet.title,
+      videoId: video.id.videoId,
+      thumbnail: video.snippet.thumbnails.default.url,
+      content: 'Default content for the tutorial.',
+      tutorialId: selectedTutorialId,
+    });
+  
     saveVideo({
       variables: {
         title: video.snippet.title,

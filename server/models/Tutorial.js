@@ -1,5 +1,6 @@
-//Bringing in required mongoose package
 const { Schema, model } = require('mongoose');
+
+const {videoSchema} = require('./Video');
 
 const tutorialSchema = new Schema({
   title: {
@@ -7,7 +8,6 @@ const tutorialSchema = new Schema({
     required: true,
     trim: true,
   },
-  
   content: {
     type: String,
     required: true,
@@ -22,22 +22,17 @@ const tutorialSchema = new Schema({
     ref: 'Category',
     required: false,
   },
-  comments: {
+  comments: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment',
-    require: false
+    required: false
+  }],
+  videos: {
+    type: [videoSchema],
+    default: [],
   },
-  videoId: {
-    type: String,
-    required: true,
-  },
-  thumbnail: {
-    type: String,
-    required: true,
-  },
-})
+});
 
-  const Tutorial = model('Tutorial', tutorialSchema);
-  
-  module.exports = Tutorial;
-  
+const Tutorial = model('Tutorial', tutorialSchema);
+
+module.exports = Tutorial;
