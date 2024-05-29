@@ -139,7 +139,7 @@ export default function VideoSearch() {
             </li>
           ))
         ) : (
-          <li className="no-videos-found">No videos found</li>
+          <li className="no-videos-found"></li>
         )}
       </ul>
     </div>

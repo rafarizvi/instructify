@@ -1,3 +1,4 @@
+/* Font */
 @font-face {
   font-family: 'Cheerio';
   src: url('/src/assets/fonts/Cheerio.woff2') format('woff2'),
@@ -6,10 +7,12 @@
   font-style: normal;
 }
 
+/* Global Styles */
 body, html {
   height: 100%;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 #root {
@@ -17,13 +20,11 @@ body, html {
   flex-direction: column;
   min-height: 100%;
   width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
 }
 
 .container {
+  flex: 1; 
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -48,13 +49,11 @@ body, html {
   color: transparent;
 }
 
-.title {
-  font-size: 1.8rem;
-}
-
-
 h1.mb-4.text-center {
   margin-top: 90px;
+  background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 h1.all-tutorials-title {
@@ -70,75 +69,82 @@ h1.all-tutorials-title {
   justify-content: center;
 }
 
+/* Navbar Link Styling */
+.navbar-logo {
+  padding-left: 10px;
+}
+
+.navbar-link {
+  font-size: 16px;
+  color: #007bff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s, text-decoration 0.3s;
+  text-align: center;
+  margin-right: 10px;
+  padding: 0;
+}
+
+.navbar-link:hover {
+  color: #2dd1ff;
+  text-decoration: underline;
+}
+
+/* Additional Styling for Specific Links if Needed */
+#navbar-login,
+#navbar-signup,
+#navbar-create-tutorial,
+#navbar-dashboard,
+#navbar-logout {
+  /* Add any specific styles for these IDs if needed */
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+}
+
+.navbar-logo {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.navbar-title {
+  font-family: 'Cheerio', Arial, sans-serif;
+  font-size: 1.8rem;
+}
+
 /* Main Content */
 .main-content {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-/* Categories */
-.categories-list {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  list-style-type: none;
-  padding: 0;
-}
-
-.category-link {
-  text-decoration: none;
-  color: #5538da;
-  transition: color 0.3s;
-}
-
-.category-link:hover {
-  color: #2dd1ff;
-}
-
-/* Auth Buttons */
-.auth-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding-right: 10px;
-}
-
-/* Buttons */
-.btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btn-secondary {
-  background-color: #5538da;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background-color: #057ce7;
+.lead {
+  padding-bottom: 30px;
 }
 
 /* Footer */
 .footer {
   text-align: center;
-  margin-top: auto;
   padding: 1rem;
+  background: #f8f9fa;
+  margin-top: auto;
 }
 
-/* Logos */
 .logos {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
+  align-items: center;
   gap: 20px;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .logo {
-  height: 4.4em;
-  padding: 1em;
+  height: 2em;
   will-change: filter;
   transition: filter 300ms;
 }
@@ -151,6 +157,15 @@ h1.all-tutorials-title {
 .logo.react:hover {
   filter: drop-shadow(0 0 6em #5538da) brightness(0.8);
   transform: scale(1.1);
+}
+
+.read-the-docs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+  margin-top: 0.4rem;
+  gap: 20px;
 }
 
 /* Keyframes */
@@ -364,11 +379,6 @@ h1.all-tutorials-title {
 /* Other Elements */
 .card {
   padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-  margin-top: 0.4rem;
 }
 
 /* Responsive Design for App Components */
