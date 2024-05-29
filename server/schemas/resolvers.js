@@ -69,10 +69,23 @@ const resolvers = {
 
   Mutation: {
     addProfile: async (parent, { name, email, password }) => {
-      const profile = await Profile.create({ name, email, password });
-      const token = signToken(profile);
-
-      return { token, profile };
+      try {
+        const profile = await Profile.create({ name, email, password });
+        const token = signToken(profile);
+        return { token, profile };
+      } catch (error) {
+        if (error.code === 11000) {
+          const duplicateField = Object.keys(error.keyPattern)[0];
+          let errorMessage = '';
+          if (duplicateField === 'email') {
+            errorMessage = 'This email is already in use.';
+          } else if (duplicateField === 'name') {
+            errorMessage = 'This username is already in use.';
+          }
+          throw new Error(errorMessage);
+        }
+        throw new Error('An error occurred during sign up. Please try again.');
+      }
     },
     login: async (parent, { email, password }) => {
       const profile = await Profile.findOne({ email });
