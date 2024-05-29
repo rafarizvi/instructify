@@ -83,6 +83,11 @@ const Signup = () => {
                 {errorMessage}
               </div>
             )}
+            {error && !errorMessage && (
+              <div className="form-error">
+                An unexpected error occurred. Please try again.
+              </div>
+            )}
           </div>
         </div>
       </main>
