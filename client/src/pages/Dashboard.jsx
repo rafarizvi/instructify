@@ -93,7 +93,7 @@ const Dashboard = () => {
       _id: tutorial._id,
       title: tutorial.title,
       category: tutorial.category?.name || '',
-      videos: tutorial.videos || [] // Ensure videos is an array
+      videos: tutorial.videos || []
     });
   };
 
