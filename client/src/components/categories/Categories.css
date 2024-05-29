@@ -1,6 +1,13 @@
+.col-12, h1.mb-4.text-center {
+  margin-top: 90px;
+  background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 .catDiv {
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -15,8 +22,8 @@
 }
 
 @keyframes hover {
-  from {scale: 100%;}
-  to {scale: 105%;}
+  from { scale: 100%; }
+  to { scale: 105%; }
 }
 
 .catBtn:hover {

@@ -1,4 +1,3 @@
-// client/src/components/Signup.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
@@ -11,11 +10,11 @@ const Signup = () => {
     email: '',
     password: '',
   });
+  const [errorMessage, setErrorMessage] = useState('');
   const [addProfile, { error, data }] = useMutation(ADD_PROFILE);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormState({
       ...formState,
       [name]: value,
@@ -28,19 +27,18 @@ const Signup = () => {
       const { data } = await addProfile({
         variables: { ...formState },
       });
-
       Auth.login(data.addProfile.token);
     } catch (e) {
-      console.error(e);
+      setErrorMessage(e.message);
     }
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
-          <div className="card-body">
+    <React.Fragment>
+      <main className="flex-row justify-center align-center min-100-vh">
+        <div className="form-container">
+          <h4 className="form-title">Sign Up</h4>
+          <div className="form-content">
             {data ? (
               <p>
                 Success! You may now head <Link to="/">back to the homepage.</Link>
@@ -65,14 +63,14 @@ const Signup = () => {
                 />
                 <input
                   className="form-input"
-                  placeholder="******"
+                  placeholder="Your password"
                   name="password"
                   type="password"
                   value={formState.password}
                   onChange={handleChange}
                 />
                 <button
-                  className="btn btn-block btn-info"
+                  className="btn btn-primary btn-block"
                   style={{ cursor: 'pointer' }}
                   type="submit"
                 >
@@ -80,16 +78,20 @@ const Signup = () => {
                 </button>
               </form>
             )}
-
-            {error && (
-              <div className="my-3 p-3 bg-danger text-white">
-                {error.message}
+            {errorMessage && (
+              <div className="form-error">
+                {errorMessage}
+              </div>
+            )}
+            {error && !errorMessage && (
+              <div className="form-error">
+                An unexpected error occurred. Please try again.
               </div>
             )}
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </React.Fragment>
   );
 };
 
