@@ -36,14 +36,16 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mr-auto">
+              <Link className="nav-link" to="/about">About</Link>
             <li className="nav-item">
               <Link className="nav-link" to="/videoSearch">Search Videos</Link>
+
             </li>
           </ul>
           <ul className="navbar-nav ml-auto auth-button">
             {!isLoggedIn ? (
               <>
-                <li className="nav-item">
+                <li className="nav-item"> 
                   <Link className="btn btn-secondary nav-link" to="/login">Login</Link>
                 </li>
                 <li className="nav-item">

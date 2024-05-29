@@ -92,7 +92,7 @@ const Dashboard = () => {
             <div key={tutorial._id} className="tutorial-card">
               <h3 className="tutorial-title">{tutorial.title}</h3>
               <div className="tutorial-content" style={{ whiteSpace: 'pre-wrap' }}>
-                {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 100)}...`}
+                {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
               </div>
               <p className="tutorial-category">Category: {tutorial.category?.name || 'No category'}</p>
               <button onClick={() => toggleExpand(tutorial._id)}>

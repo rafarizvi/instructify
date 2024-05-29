@@ -18,7 +18,7 @@ import {
 import { 
   VideoSearch, 
   Login, Signup, 
-  Tutorial, } from './components';
+  Tutorial, About } from './components';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +34,7 @@ const router = createBrowserRouter([
       { path: 'categories', element: <TutorialCategories /> },
       { path: '/categories/view-tutorial', element: <ViewTutorial /> },
       { path: 'tutorial/:id', element: <SingleTutorial /> },
+      { path: 'about', element: <About /> },
       { path: 'all', element: <All /> }    
 ],
   },
