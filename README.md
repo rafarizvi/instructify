@@ -9,8 +9,6 @@ Instructify is a dynamic full-stack MERN (MongoDB, Express, React, Node.js) appl
 - [Features](#features)
 - [Technology Stack](#technology-stack)
 - [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [Deployment](#deployment)
