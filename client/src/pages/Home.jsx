@@ -1,27 +1,42 @@
-import { useQuery } from '@apollo/client';
-
 import CategoryList from '../components/categories';
 
-import { GET_CATEGORIES } from '../utils/queries'
-
-
 const Home = () => {
-  const { loading, data } = useQuery(GET_CATEGORIES);
-  const categories = data?.categories || [];
+  const categories = [
+    {
+      name:'Tech',
+      id:1
+    },
+    {
+      name:'Academics',
+      id:2
+    },
+    {
+      name:'Home',
+      id:3
+    },
+    {
+      name:'Arts',
+      id:4
+    },
+    {
+      name:'Lifestyle/Hobbies',
+      id:5
+    },
+    {
+      name:'Business/Financial',
+      id:6
+    }
+  ]
 
   return (
     <main>
       <div className="flex-row justify-center">
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
             <CategoryList
               categories={categories}
               className="main-title"
               title="Instructify"
               all="View all categories"
             />
-          )}
       </div>
     </main>
   );
