@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import { ADD_TUTORIAL } from '../utils/mutations';
-import { GET_CATEGORIES } from '../utils/queries';
-import AuthService from '../utils/auth';
+import { ADD_TUTORIAL } from '../../utils/mutations';
+import { GET_CATEGORIES } from '../../utils/queries';
+import AuthService from '../../utils/auth';
 import './Tutorial.css';
 
 const Tutorial = () => {

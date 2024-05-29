@@ -114,7 +114,7 @@ const ViewTutorial = () => {
                   <h5>By {clickedTutorial.author.name}</h5>
                   <span className="badge text-bg-info">{clickedTutorial.category.name}</span>
                   <div style={{ 'paddingTop': '5%' }}>
-                    <p style={{ 'fontSize': '18px' }}>{clickedTutorial.content} Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora neque quam aliquam maxime atque officiis vel. Hic deleniti quibusdam culpa quidem velit sapiente, error aliquam asperiores inventore ducimus eum non!</p>
+                    <p style={{ 'fontSize': '18px',whiteSpace: 'pre-wrap'  }}>{clickedTutorial.content} Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora neque quam aliquam maxime atque officiis vel. Hic deleniti quibusdam culpa quidem velit sapiente, error aliquam asperiores inventore ducimus eum non!</p>
                   </div>
 
                   <div className='commentDiv'>
