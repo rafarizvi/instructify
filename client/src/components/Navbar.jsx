@@ -15,14 +15,15 @@ const Navbar = () => {
 
   const handleLogout = () => {
     Auth.logout();
-    // Collapse the navbar after logout
-    const collapseElement = new window.bootstrap.Collapse(navbarCollapseRef.current);
-    collapseElement.hide();
+    handleNavItemClick();
   };
 
   const handleNavItemClick = () => {
-    const collapseElement = new window.bootstrap.Collapse(navbarCollapseRef.current);
-    collapseElement.hide();
+    const windowWidth = window.innerWidth;
+    if (windowWidth <= 991) {
+      const collapseElement = new window.bootstrap.Collapse(navbarCollapseRef.current);
+      collapseElement.hide();
+    }
   };
 
   return (
@@ -71,7 +72,7 @@ const Navbar = () => {
                   <Link className="nav-link navbar-link" to="/dashboard" id="navbar-dashboard" onClick={handleNavItemClick}>Dashboard</Link>
                 </li>
                 <li className="nav-item">
-                  <button className="nav-link navbar-link btn" onClick={() => { handleLogout(); handleNavItemClick(); }} id="navbar-logout">Logout</button>
+                  <button className="nav-link navbar-link btn" onClick={handleLogout} id="navbar-logout">Logout</button>
                 </li>
               </>
             )}

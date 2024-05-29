@@ -16,6 +16,7 @@ body {
 .title, h1 {
   font-family: 'Cheerio', Arial, sans-serif;
   background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
