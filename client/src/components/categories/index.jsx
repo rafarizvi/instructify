@@ -28,7 +28,7 @@ const CategoryList = ({ categories, title, all }) => {
       <div className='catDiv'>
         {categories &&
           categories.map((category) => (
-            <div key={category._id}>
+            <div key={category.id}>
               <button
                 className="btn btn-squared category-link"
                 onClick={() => handleButtonClick(category.name)}
