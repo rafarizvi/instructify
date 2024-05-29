@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ADD_TUTORIAL } from '../utils/mutations';
 import { GET_CATEGORIES } from '../utils/queries';
 import AuthService from '../utils/auth';
+import './Tutorial.css';
 
 const Tutorial = () => {
   const [formState, setFormState] = useState({
@@ -64,49 +65,51 @@ const Tutorial = () => {
     return <div>Error: {categoriesError.message}</div>;
   }
   return (
-    <div className="add-tutorial-container text-center">
-      <h2 className="text-center">Add Tutorial</h2>
-      <form onSubmit={handleFormSubmit} className="form-container">
-        <div className="form-group">
-          <input
-            className="form-input"
-            placeholder="Title"
-            name="title"
-            type="text"
-            value={formState.title}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <textarea
-            className="form-input"
-            placeholder="Content"
-            name="content"
-            rows="10"
-            value={formState.content}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <select
-            className="form-input"
-            name="category"
-            value={formState.category}
-            onChange={handleChange}
-          >
-            <option value="">Select a category</option>
-            {categoriesData.categories.map(category => (
-              <option key={category._id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button className="btn-submit" type="submit">
-          Add Tutorial
-        </button>
-      </form>
-      {error && <p className="error-message">Error: {error.message}</p>}
+    <div className="page-container">
+      <div className="add-tutorial-container">
+        <h2 className="form-title with-margin">Add Tutorial</h2>
+        <form onSubmit={handleFormSubmit} className="form-container no-margin-top">
+          <div className="form-group">
+            <input
+              className="form-input"
+              placeholder="Title"
+              name="title"
+              type="text"
+              value={formState.title}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <textarea
+              className="form-input"
+              placeholder="Content"
+              name="content"
+              rows="9"
+              value={formState.content}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <select
+              className="form-input"
+              name="category"
+              value={formState.category}
+              onChange={handleChange}
+            >
+              <option value="">Select a category</option>
+              {categoriesData.categories.map(category => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button className="btn-submit" type="submit">
+            Add Tutorial
+          </button>
+        </form>
+        {error && <p className="error-message">Error: {error.message}</p>}
+      </div>
     </div>
   );
 };
