@@ -1,33 +1,9 @@
 import { useState } from 'react';
 import '../App.css';
 import '../index.css';
-import axios from 'axios';
 import { useMutation } from '@apollo/client';
 import { SAVE_VIDEO_TO_TUTORIAL } from '../utils/mutations';
-
-const YOUTUBE = 'https://www.googleapis.com/youtube/v3/search';
-
-export async function getVideos(searchTerm) {
-  const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
-  try {
-    const response = await axios.get(YOUTUBE, {
-      params: {
-        part: 'snippet',
-        q: 'How to ' + searchTerm,
-        type: 'video',
-        maxResults: 10,
-        key: apiKey,
-      },
-    });
-    return response.data.items;
-  } catch (error) {
-    console.error('Error fetching videos from YouTube API:', error);
-    if (error.response && error.response.status === 403) {
-      console.error('Access to YouTube API forbidden. Check your API key and permissions.');
-    }
-    throw error;
-  }
-}
+import { getVideos } from '../utils/youtubeApi';  // Import the function from the new file
 
 export default function VideoSearch() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,6 +24,7 @@ export default function VideoSearch() {
     event.preventDefault();
     setError(null);
     const term = searchTerm.trim() === '' ? 'search for videos' : searchTerm;
+
     try {
       const fetchedVideos = await getVideos(term);
       setVideos(fetchedVideos);
@@ -113,7 +90,7 @@ export default function VideoSearch() {
             </li>
           ))
         ) : (
-          <li className="no-videos-found">No videos found</li>
+          <li className="no-videos-found">Search videos and save them to your tutorials.</li>
         )}
       </ul>
     </div>

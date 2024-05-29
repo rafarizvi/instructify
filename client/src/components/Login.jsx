@@ -22,6 +22,7 @@ const Login = () => {
       });
 
       Auth.login(data.login.token);
+      navigate('/');
     } catch (e) {
       console.error(e);
     }
@@ -30,45 +31,44 @@ const Login = () => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Login</h4>
-          <div className="card-body">
-            <form onSubmit={handleFormSubmit}>
-              <input
-                className="form-input"
-                placeholder="Your email"
-                name="email"
-                type="email"
-                value={formState.email}
-                onChange={handleChange}
-              />
-              <input
-                className="form-input"
-                placeholder="******"
-                name="password"
-                type="password"
-                value={formState.password}
-                onChange={handleChange}
-              />
-              <button
-                className="btn btn-block btn-info"
-                style={{ cursor: 'pointer' }}
-                type="submit"
-              >
-                Submit
-              </button>
-            </form>
-            {error && (
-              <div className="my-3 p-3 bg-danger text-white">
-                Incorrect email or password. Please try again.
-              </div>
-            )}
+    <React.Fragment>
+      <main className="flex-row justify-center align-center min-100-vh">
+      <div className="form-container">
+        <h4 className="form-title">Login</h4>
+        <form onSubmit={handleFormSubmit} className="form-content">
+          <input
+            className="form-input"
+            placeholder="Your email"
+            name="email"
+            type="email"
+            value={formState.email}
+            onChange={handleChange}
+          />
+          <input
+            className="form-input"
+            placeholder="Your password"
+            name="password"
+            type="password"
+            value={formState.password}
+            onChange={handleChange}
+          />
+          <button
+            className="btn btn-primary btn-block"
+            style={{ cursor: 'pointer' }}
+            type="submit"
+          >
+            Submit
+          </button>
+        </form>
+        {error && (
+          <div className="form-error">
+            Incorrect email or password. Please try again.
           </div>
-        </div>
+        )}
       </div>
-    </main>
+      </main>
+    </React.Fragment>
+    
   );
 };
 
