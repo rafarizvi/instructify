@@ -45,6 +45,7 @@ body, html {
 .title, h1 {
   font-family: 'Cheerio', Arial, sans-serif;
   background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  background-clip: text; 
   -webkit-background-clip: text;
   color: transparent;
 }
@@ -52,6 +53,7 @@ body, html {
 h1.mb-4.text-center {
   margin-top: 90px;
   background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
@@ -89,15 +91,6 @@ h1.all-tutorials-title {
 .navbar-link:hover {
   color: #2dd1ff;
   text-decoration: underline;
-}
-
-/* Additional Styling for Specific Links if Needed */
-#navbar-login,
-#navbar-signup,
-#navbar-create-tutorial,
-#navbar-dashboard,
-#navbar-logout {
-  /* Add any specific styles for these IDs if needed */
 }
 
 /* Navbar */
@@ -282,6 +275,7 @@ h1.all-tutorials-title {
 .video-search-title {
   font-family: 'Cheerio', Arial, sans-serif;
   background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  background-clip: text; 
   -webkit-background-clip: text;
   font-size: 3rem !important;
   text-align: center;

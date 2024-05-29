@@ -90,7 +90,7 @@ export default function VideoSearch() {
             </li>
           ))
         ) : (
-          <li className="no-videos-found">No videos found</li>
+          <li className="no-videos-found">Search videos and save them to your tutorials.</li>
         )}
       </ul>
     </div>
