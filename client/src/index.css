@@ -111,6 +111,7 @@ body {
 
 nav {
   background: linear-gradient(75deg, rgba(55,178,227,0.2987570028011205) 0%, rgba(75,54,170,0.24273459383753504) 100%);
-  border-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   box-shadow: 1px 5px 5px rgba(46, 77, 119, 0.39);
 }
