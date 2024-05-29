@@ -38,6 +38,7 @@
     "jwt-decode": "^4.0.0",
     "prop-types": "^15.8.1",
     "react-bootstrap": "^2.10.2",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "react-toastify": "^10.0.5"
   }
 }

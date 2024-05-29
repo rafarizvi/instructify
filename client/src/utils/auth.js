@@ -1,4 +1,5 @@
 import { jwtDecode as decode } from 'jwt-decode';
+import { toast } from 'react-toastify';
 
 class AuthService {
   getProfile() {
@@ -25,12 +26,18 @@ class AuthService {
 
   login(idToken) {
     localStorage.setItem('id_token', idToken);
-    window.location.assign('/');
+    toast.success('Login Successful!');
+    setTimeout(() => {
+      window.location.assign('/');
+    }, 1200); // Delay redirect by 1.5 seconds to show the toast
   }
 
   logout() {
     localStorage.removeItem('id_token');
-    window.location.reload();
+    toast.success('Logout Successful!');
+    setTimeout(() => {
+      window.location.assign('/');
+    }, 1200); // Delay redirect by 1.5 seconds to show the toast
   }
 }
 
