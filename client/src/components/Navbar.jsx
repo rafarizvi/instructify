@@ -30,7 +30,7 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img src={logo} alt="Logo" style={{ width: '40px', marginRight: '10px' }} />
-          <span className="title">instructify</span>
+          <span className="title">Instructify</span>
         </Link>
         <button
           className="navbar-toggler"
