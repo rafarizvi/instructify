@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Cheerio';
   src: url('/src/assets/fonts/Cheerio.woff2') format('woff2'),
-       url('/src/assets/fonts/Cheerio.woff') format('woff');
+    url('/src/assets/fonts/Cheerio.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -12,6 +12,7 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
 
 .title, h1 {
   font-family: 'Cheerio', Arial, sans-serif;
@@ -25,8 +26,8 @@ body {
   font-size: 1.4rem;
 }
 
-/* so the user can leave space in their content field for their tutorial */
-.singleTutorial {
+/* so the user can leave space in their content field for their tutorial*/
+.singleTutorial{
   white-space: pre-wrap;
 }
 
@@ -68,9 +69,11 @@ header p {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
@@ -81,4 +84,34 @@ header p {
   .input-group {
     width: 100%;
   }
+}
+
+
+/* backgtound and navbar styling */
+body {
+  background: radial-gradient(circle, rgba(221, 242, 255, 0.8925945378151261) 0%, rgba(226, 243, 255, 0.9009978991596639) 11%, rgba(255, 250, 233, 0.8365721288515406) 27%, rgba(255, 244, 247, 0.8533788515406162) 34%, rgba(255, 251, 251, 0.8561799719887955) 42%, rgba(213, 255, 255, 0.8729866946778712) 66%, rgba(245, 236, 215, 0.8729866946778712) 89%, rgba(240, 241, 192, 0.8393732492997199) 95%);
+  background-size: 400% 400%;
+  animation: gradient 600s ease infinite;
+  height: 100vh;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+nav {
+  background: linear-gradient(75deg, rgba(55,178,227,0.2987570028011205) 0%, rgba(75,54,170,0.24273459383753504) 100%);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 1px 5px 5px rgba(46, 77, 119, 0.39);
 }
