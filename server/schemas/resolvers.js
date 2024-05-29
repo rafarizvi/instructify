@@ -238,52 +238,34 @@ const resolvers = {
     },
 
     // Mutation to save a video as a tutorial
-    saveVideoToTutorial: async (parent, { title, videoId, thumbnail, content }, context) => {
+    saveVideoToTutorial: async (parent, { title, videoId, thumbnail, content, c }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
       }
 
       try {
-        // Log the incoming parameters
-        console.log('Saving video to tutorial with parameters:', { title, videoId, thumbnail, content });
+        if (!videoId || !thumbnail  ) {
+          throw new Error('videoId, thumbnail, and category are required');
+        }
 
-        // Create the new tutorial
         const tutorial = await Tutorial.create({
           title,
           videoId,
           thumbnail,
-          content, // Include content here
+          content,
           author: context.user._id,
         });
 
-        // Log the created tutorial
-        console.log('Created tutorial:', tutorial);
-
-        // Update the profile with the new tutorial
-        const updatedProfile = await Profile.findByIdAndUpdate(
+        const populatedTutorial = await Tutorial.findById(tutorial._id).populate('category').exec();
+        await Profile.findByIdAndUpdate(
           context.user._id,
           { $addToSet: { tutorials: tutorial._id } },
           { new: true }
         );
 
-        // Log the updated profile
-        console.log('Updated profile:', updatedProfile);
-
-        // Check if the tutorial was successfully created
-        if (!tutorial) {
-          throw new Error('Failed to create tutorial');
-        }
-
-        // Check if the profile was successfully updated
-        if (!updatedProfile) {
-          throw new Error('Failed to update profile with new tutorial');
-        }
-
-        return tutorial;
+        return populatedTutorial;
       } catch (error) {
-        // Log the error for debugging
-        console.error('Error saving video to tutorial:', error);
-        throw new Error('Error saving video to tutorial');
+        throw new Error('Error saving video to tutorial: ' + error.message);
       }
     },
   },

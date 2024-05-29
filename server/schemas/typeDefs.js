@@ -16,7 +16,7 @@ const typeDefs = `#graphql
     videoId: String!
     thumbnail: String!
     author: Profile!
-    category: Category!
+    category: Category
     comments: [Comment!]
   }
 
@@ -59,8 +59,8 @@ const typeDefs = `#graphql
     addComment(profileId: ID!, tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
     updateComment(_id: ID!, content: String): Comment
-    saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String! content: String!): Tutorial
-  }
+    saveVideoToTutorial(title: String!, videoId: String, thumbnail: String, content: String!): Tutorial
+}
 `;
 
 module.exports = typeDefs;

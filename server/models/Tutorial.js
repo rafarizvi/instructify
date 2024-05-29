@@ -7,6 +7,7 @@ const tutorialSchema = new Schema({
     required: true,
     trim: true,
   },
+  
   content: {
     type: String,
     required: true,
@@ -19,13 +20,21 @@ const tutorialSchema = new Schema({
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Category',
-    require: true
+    required: false,
   },
   comments: {
     type: Schema.Types.ObjectId,
     ref: 'Comment',
     require: false
-  }
+  },
+  videoId: {
+    type: String,
+    required: true,
+  },
+  thumbnail: {
+    type: String,
+    required: true,
+  },
 })
 
   const Tutorial = model('Tutorial', tutorialSchema);
