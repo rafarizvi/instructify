@@ -2,6 +2,7 @@
   margin-top: 90px;
   background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 
@@ -21,8 +22,8 @@
 }
 
 @keyframes hover {
-  from {scale: 100%;}
-  to {scale: 105%;}
+  from { scale: 100%; }
+  to { scale: 105%; }
 }
 
 .catBtn:hover {
