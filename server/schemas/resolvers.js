@@ -271,8 +271,25 @@ const resolvers = {
         console.error('Error saving video to tutorial:', error);
         throw new Error('Error saving video to tutorial: ' + error.message);
       }
-    },
-  },
+    },  
+    removeVideoFromTutorial: async (parent, { tutorialId, videoId }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in!');
+      }
+
+      const tutorial = await Tutorial.findById(tutorialId);
+      if (!tutorial) {
+        throw new Error('Tutorial not found');
+      }
+
+      tutorial.videos = tutorial.videos.filter(video => video._id.toString() !== videoId);
+      await tutorial.save();
+
+      return tutorial.populate('author category videos').execPopulate();
+    }
+  }
 };
+
+
 
 module.exports = resolvers;

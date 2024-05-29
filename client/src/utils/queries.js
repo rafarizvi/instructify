@@ -125,7 +125,6 @@ export const QUERY_GET_TUTORIAL_DETAILS = gql`
         title
         videoId
         thumbnail
-        content
       }
     }
   }
@@ -139,7 +138,7 @@ export const QUERY_GET_TUTORIAL_COMMENTS = gql`
         _id
         comments {
           _id
-          content 
+
           author {
             _id
             name
@@ -148,3 +147,4 @@ export const QUERY_GET_TUTORIAL_COMMENTS = gql`
       }
     }
     `
+    

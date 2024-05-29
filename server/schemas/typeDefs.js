@@ -55,7 +55,6 @@ const typeDefs = `#graphql
     title: String!
     videoId: String!
     thumbnail: String!
-    content: String!
   }
 
   type Mutation {
@@ -68,7 +67,8 @@ const typeDefs = `#graphql
     addComment(profileId: ID!, tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
     updateComment(_id: ID!, content: String): Comment
-    saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String!, content: String!, tutorialId:ID!): Tutorial
+    saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String!, tutorialId:ID!): Tutorial
+    removeVideoFromTutorial(tutorialId: ID!, videoId: ID!): Tutorial
 }
 `;
 

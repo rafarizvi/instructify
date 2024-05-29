@@ -85,9 +85,18 @@ const GetTutorial = () => {
                 {videos.map(video => (
                   <div key={video._id} className="video-item">
                     <h5>{video.title}</h5>
-                    <img src={video.thumbnail} alt={video.title} />
+                    <div className="video-embed">
+                      <iframe
+                        width="560"
+                        height="315"
+                        src={`https://www.youtube.com/embed/${video.videoId}`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title={video.title}
+                      ></iframe>
+                    </div>
                     <p>{video.content}</p>
-                    <a href={`https://www.youtube.com/watch?v=${video.videoId}`} target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
                   </div>
                 ))}
               </div>

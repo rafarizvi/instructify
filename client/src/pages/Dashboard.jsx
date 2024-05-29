@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
-import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
+import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import { Link } from 'react-router-dom'; // adding link to have user redirect to another page
 
-// addding categories that can be used via dropdown for user
+// adding categories that can be used via dropdown for user
 const categoryList = [
   'Tech',
   'Academics',
@@ -24,12 +24,16 @@ const Dashboard = () => {
     onCompleted: () => refetch(),
     onError: (error) => console.error('Remove Tutorial Error:', error),
   });
+  const [removeVideoFromTutorial] = useMutation(REMOVE_VIDEO_FROM_TUTORIAL, {
+    onCompleted: () => refetch(),
+    onError: (error) => console.error('Remove Video Error:', error),
+  });
 
   const [editFormState, setEditFormState] = useState({
     _id: '',
     title: '',
-    content: '',
-    category: ''
+    category: '',
+    videos: []
   });
 
   const [expandedTutorialId, setExpandedTutorialId] = useState(null);
@@ -50,11 +54,11 @@ const Dashboard = () => {
         variables: {
           id: editFormState._id,
           title: editFormState.title,
-          content: editFormState.content,
+
           category: editFormState.category,
         },
       });
-      setEditFormState({ _id: '', title: '', content: '', category: '' });
+      setEditFormState({ _id: '', title: '', category: '', videos: [] });
     } catch (e) {
       console.error('Error during mutation:', e);
     }
@@ -70,8 +74,27 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteVideo = async (tutorialId, videoId) => {
+    try {
+      await removeVideoFromTutorial({
+        variables: { tutorialId, videoId }
+      });
+    } catch (e) {
+      console.error('Error during mutation:', e);
+    }
+  };
+
   const toggleExpand = (tutorialId) => {
     setExpandedTutorialId(expandedTutorialId === tutorialId ? null : tutorialId);
+  };
+
+  const handleEditClick = (tutorial) => {
+    setEditFormState({
+      _id: tutorial._id,
+      title: tutorial.title,
+      category: tutorial.category?.name || '',
+      videos: tutorial.videos || [] // Ensure videos is an array
+    });
   };
 
   if (loading) {
@@ -99,12 +122,7 @@ const Dashboard = () => {
                 {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
               </button>
               <Link to={`/tutorial/${tutorial._id}`} className="btn-view">View</Link>
-              <button className="btn-edit" onClick={() => setEditFormState({
-                _id: tutorial._id,
-                title: tutorial.title,
-                content: tutorial.content,
-                category: tutorial.category.name
-              })}>
+              <button className="btn-edit" onClick={() => handleEditClick(tutorial)}>
                 Edit
               </button>
               <button className="btn-delete" onClick={() => handleDelete(tutorial._id)}>
@@ -154,6 +172,19 @@ const Dashboard = () => {
                       ))}
                     </select>
                   </div>
+                  {editFormState.videos.length > 0 && (
+                    <div>
+                      <h4>Videos:</h4>
+                      {editFormState.videos.map(video => (
+                        <div key={video._id}>
+                          <p>Title: {video.title}</p>
+                          <p>Video ID: {video.videoId}</p>
+                          <p>Thumbnail: <img src={video.thumbnail} alt="Thumbnail" /></p>
+                          <button onClick={() => handleDeleteVideo(editFormState._id, video._id)}>Delete Video</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <button className="btn-submit" type="submit">
                     Update Tutorial
                   </button>

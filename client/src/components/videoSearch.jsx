@@ -82,7 +82,6 @@ export default function VideoSearch() {
       title: video.snippet.title,
       videoId: video.id.videoId,
       thumbnail: video.snippet.thumbnails.default.url,
-      content: 'Default content for the tutorial.',
       tutorialId: selectedTutorialId,
     });
   
@@ -91,7 +90,6 @@ export default function VideoSearch() {
         title: video.snippet.title,
         videoId: video.id.videoId,
         thumbnail: video.snippet.thumbnails.default.url,
-        content: 'Default content for the tutorial.',
         tutorialId: selectedTutorialId,
       },
     });

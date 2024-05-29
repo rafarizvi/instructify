@@ -13,10 +13,6 @@ const videoSchema = new Schema({
     type: String,
     required: true,
   },
-  content: {
-    type: String,
-    required: true,
-  },
   _id: {
     type: Schema.Types.ObjectId,
     auto: true,
