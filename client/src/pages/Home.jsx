@@ -17,6 +17,7 @@ const Home = () => {
           ) : (
             <CategoryList
               categories={categories}
+              className="main-title"
               title="Instructify"
               all="View all categories"
             />

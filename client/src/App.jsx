@@ -1,13 +1,10 @@
 import './App.css';
 import { Outlet } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Navbar from './components/Navbar';
 
@@ -35,6 +32,7 @@ function App() {
     <ApolloProvider client={client}>
       <Navbar />
       <Outlet />
+      <ToastContainer position="top-center" autoClose={1200} />
     </ApolloProvider>
   );
 }

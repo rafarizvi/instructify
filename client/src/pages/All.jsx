@@ -13,7 +13,7 @@ function All() {
     <main className="container mt-5 pt-5"> {/* Increased padding-top */}
       <div className="row">
         <div className="col-12">
-          <h1 className="text-center mb-4">All Tutorials</h1>
+          <h1 className="all-tutorials-title">All Tutorials</h1>
         </div>
       </div>
 

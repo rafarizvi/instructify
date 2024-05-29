@@ -52,6 +52,15 @@ body, html {
   font-size: 1.8rem;
 }
 
+
+h1.mb-4.text-center {
+  margin-top: 90px;
+}
+
+h1.all-tutorials-title {
+  margin-top: 0px;
+}
+
 .subtitle {
   text-align: center;
   font-size: 1.2rem;
