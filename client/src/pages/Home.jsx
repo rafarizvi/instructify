@@ -33,6 +33,7 @@ const Home = () => {
       <div className="flex-row justify-center">
             <CategoryList
               categories={categories}
+              className="main-title"
               title="Instructify"
               all="View all categories"
             />
