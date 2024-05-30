@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
-import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
+import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import { useNavigate } from 'react-router-dom';
 
 import './dashboard.css';
@@ -191,24 +191,7 @@ const Dashboard = () => {
                       ))}
                     </select>
                   </div>
-<<<<<<< HEAD
                   <button className="btnEdit" type="submit">
-=======
-                  {editFormState.videos.length > 0 && (
-                    <div>
-                      <h4>Videos:</h4>
-                      {editFormState.videos.map(video => (
-                        <div key={video._id}>
-                          <p>Title: {video.title}</p>
-                          <p>Video ID: {video.videoId}</p>
-                          <p>Thumbnail: <img src={video.thumbnail} alt="Thumbnail" /></p>
-                          <button onClick={() => handleDeleteVideo(editFormState._id, video._id)}>Delete Video</button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <button className="btn-submit" type="submit">
->>>>>>> eaa67fc83a3c443aa6f1cb6b80630afd14645edb
                     Update Tutorial
                   </button>
                 </form>
