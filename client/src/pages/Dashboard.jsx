@@ -41,6 +41,7 @@ const Dashboard = () => {
   const [editFormState, setEditFormState] = useState({
     _id: '',
     title: '',
+    content: '',
     category: '',
     videos: [],
   });
@@ -62,11 +63,11 @@ const Dashboard = () => {
         variables: {
           id: editFormState._id,
           title: editFormState.title,
-
+          content: editFormState.content,
           category: editFormState.category,
         },
       });
-      setEditFormState({ _id: '', title: '', category: '', videos: [] });
+      setEditFormState({ _id: '', title: '', content: '', category: '', videos: [] });
     } catch (e) {
       console.error('Error during mutation:', e);
     }
@@ -106,6 +107,7 @@ const Dashboard = () => {
     setEditFormState({
       _id: tutorial._id,
       title: tutorial.title,
+      content: tutorial.content,
       category: tutorial.category?.name || '',
       videos: tutorial.videos || [],
     });
