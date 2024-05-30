@@ -27,17 +27,19 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-import Footer from './components/Footer'
+/* import Footer from './components/Footer' */
 
 function App() {
   return (
     <ApolloProvider client={client}>
       <Navbar />
       <Outlet />
-      <Footer />
       <ToastContainer position="top-center" autoClose={1200} />
     </ApolloProvider>
   );
 }
 
+/* removed <Footer /> from under <Outlet /> above for now, as we have an empty footer */
+
 export default App;
+
