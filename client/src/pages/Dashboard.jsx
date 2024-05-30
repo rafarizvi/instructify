@@ -54,7 +54,7 @@ const Dashboard = () => {
         variables: {
           id: editFormState._id,
           title: editFormState.title,
-
+          content: editFormState.content,
           category: editFormState.category,
         },
       });
@@ -93,7 +93,7 @@ const Dashboard = () => {
       _id: tutorial._id,
       title: tutorial.title,
       category: tutorial.category?.name || '',
-      videos: tutorial.videos || []
+      videos: tutorial.videos || [] // Ensure videos is an array
     });
   };
 
