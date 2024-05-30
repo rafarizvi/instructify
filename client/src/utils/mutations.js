@@ -102,12 +102,32 @@ export const REMOVE_COMMENT = gql`
 
 // Ability to save a video and assign it to tutorials
 export const SAVE_VIDEO_TO_TUTORIAL = gql`
-  mutation SaveVideoToTutorial($title: String!, $videoId: String!, $thumbnail: String!) {
-    saveVideoToTutorial(title: $title, videoId: $videoId, thumbnail: $thumbnail) {
+  mutation SaveVideoToTutorial($title: String!, $videoId: String!, $thumbnail: String!,$tutorialId: ID!) {
+    saveVideoToTutorial(title: $title, videoId: $videoId, thumbnail: $thumbnail,tutorialId: $tutorialId) {
       _id
       title
-      videoId
-      thumbnail
+      videos {
+        _id
+        title
+        videoId
+        thumbnail
+
+      }
+    }
+  }
+`;
+
+export const REMOVE_VIDEO_FROM_TUTORIAL = gql`
+  mutation removeVideoFromTutorial($tutorialId: ID!, $videoId: ID!) {
+    removeVideoFromTutorial(tutorialId: $tutorialId, videoId: $videoId) {
+      _id
+      title
+      videos {
+        _id
+        title
+        videoId
+        thumbnail
+      }
     }
   }
 `;

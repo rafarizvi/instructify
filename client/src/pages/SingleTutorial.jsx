@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 // Pulling in query that holds data for single tutorial and all of the comments and the associated category
 import { useQuery, useMutation } from '@apollo/client';
 import Card from 'react-bootstrap/Card';
@@ -20,8 +19,8 @@ const GetTutorial = () => {
 
   const profileId = Auth.getProfile().data._id;
 
-  // / adding mutation to add a comment
-  // using useState to post comment and refetch to rerender new data
+  // Adding mutation to add a comment
+  // Using useState to post comment and refetch to rerender new data
   const [comment, setComment] = useState('');
   const [addComment, { error }] = useMutation(ADD_COMMENT, {
     onCompleted: () => {
@@ -31,12 +30,12 @@ const GetTutorial = () => {
     onError: (error) => console.error('Add comment Error:', error),
   });
   
-  // adding remove comment mutation, once complete refetch new data
+  // Adding remove comment mutation, once complete refetch new data
   const [removeComment] = useMutation(REMOVE_COMMENT, {
     onCompleted: () => {
       refetch();
     },
-    // adding additional error handeling for removing comment
+    // Adding additional error handling for removing comment
     onError: console.error('Whoops, there was a problem removing your comment. Please try again.'),
   });
 
@@ -51,7 +50,7 @@ const GetTutorial = () => {
     }
   };
 
-    // handling delete button for user, using the comment id only for removal
+  // Handling delete button for user, using the comment id only for removal
   const handleRemoveComment = async (commentId) => {
     try {
       await removeComment({
@@ -65,10 +64,9 @@ const GetTutorial = () => {
   if (loading) return <div>Loading...</div>;
   if (!data || !data.tutorial) return <div>No tutorial found</div>;
 
-  const { title, content, author, comments, category } = data.tutorial;
+  const { title, content, author, comments, category, videos } = data.tutorial;
 
-  
-  //Refactored viewing and commenting via dashboard. Added syntax which is identical to ViewTutorial, to keep the application structured
+  // Refactored viewing and commenting via dashboard. Added syntax which is identical to ViewTutorial, to keep the application structured
   return (
     <>
       <div className="tutorialDiv .singleTutorial">
@@ -80,6 +78,29 @@ const GetTutorial = () => {
             <div style={{ paddingTop: '5%' }}>
               <p style={{ fontSize: '18px', whiteSpace: 'pre-wrap'  }}>{content}</p>
             </div>
+
+            {videos && videos.length > 0 && (
+              <div className="video-section">
+                <h4>Videos</h4>
+                {videos.map(video => (
+                  <div key={video._id} className="video-item">
+                    <h5>{video.title}</h5>
+                    <div className="video-embed">
+                      <iframe
+                        width="560"
+                        height="315"
+                        src={`https://www.youtube.com/embed/${video.videoId}`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title={video.title}
+                      ></iframe>
+                    </div>
+                    <p>{video.content}</p>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="commentDiv">
               <div>

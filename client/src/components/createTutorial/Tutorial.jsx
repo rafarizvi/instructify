@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD:client/src/components/createTutorial/Tutorial.jsx
 import { ADD_TUTORIAL } from '../../utils/mutations';
 import { GET_CATEGORIES } from '../../utils/queries';
 import AuthService from '../../utils/auth';
+=======
+import { ADD_TUTORIAL } from '../utils/mutations';
+import { GET_CATEGORIES,  QUERY_USER_TUTORIALS} from '../utils/queries';
+import AuthService from '../utils/auth';
+>>>>>>> eaa67fc83a3c443aa6f1cb6b80630afd14645edb:client/src/components/Tutorial.jsx
 import './Tutorial.css';
 
 const Tutorial = () => {
@@ -25,8 +31,11 @@ const Tutorial = () => {
     },
     onCompleted: () => {
       navigate('/dashboard');
-    }
+    },
+    refetchQueries: [{ query: QUERY_USER_TUTORIALS }]
   });
+
+  
 
   const handleChange = event => {
     const { name, value } = event.target;

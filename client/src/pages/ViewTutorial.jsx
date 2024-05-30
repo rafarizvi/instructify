@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
-import Carousel from 'react-bootstrap/Carousel';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import '../pages/viewTutorial.css'
@@ -74,35 +73,6 @@ const ViewTutorial = () => {
 
   return (
     <>
-      {/* Image carousel of added */}
-      <Carousel>
-        <Carousel.Item>
-          {/* <ExampleCarouselImage text="First slide" /> */}
-          <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          {/* <ExampleCarouselImage text="Second slide" /> */}
-          <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          {/* <ExampleCarouselImage text="Third slide" /> */}
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
-
-
-
       <div className='tutorialDiv'>
         {clickedTutorial &&
           clickedTutorial.map((clickedTutorial) => (
@@ -159,7 +129,7 @@ const ViewTutorial = () => {
                     {clickedTutorial.comments && clickedTutorial.comments.map((comments) => (
                       <div key={comments._id}>
                         <span className="badge text-bg-secondary">{comments.author.name}</span>
-                        
+
                         {comments.author._id === profileId && (
                           <button className="badge text-bg-danger" style={{'marginLeft':'5px'}}
                             onClick={() => deleteComment(comments._id)}>Delete</button>

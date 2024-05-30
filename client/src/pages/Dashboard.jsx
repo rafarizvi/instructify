@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
+<<<<<<< HEAD
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +10,11 @@ import './dashboard.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
+=======
+import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
+import { Link } from 'react-router-dom'; // adding link to have user redirect to another page
+
+>>>>>>> eaa67fc83a3c443aa6f1cb6b80630afd14645edb
 // adding categories that can be used via dropdown for user
 const categoryList = [
   'Tech',
@@ -30,12 +36,16 @@ const Dashboard = () => {
     onCompleted: () => refetch(),
     onError: (error) => console.error('Remove Tutorial Error:', error),
   });
+  const [removeVideoFromTutorial] = useMutation(REMOVE_VIDEO_FROM_TUTORIAL, {
+    onCompleted: () => refetch(),
+    onError: (error) => console.error('Remove Video Error:', error),
+  });
 
   const [editFormState, setEditFormState] = useState({
     _id: '',
     title: '',
-    content: '',
-    category: ''
+    category: '',
+    videos: []
   });
 
   const [expandedTutorialId, setExpandedTutorialId] = useState(null);
@@ -56,11 +66,11 @@ const Dashboard = () => {
         variables: {
           id: editFormState._id,
           title: editFormState.title,
-          content: editFormState.content,
+
           category: editFormState.category,
         },
       });
-      setEditFormState({ _id: '', title: '', content: '', category: '' });
+      setEditFormState({ _id: '', title: '', category: '', videos: [] });
     } catch (e) {
       console.error('Error during mutation:', e);
     }
@@ -76,8 +86,27 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteVideo = async (tutorialId, videoId) => {
+    try {
+      await removeVideoFromTutorial({
+        variables: { tutorialId, videoId }
+      });
+    } catch (e) {
+      console.error('Error during mutation:', e);
+    }
+  };
+
   const toggleExpand = (tutorialId) => {
     setExpandedTutorialId(expandedTutorialId === tutorialId ? null : tutorialId);
+  };
+
+  const handleEditClick = (tutorial) => {
+    setEditFormState({
+      _id: tutorial._id,
+      title: tutorial.title,
+      category: tutorial.category?.name || '',
+      videos: tutorial.videos || []
+    });
   };
 
   if (loading) {
@@ -105,6 +134,7 @@ const Dashboard = () => {
                 {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
               </div>
               <p className="tutorial-category">Category: {tutorial.category?.name || 'No category'}</p>
+<<<<<<< HEAD
               <Button className='tutorialBtn' style={{marginLeft: "40%", marginRight: "40%", fontSize: "100px" }} onClick={() => toggleExpand(tutorial._id)}>
                 <Card.Title style={{ fontSize: "16px"  }} >{expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}</Card.Title>
               </Button>
@@ -122,6 +152,16 @@ const Dashboard = () => {
                 <Card.Title style={{ fontSize: "16px"  }}>Edit</Card.Title>
               </Button>
               <Button className="tutorialBtn" style={{color: "red", marginLeft: "40%", marginRight: "40%", fontSize: "15px" }} onClick={() => handleDelete(tutorial._id)}>
+=======
+              <button onClick={() => toggleExpand(tutorial._id)}>
+                {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
+              </button>
+              <Link to={`/tutorial/${tutorial._id}`} className="btn-view">View</Link>
+              <button className="btn-edit" onClick={() => handleEditClick(tutorial)}>
+                Edit
+              </button>
+              <button className="btn-delete" onClick={() => handleDelete(tutorial._id)}>
+>>>>>>> eaa67fc83a3c443aa6f1cb6b80630afd14645edb
                 Delete
               </Button>
               {editFormState._id === tutorial._id && (
@@ -168,7 +208,24 @@ const Dashboard = () => {
                       ))}
                     </select>
                   </div>
+<<<<<<< HEAD
                   <button className="btnEdit" type="submit">
+=======
+                  {editFormState.videos.length > 0 && (
+                    <div>
+                      <h4>Videos:</h4>
+                      {editFormState.videos.map(video => (
+                        <div key={video._id}>
+                          <p>Title: {video.title}</p>
+                          <p>Video ID: {video.videoId}</p>
+                          <p>Thumbnail: <img src={video.thumbnail} alt="Thumbnail" /></p>
+                          <button onClick={() => handleDeleteVideo(editFormState._id, video._id)}>Delete Video</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <button className="btn-submit" type="submit">
+>>>>>>> eaa67fc83a3c443aa6f1cb6b80630afd14645edb
                     Update Tutorial
                   </button>
                 </form>

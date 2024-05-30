@@ -34,6 +34,7 @@ const Navbar = () => {
           <span className="title">Instructify</span>
         </Link>
         <button
+          style={{'border':'none'}}
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
