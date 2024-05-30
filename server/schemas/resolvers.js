@@ -285,9 +285,9 @@ const resolvers = {
       tutorial.videos = tutorial.videos.filter(video => video._id.toString() !== videoId);
       await tutorial.save();
 
-      return tutorial.populate('author category videos').execPopulate();
-    }
-  }
+      return Tutorial.findById(tutorialId).populate('author category videos');
+    },
+  },
 };
 
 
