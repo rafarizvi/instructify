@@ -12,6 +12,7 @@ import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import './dashboard.css';
 
+// adding categories that can be used via dropdown for user
 const categoryList = [
   'Tech',
   'Academics',
