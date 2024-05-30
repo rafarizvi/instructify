@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import './dashboard.css';
+
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 const categoryList = [
   'Tech',
@@ -14,6 +19,7 @@ const categoryList = [
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate(); // Move useNavigate to the top level
   const { loading, data, error, refetch } = useQuery(QUERY_USER_TUTORIALS);
   const [updateTutorial] = useMutation(UPDATE_TUTORIAL, {
     onCompleted: () => refetch(),
@@ -106,6 +112,10 @@ const Dashboard = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  const handleButtonClick = (buttonId) => {
+    navigate('/categories/view-tutorial', { state: { clickButton: buttonId } });
+  };
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-content text-center">
@@ -113,22 +123,31 @@ const Dashboard = () => {
         <h2 className="dashboard-subtitle">Your Tutorials</h2>
         <div className="tutorials-list">
           {data.me.tutorials.map((tutorial) => (
-            <div key={tutorial._id} className="tutorial-card">
+            <div key={tutorial._id} className="tutorial-card card mt-5">
               <h3 className="tutorial-title">{tutorial.title}</h3>
               <div className="tutorial-content" style={{ whiteSpace: 'pre-wrap' }}>
                 {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
               </div>
               <p className="tutorial-category">Category: {tutorial.category?.name || 'No category'}</p>
-              <button onClick={() => toggleExpand(tutorial._id)}>
-                {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
-              </button>
-              <Link to={`/tutorial/${tutorial._id}`} className="btn-view">View</Link>
-              <button className="btn-edit" onClick={() => handleEditClick(tutorial)}>
-                Edit
-              </button>
-              <button className="btn-delete" onClick={() => handleDelete(tutorial._id)}>
+              <Button className='tutorialBtn' style={{marginLeft: "40%", marginRight: "40%", fontSize: "100px" }} onClick={() => toggleExpand(tutorial._id)}>
+                <Card.Title style={{ fontSize: "16px"  }} >{expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}</Card.Title>
+              </Button>
+
+              <Button className='tutorialBtn' style={{marginLeft: "40%", marginRight: "40%", fontSize: "100px" }} onClick={() => handleButtonClick(tutorial._id)}>
+                <Card.Title style={{ fontSize: "16px"  }}>View</Card.Title>
+              </Button>
+
+              <Button className='tutorialBtn' style={{marginLeft: "40%", marginRight: "40%", fontSize: "100px" }} onClick={() => setEditFormState({
+                _id: tutorial._id,
+                title: tutorial.title,
+                content: tutorial.content,
+                category: tutorial.category.name
+              })}>
+                <Card.Title style={{ fontSize: "16px"  }}>Edit</Card.Title>
+              </Button>
+              <Button className="tutorialBtn" style={{color: "red", marginLeft: "40%", marginRight: "40%", fontSize: "15px" }} onClick={() => handleDelete(tutorial._id)}>
                 Delete
-              </button>
+              </Button>
               {editFormState._id === tutorial._id && (
                 <form onSubmit={handleEditSubmit} className="edit-form">
                   <h3>Edit Tutorial</h3>

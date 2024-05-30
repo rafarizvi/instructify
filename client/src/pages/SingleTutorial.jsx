@@ -69,14 +69,14 @@ const GetTutorial = () => {
   // Refactored viewing and commenting via dashboard. Added syntax which is identical to ViewTutorial, to keep the application structured
   return (
     <>
-      <div className="tutorialDiv">
-        <Card className="tutorialCard">
+      <div className="tutorialDiv .singleTutorial">
+        <Card className="tutorialCard .singleTutorial">
           <Card.Body>
             <h2 style={{ fontWeight: 'bold' }}>{title}</h2>
             <h5>By {author.name}</h5>
             <span className="badge text-bg-info">{category.name}</span>
             <div style={{ paddingTop: '5%' }}>
-              <p style={{ fontSize: '18px' }}>{content}</p>
+              <p style={{ fontSize: '18px', whiteSpace: 'pre-wrap'  }}>{content}</p>
             </div>
 
             {videos && videos.length > 0 && (
