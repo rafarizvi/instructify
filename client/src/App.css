@@ -1,13 +1,4 @@
-/* Font */
-@font-face {
-  font-family: 'Cheerio';
-  src: url('/src/assets/fonts/Cheerio.woff2') format('woff2'),
-       url('/src/assets/fonts/Cheerio.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* Global Styles */
+/* General Styles */
 body, html {
   height: 100%;
   margin: 0;
@@ -36,9 +27,15 @@ body, html {
   padding: 2rem;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 2rem;
+/* Login and Signup Specific Styles */
+.login-container, .signup-container {
+  max-width: 500px; /* Ensure the container does not exceed 500px width */
+  width: 100%; /* Ensure the container takes up the full width available */
+  margin: 2rem auto; /* Centers the container horizontally and adds vertical margin */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
 }
 
 /* Typography */
@@ -58,6 +55,10 @@ h1.mb-4.text-center {
   color: transparent;
 }
 
+h1.dashboard-title {
+  margin-top: 40px;
+}
+
 h1.all-tutorials-title {
   margin-top: 0px;
 }
@@ -72,6 +73,17 @@ h1.all-tutorials-title {
 }
 
 /* Navbar Link Styling */
+.navbar img {
+  margin-left: 20px;
+}
+@media (min-width: 992px){
+  
+  
+  #navbar-right {
+    margin-right: 20px;
+  }
+}
+
 .navbar-logo {
   padding-left: 10px;
 }
@@ -369,14 +381,13 @@ h1.all-tutorials-title {
 }
 
 /* Form Styles */
+
 .form-container {
-  background: #f8f9fa;
+  display: flex;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  margin: auto;
   margin-top: 80px;
+  max-width: 500px;
 }
 
 .form-title {
@@ -395,7 +406,15 @@ h1.all-tutorials-title {
   gap: 1rem;
 }
 
+form {
+  align-self: center;
+}
+
+div.form-group {
+  width: 100%;
+}
 .form-input {
+  display: flex;
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -409,7 +428,7 @@ h1.all-tutorials-title {
 }
 
 .btn-block {
-  width: 100%;
+  align-self: center;
 }
 
 .form-error {
@@ -448,6 +467,7 @@ h1.all-tutorials-title {
   }
 }
 
+
 .large-delete-btn {
   font-size: 24px; /* Adjust the size as needed */
   width: 30px;
@@ -456,3 +476,4 @@ h1.all-tutorials-title {
   justify-content: center;
   align-items: center;
 }
+
