@@ -9,7 +9,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { 
   Home, 
   Dashboard,
-  SingleTutorial,
+  DashboardTutorial,
   All,
   TutorialCategories,
   ViewTutorial } from './pages';
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       { path: 'tutorial', element: <Tutorial /> },
       { path: 'categories', element: <TutorialCategories /> },
       { path: '/categories/view-tutorial', element: <ViewTutorial /> },
-      { path: 'tutorial/:id', element: <SingleTutorial /> },
+      { path: 'tutorial/:id', element: <DashboardTutorial /> },
       { path: 'about', element: <About /> },
       { path: 'all', element: <All /> }    
 ],
