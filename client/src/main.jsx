@@ -12,7 +12,7 @@ import {
   SingleTutorial,
   All,
   TutorialCategories,
-  ViewTutorial} from './pages';
+  ViewTutorial } from './pages';
 
 //importing from components index.js
 import { 

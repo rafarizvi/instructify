@@ -1,0 +1,10 @@
+
+.btnToggle, 
+.btnDelete, 
+.btnEdit, 
+.btnView  {
+  background-color: white;
+  border-color: purple;
+  width: 10%;
+}
+
