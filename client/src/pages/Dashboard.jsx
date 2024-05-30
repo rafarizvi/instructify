@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
-<<<<<<< HEAD
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL } from '../utils/mutations';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,11 +9,6 @@ import './dashboard.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-=======
-import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
-import { Link } from 'react-router-dom'; // adding link to have user redirect to another page
-
->>>>>>> eaa67fc83a3c443aa6f1cb6b80630afd14645edb
 // adding categories that can be used via dropdown for user
 const categoryList = [
   'Tech',
@@ -134,7 +128,6 @@ const Dashboard = () => {
                 {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
               </div>
               <p className="tutorial-category">Category: {tutorial.category?.name || 'No category'}</p>
-<<<<<<< HEAD
               <Button className='tutorialBtn' style={{marginLeft: "40%", marginRight: "40%", fontSize: "100px" }} onClick={() => toggleExpand(tutorial._id)}>
                 <Card.Title style={{ fontSize: "16px"  }} >{expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}</Card.Title>
               </Button>
@@ -152,16 +145,6 @@ const Dashboard = () => {
                 <Card.Title style={{ fontSize: "16px"  }}>Edit</Card.Title>
               </Button>
               <Button className="tutorialBtn" style={{color: "red", marginLeft: "40%", marginRight: "40%", fontSize: "15px" }} onClick={() => handleDelete(tutorial._id)}>
-=======
-              <button onClick={() => toggleExpand(tutorial._id)}>
-                {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
-              </button>
-              <Link to={`/tutorial/${tutorial._id}`} className="btn-view">View</Link>
-              <button className="btn-edit" onClick={() => handleEditClick(tutorial)}>
-                Edit
-              </button>
-              <button className="btn-delete" onClick={() => handleDelete(tutorial._id)}>
->>>>>>> eaa67fc83a3c443aa6f1cb6b80630afd14645edb
                 Delete
               </Button>
               {editFormState._id === tutorial._id && (
