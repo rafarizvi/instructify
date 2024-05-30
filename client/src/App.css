@@ -76,9 +76,12 @@ h1.all-tutorials-title {
 .navbar img {
   margin-left: 20px;
 }
-
-#navbar-right {
-  margin-right: 20px;
+@media (min-width: 992px){
+  
+  
+  #navbar-right {
+    margin-right: 20px;
+  }
 }
 
 .navbar-logo {
@@ -378,14 +381,13 @@ h1.all-tutorials-title {
 }
 
 /* Form Styles */
+
 .form-container {
-  background: #f8f9fa;
+  display: flex;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  margin: auto;
   margin-top: 80px;
+  max-width: 500px;
 }
 
 .form-title {
@@ -404,7 +406,15 @@ h1.all-tutorials-title {
   gap: 1rem;
 }
 
+form {
+  align-self: center;
+}
+
+div.form-group {
+  width: 100%;
+}
 .form-input {
+  display: flex;
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -418,7 +428,7 @@ h1.all-tutorials-title {
 }
 
 .btn-block {
-  width: 100%;
+  align-self: center;
 }
 
 .form-error {
