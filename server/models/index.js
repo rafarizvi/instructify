@@ -3,11 +3,14 @@ const Profile = require('./Profile');
 const Category = require('./Category');
 const Tutorial = require('./Tutorial');
 const Comment = require('./Comment');
+const Video = require('./Video');
+
 
 // Exporting out the models
 module.exports = { 
     Profile, 
     Category, 
     Tutorial, 
-    Comment 
+    Comment,
+    Video
 };
