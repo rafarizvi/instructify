@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_USER_TUTORIALS } from '../utils/queries';
-import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import { useNavigate } from 'react-router-dom';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+
+import { QUERY_USER_TUTORIALS } from '../utils/queries';
+import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import './dashboard.css';
 
 const categoryList = [
@@ -82,6 +87,12 @@ const Dashboard = () => {
       await removeVideoFromTutorial({
         variables: { tutorialId, videoId },
       });
+
+      // i include functionality for removing the video from the tutorial automatically if the user clicks the delete button
+      setEditFormState((prevState) => ({
+        ...prevState,
+        videos: prevState.videos.filter((video) => video._id !== videoId),
+      }));
     } catch (e) {
       console.error('Error during mutation:', e);
     }
@@ -207,23 +218,28 @@ const Dashboard = () => {
                       <div>
                         <h4>Videos:</h4>
                         {editFormState.videos.map((video) => (
-                          <div key={video._id}>
-                            <p>Title: {video.title}</p>
-                            <div className="video-embed">
-                              <iframe
-                                width="560"
-                                height="315"
-                                src={`https://www.youtube.com/embed/${video.videoId}`}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                title={video.title}
-                              ></iframe>
+                            <div key={video._id} className="col-md-4 mb-3 position-relative">
+                              <p>Title: {video.title}</p>
+                              <div className="video-embed mb-4 position-relative">
+                                <iframe
+                                  width="100%"
+                                  height="200"
+                                  src={`https://www.youtube.com/embed/${video.videoId}`}
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                  title={video.title}
+                                ></iframe>
+                                <Button
+                                  variant="link"
+                                  className="btn btn-primary position-relative position-absolute top-15 start-75 translate-middle badge rounded-circle bg-danger large-delete-btn"
+                                  onClick={() => handleDeleteVideo(editFormState._id, video._id)}
+                                >
+                                  <FontAwesomeIcon icon={faTimes} />
+                                </Button>
+                              </div>
                             </div>
-                            <p>Thumbnail: <img src={video.thumbnail} alt="Thumbnail" /></p>
-                            <button onClick={() => handleDeleteVideo(editFormState._id, video._id)}>Delete Video</button>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                     )}
                     <button className="btn-submit" type="submit">
