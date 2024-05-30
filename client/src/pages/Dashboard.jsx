@@ -9,7 +9,6 @@ import './dashboard.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-// adding categories that can be used via dropdown for user
 const categoryList = [
   'Tech',
   'Academics',
@@ -38,6 +37,7 @@ const Dashboard = () => {
   const [editFormState, setEditFormState] = useState({
     _id: '',
     title: '',
+    content: '',
     category: '',
     videos: []
   });
@@ -60,11 +60,11 @@ const Dashboard = () => {
         variables: {
           id: editFormState._id,
           title: editFormState.title,
-
+          content: editFormState.content,
           category: editFormState.category,
         },
       });
-      setEditFormState({ _id: '', title: '', category: '', videos: [] });
+      setEditFormState({ _id: '', title: '', content: '', category: '', videos: [] });
     } catch (e) {
       console.error('Error during mutation:', e);
     }
@@ -98,6 +98,7 @@ const Dashboard = () => {
     setEditFormState({
       _id: tutorial._id,
       title: tutorial.title,
+      content: tutorial.content,
       category: tutorial.category?.name || '',
       videos: tutorial.videos || []
     });
@@ -191,7 +192,30 @@ const Dashboard = () => {
                       ))}
                     </select>
                   </div>
-                  <button className="btnEdit" type="submit">
+                  {editFormState.videos.length > 0 && (
+                    <div>
+                      <h4>Videos:</h4>
+                      {editFormState.videos.map(video => (
+                        <div key={video._id}>
+                          <p>Title: {video.title}</p>
+                          <div className="video-embed">
+                            <iframe
+                              width="560"
+                              height="315"
+                              src={`https://www.youtube.com/embed/${video.videoId}`}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              title={video.title}
+                            ></iframe>
+                          </div>
+                          <p>Thumbnail: <img src={video.thumbnail} alt="Thumbnail" /></p>
+                          <button onClick={() => handleDeleteVideo(editFormState._id, video._id)}>Delete Video</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <button className="btn-submit" type="submit">
                     Update Tutorial
                   </button>
                 </form>
