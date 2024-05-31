@@ -139,50 +139,49 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-content text-center">
-        <h1 className="dashboard-title">Dashboard</h1>
-        <h2 className="dashboard-subtitle">Your Tutorials</h2>
+      <div className="dashboard-content" >
+        <h1 className="dashboard-title text-center" >Dashboard</h1>
+        <h2 className="dashboard-subtitle text-center">Your Tutorials</h2>
         <div className="tutorials-list">
           {data.me && data.me.tutorials && data.me.tutorials.length > 0 ? (
             data.me.tutorials.map((tutorial) => (
-              <div key={tutorial._id} className="tutorial-card card mt-5">
+              <div key={tutorial._id} className="tutorial-card card mt-5" style={{ backgroundColor:'transparent', borderColor: '#2171e5', borderWidth:'px' }} >
                 <h3 className="tutorial-title">{tutorial.title}</h3>
+                <p className="tutorial-category mt-4 badge text-bg-info" style={{ fontSize: "12px", marginRight:'auto'}}>{tutorial.category?.name}</p>
                 <div className="tutorial-content" style={{ whiteSpace: 'pre-wrap' }}>
                   {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
                 </div>
-                <p className="tutorial-category">Category: {tutorial.category?.name || 'No category'}</p>
-                <Button
-                  className="tutorialBtn"
-                  style={{ marginLeft: '40%', marginRight: '40%', fontSize: '100px' }}
-                  onClick={() => toggleExpand(tutorial._id)}
-                >
-                  <Card.Title style={{ fontSize: '16px' }}>
-                    {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
-                  </Card.Title>
-                </Button>
+                <div style={{ display: 'flex', justifyContent:'center' }}>
+                  <Button
+                    className="tutorialBtn"
+                    onClick={() => toggleExpand(tutorial._id)}
+                  >
+                    <Card.Title style={{ fontSize: '16px' }}>
+                      {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
+                    </Card.Title>
+                  </Button>
 
-                <Button
-                  className="tutorialBtn"
-                  style={{ marginLeft: '40%', marginRight: '40%', fontSize: '100px' }}
-                  onClick={() => handleButtonClick(tutorial._id)}
-                >
-                  <Card.Title style={{ fontSize: '16px' }}>View</Card.Title>
-                </Button>
+                  <Button
+                    className="tutorialBtn" style={{ width:'80px' }}
+                    onClick={() => handleButtonClick(tutorial._id)}
+                  >
+                    <Card.Title style={{ fontSize: '16px' }}>View</Card.Title>
+                  </Button>
 
-                <Button
-                  className="tutorialBtn"
-                  style={{ marginLeft: '40%', marginRight: '40%', fontSize: '100px' }}
-                  onClick={() => handleEditClick(tutorial)}
-                >
-                  <Card.Title style={{ fontSize: '16px' }}>Edit</Card.Title>
-                </Button>
-                <Button
-                  className="tutorialBtn"
-                  style={{ color: 'red', marginLeft: '40%', marginRight: '40%', fontSize: '15px' }}
-                  onClick={() => handleDeleteClick(tutorial._id)}
-                >
-                  Delete
-                </Button>
+                  <Button
+                    className="tutorialBtn" style={{ width:'80px' }}
+                    onClick={() => handleEditClick(tutorial)}
+                  >
+                    <Card.Title style={{ fontSize: '16px' }}>Edit</Card.Title>
+                  </Button>
+                  <Button
+                    className="tutorialBtn"
+                    style={{ color: 'red', width:'80px'  }}
+                    onClick={() => handleDeleteClick(tutorial._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
                 {editFormState._id === tutorial._id && (
                   <form onSubmit={handleEditSubmit} className="edit-form">
                     <h3>Edit Tutorial</h3>
