@@ -78,8 +78,8 @@ const resolvers = {
     addTutorial: async (parent, { title, category, content }, context) => {
       if (context.user) {
         const categoryDoc = await Category.findOne({ name: category });
-        if (!categoryDoc) {
-          throw new Error('You need to add a category.');
+        if (title==='' || category==="" || content==='' ) {
+          throw new Error('Please fill out all fields');
         }
 
         const newTutorial = await Tutorial.create({
