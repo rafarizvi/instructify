@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import ConfirmDelete from '../components/ConfirmDelete';
-import DateFormat from '../components/DateFormat';
+import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial'
 
 const categoryList = [
   'Tech', 'Academics', 'Home', 'Arts', 'Lifestyle/Hobbies', 'Business/Financial',
@@ -129,8 +129,8 @@ const Dashboard = () => {
                   {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
                 </div>
 
-
-                <DateFormat createdAt={tutorial.createdAt} /> 
+                <br />
+                <DateFormatTutorial createdAt={tutorial.createdAt} /> 
 
                 
                 <div style={{ display: 'flex', justifyContent: 'center' }}>

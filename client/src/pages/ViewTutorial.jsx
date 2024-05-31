@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import DateFormat from '../components/DateFormat'
+import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial'
+import DateFormatComment from '../components/DateFormats/DateFormatComment';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -78,7 +79,7 @@ const ViewTutorial = () => {
           <div style={{ 'paddingTop': '5%' }}>
             <p style={{ 'fontSize': '18px', whiteSpace: 'pre-wrap' }}>{clickedTutorial.content}</p>
             
-            <DateFormat createdAt={clickedTutorial.createdAt} />
+            <DateFormatTutorial createdAt={clickedTutorial.createdAt} />
           </div>
 
           {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (
@@ -150,15 +151,16 @@ const ViewTutorial = () => {
                 {comments.author._id === profileId && (
                   <button className="badge text-bg-danger" style={{ 'marginLeft': '5px' }} onClick={() => deleteComment(comments._id)}>Delete</button>
                 )}
-                <p>{comments.content}</p>
-                <DateFormat createdAt={comments.createdAt} />
+                <p>{comments.content} 
+                <br />
+                <DateFormatComment createdAt={comments.createdAt} /> </p>          
               </div>
             ))}
           </div>
-        </Card.Body>
+            </Card.Body>
       </Card>
-      
     </div>
+      
   );
 };
 
