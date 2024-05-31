@@ -406,13 +406,17 @@ h1.all-tutorials-title {
   gap: 1rem;
 }
 
-form {
+/* changing for all 'forms' which has caused an issue with the edit tutorial feature. 
+if this is needed, it needs a separate class name. will commentout for now */
+
+/* form {
   align-self: center;
-}
+} */
 
 div.form-group {
   width: 100%;
 }
+
 .form-input {
   display: flex;
   padding: 0.75rem;
@@ -466,3 +470,14 @@ div.form-group {
     width: 100%;
   }
 }
+
+
+.large-delete-btn {
+  font-size: 24px; /* Adjust the size as needed */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

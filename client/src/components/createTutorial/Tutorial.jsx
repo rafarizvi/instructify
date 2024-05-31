@@ -70,7 +70,7 @@ const Tutorial = () => {
   return (
     <div className="page-container">
       <div className="add-tutorial-container">
-        <h2 className="form-title with-margin">Add Tutorial</h2>
+        <h2 className="form-title with-margin">Create Tutorial</h2>
         <form onSubmit={handleFormSubmit} className="form-container no-margin-top">
           <div className="form-group">
             <input
@@ -85,7 +85,7 @@ const Tutorial = () => {
           <div className="form-group">
             <textarea
               className="form-input"
-              placeholder="Content"
+              placeholder="Write your tutorial!"
               name="content"
               rows="9"
               value={formState.content}
@@ -107,8 +107,8 @@ const Tutorial = () => {
               ))}
             </select>
           </div>
-          <button className="btn-submit" type="submit">
-            Add Tutorial
+          <button className="tutorialBtn" style={{ color: 'white', marginLeft: '40%', marginRight: '40%', fontSize: '17px' }} type="submit">
+            Create
           </button>
         </form>
         {error && <p className="error-message">Error: {error.message}</p>}
