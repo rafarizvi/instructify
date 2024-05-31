@@ -11,7 +11,7 @@ export async function getVideos(searchTerm) {
         part: 'snippet',
         q: 'How to ' + searchTerm,
         type: 'video',
-        maxResults: 2,
+        maxResults: 12,
         key: apiKey,
       },
     });
