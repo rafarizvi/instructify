@@ -5,7 +5,6 @@ import { ADD_TUTORIAL } from '../../utils/mutations';
 import { GET_CATEGORIES, QUERY_USER_TUTORIALS } from '../../utils/queries';
 import AuthService from '../../utils/auth';
 import './Tutorial.css';
-import Button from 'react-bootstrap/esm/Button';
 
 const Tutorial = () => {
   const [formState, setFormState] = useState({
@@ -108,10 +107,9 @@ const Tutorial = () => {
               ))}
             </select>
           </div>
-          <Button className="tutorialBtn"
-                  style={{ marginLeft: '40%', marginRight: '40%', fontSize: '15px' }}>
+          <button className="tutorialBtn" style={{ color: 'white', marginLeft: '40%', marginRight: '40%', fontSize: '17px' }} type="submit">
             Add Tutorial
-          </Button>
+          </button>
         </form>
         {error && <p className="error-message">Error: {error.message}</p>}
       </div>
