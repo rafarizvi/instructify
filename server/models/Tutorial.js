@@ -31,7 +31,11 @@ const tutorialSchema = new Schema({
     type: [videoSchema],
     default: [],
   },
-});
+  createdAt: {
+    type: Date,
+    default: Date.now,
+}, 
+}, { timestamps: true });
 
 const Tutorial = model('Tutorial', tutorialSchema);
 

@@ -13,8 +13,12 @@ const commentSchema = new Schema({
     tutorial: {
         type: Schema.Types.ObjectId,
         ref: 'Tutorial'
-    }
-})
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+    }, 
+}, { timestamps: true })
 
 const Comment = model('Comment', commentSchema);
 

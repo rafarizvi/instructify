@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
+import DateFormat from '../components/DateFormat'
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -76,6 +77,8 @@ const ViewTutorial = () => {
           <span className="badge text-bg-info">{clickedTutorial.category?.name}</span>
           <div style={{ 'paddingTop': '5%' }}>
             <p style={{ 'fontSize': '18px', whiteSpace: 'pre-wrap' }}>{clickedTutorial.content}</p>
+            
+            <DateFormat createdAt={clickedTutorial.createdAt} />
           </div>
 
           {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (
@@ -148,11 +151,13 @@ const ViewTutorial = () => {
                   <button className="badge text-bg-danger" style={{ 'marginLeft': '5px' }} onClick={() => deleteComment(comments._id)}>Delete</button>
                 )}
                 <p>{comments.content}</p>
+                <DateFormat createdAt={comments.createdAt} />
               </div>
             ))}
           </div>
         </Card.Body>
       </Card>
+      
     </div>
   );
 };

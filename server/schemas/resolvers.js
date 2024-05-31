@@ -1,4 +1,4 @@
-const { Profile, Category, Tutorial, Comment } = require('../models'); // Remove Video import
+const { Profile, Category, Tutorial, Comment } = require('../models');
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 
@@ -59,7 +59,7 @@ const resolvers = {
         throw new Error('An error occurred during sign up. Please try again.');
       }
     },
-    
+
     login: async (parent, { email, password }) => {
       const profile = await Profile.findOne({ email });
       if (!profile) {
@@ -78,7 +78,7 @@ const resolvers = {
     addTutorial: async (parent, { title, category, content }, context) => {
       if (context.user) {
         const categoryDoc = await Category.findOne({ name: category });
-        if (title==='' || category==="" || content==='' ) {
+        if (title === '' || category === '' || content === '') {
           throw new Error('Please fill out all fields');
         }
 
@@ -86,7 +86,8 @@ const resolvers = {
           title,
           author: context.user._id,
           category: categoryDoc._id,
-          content
+          content,
+          createdAt: new Date(),
         });
 
         await Profile.findByIdAndUpdate(
@@ -153,7 +154,8 @@ const resolvers = {
           const addComment = await Comment.create({
             content,
             author: profileId,
-            tutorial: tutorialId
+            tutorial: tutorialId,
+            createdAt: new Date(),
           });
 
           await Profile.findByIdAndUpdate(
@@ -271,7 +273,7 @@ const resolvers = {
         console.error('Error saving video to tutorial:', error);
         throw new Error('Error saving video to tutorial: ' + error.message);
       }
-    },  
+    },
     removeVideoFromTutorial: async (parent, { tutorialId, videoId }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
@@ -289,7 +291,5 @@ const resolvers = {
     },
   },
 };
-
-
 
 module.exports = resolvers;
