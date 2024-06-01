@@ -8,10 +8,10 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
+import VideoCarousel from '../components/VideoCarousel';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import './dashboard.css';
-
 
 const categoryList = [
   'Tech',
@@ -83,13 +83,12 @@ const Dashboard = () => {
     }
   };
 
-  const handleDeleteVideo = async (tutorialId, videoId) => {
+  const handleDeleteVideo = async (videoId) => {
     try {
       await removeVideoFromTutorial({
-        variables: { tutorialId, videoId },
+        variables: { tutorialId: editFormState._id, videoId },
       });
 
-      // i include functionality for removing the video from the tutorial automatically if the user clicks the delete button
       setEditFormState((prevState) => ({
         ...prevState,
         videos: prevState.videos.filter((video) => video._id !== videoId),
@@ -218,29 +217,7 @@ const Dashboard = () => {
                     {editFormState.videos.length > 0 && (
                       <div>
                         <h4>Videos:</h4>
-                        {editFormState.videos.map((video) => (
-                            <div key={video._id} className="col-md-4 mb-3 position-relative">
-                              <p>Title: {video.title}</p>
-                              <div className="video-embed mb-4 position-relative">
-                                <iframe
-                                  width="100%"
-                                  height="200"
-                                  src={`https://www.youtube.com/embed/${video.videoId}`}
-                                  frameBorder="0"
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                  allowFullScreen
-                                  title={video.title}
-                                ></iframe>
-                                <Button
-                                  variant="link"
-                                  className="btn btn-primary position-relative position-absolute top-15 start-75 translate-middle badge rounded-circle bg-danger large-delete-btn"
-                                  onClick={() => handleDeleteVideo(editFormState._id, video._id)}
-                                >
-                                  <FontAwesomeIcon icon={faTimes} />
-                                </Button>
-                              </div>
-                            </div>
-                          ))}
+                        <VideoCarousel videos={editFormState.videos} handleDeleteVideo={handleDeleteVideo} showDeleteButton={true} />
                       </div>
                     )}
                     <button className="btn-submit" type="submit">

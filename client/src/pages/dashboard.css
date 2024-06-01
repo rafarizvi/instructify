@@ -8,3 +8,14 @@
   width: 10%;
 }
 
+
+.custom-delete-btn {
+  top: -7px; 
+  right: -7px; 
+  pointer-events: auto; 
+}
+
+.video-embed {
+  position: relative;
+  overflow: hidden;
+}

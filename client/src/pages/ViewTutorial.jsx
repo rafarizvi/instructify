@@ -77,7 +77,7 @@ const ViewTutorial = () => {
             </div>
 
             {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (
-              <VideoCarousel videos={clickedTutorial.videos} />
+              <VideoCarousel videos={clickedTutorial.videos} showDeleteButton={false} />
             )}
 
             <div className="commentDiv">

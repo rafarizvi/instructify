@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-const VideoCarousel = ({ videos }) => {
+const VideoCarousel = ({ videos, handleDeleteVideo, showDeleteButton }) => {
   useEffect(() => {
     const loadYouTubeAPI = () => {
       if (!window.YT) {
@@ -49,7 +52,7 @@ const VideoCarousel = ({ videos }) => {
   return (
     <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows>
       {videos.map((video, index) => (
-        <div key={video._id} className="video-embed">
+        <div key={video._id} className="video-embed position-relative">
           <iframe
             id={`ytplayer-${index}`}
             width="100%"
@@ -60,6 +63,15 @@ const VideoCarousel = ({ videos }) => {
             allowFullScreen
             title={video.title}
           ></iframe>
+          {showDeleteButton && (
+            <Button
+              variant="link"
+              className="btn btn-danger position-absolute custom-delete-btn"
+              onClick={() => handleDeleteVideo(video._id)}
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </Button>
+          )}
         </div>
       ))}
     </Carousel>
