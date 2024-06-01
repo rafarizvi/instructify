@@ -43,7 +43,7 @@ const Donation = () => {
             onChange={(e) => setAmount(e.target.value)}
           />
         </label> <br></br>
-        <button style={{'marginTop': '10px'}} class="btn btn-success" type="submit" disabled={loading}>
+        <button style={{'marginTop': '10px'}} className="btn btn-success" type="submit" disabled={loading}>
           {loading ? 'Processing...' : 'Donate'}
         </button>
       </form>
