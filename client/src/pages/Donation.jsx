@@ -31,21 +31,19 @@ const Donation = () => {
   };
 
   return (
-    <div>
-      <h1>Donate</h1>
-      <h2>Please consider donating to Instructify to keep us up and running for free!</h2>
-      <form onSubmit={handleDonate}>
-        <label>
-          Donation Amount in whole number:
-          <input
+    <div style={{'textAlign': 'center', 'margin': '10%', 'padding': '2%'}}>
+      <h1 style={{'margin': '5px'}}>Donate</h1>
+      <h3>Please consider donating to Instructify to keep us up and running for free!</h3>
+      <form onSubmit={handleDonate} style={{'margin': '5px'}}>
+        <label style={{'fontSize': '24px', 'marginTop': '20px'}}>
+          Enter amount in whole number $:
+          <input style={{'marginLeft': '10px', 'borderRadius':'8px'}}
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            min="1"
-            step="0.01"
           />
-        </label>
-        <button type="submit" disabled={loading}>
+        </label> <br></br>
+        <button style={{'marginTop': '10px'}} class="btn btn-success" type="submit" disabled={loading}>
           {loading ? 'Processing...' : 'Donate'}
         </button>
       </form>
