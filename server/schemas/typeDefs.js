@@ -57,6 +57,10 @@ const typeDefs = `#graphql
     thumbnail: String!
   }
 
+  type Checkout {
+  session: ID
+  }
+
   type Mutation {
     addProfile(name: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
@@ -69,6 +73,7 @@ const typeDefs = `#graphql
     updateComment(_id: ID!, content: String): Comment
     saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String!, tutorialId:ID!): Tutorial
     removeVideoFromTutorial(tutorialId: ID!, videoId: ID!): Tutorial
+    giveDonation(amount: Float!): Checkout
 }
 `;
 

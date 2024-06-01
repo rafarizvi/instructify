@@ -1,6 +1,7 @@
-const { Profile, Category, Tutorial, Comment } = require('../models'); // Remove Video import
+const { Profile, Category, Tutorial, Comment, Donation } = require('../models'); // Remove Video import
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
@@ -18,7 +19,7 @@ const resolvers = {
     tutorial: async (parent, { _id }) => Tutorial.findById(_id).populate('author category comments videos'),
     tutorials: async () => Tutorial.find({}).populate('author category comments videos'),
     categories: async () => Category.find({}),
-    comments: async () => Comment.find({})
+    comments: async () => Comment.find({}),
   },
 
   Profile: {
@@ -59,7 +60,7 @@ const resolvers = {
         throw new Error('An error occurred during sign up. Please try again.');
       }
     },
-    
+
     login: async (parent, { email, password }) => {
       const profile = await Profile.findOne({ email });
       if (!profile) {
@@ -78,7 +79,7 @@ const resolvers = {
     addTutorial: async (parent, { title, category, content }, context) => {
       if (context.user) {
         const categoryDoc = await Category.findOne({ name: category });
-        if (title==='' || category==="" || content==='' ) {
+        if (title === '' || category === "" || content === '') {
           throw new Error('Please fill out all fields');
         }
 
@@ -271,7 +272,7 @@ const resolvers = {
         console.error('Error saving video to tutorial:', error);
         throw new Error('Error saving video to tutorial: ' + error.message);
       }
-    },  
+    },
     removeVideoFromTutorial: async (parent, { tutorialId, videoId }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
@@ -287,9 +288,31 @@ const resolvers = {
 
       return Tutorial.findById(tutorialId).populate('author category videos');
     },
+
+      giveDonation: async (parent, { amount }, context) => {
+        const url = new URL(context.headers.referer).origin;
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          line_items: [{
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: 'Donation',
+              },
+              unit_amount: amount * 100, // Stripe expects the amount in cents
+            },
+            quantity: 1,
+          }],
+          mode: 'payment',
+          success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${url}/`,
+        });
+  
+        return { session: session.id };
+      },
+
   },
 };
-
 
 
 module.exports = resolvers;

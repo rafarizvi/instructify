@@ -53,6 +53,9 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link navbar-link" to="/videoSearch" onClick={handleNavItemClick}>Search Videos</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link navbar-link" to="/donate" onClick={handleNavItemClick}>Donate</Link>
+            </li>
           </ul>
           <ul className="navbar-nav ms-auto" id="navbar-right">
             {!isLoggedIn ? (
