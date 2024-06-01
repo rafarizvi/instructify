@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import { useContext } from 'react';
 import { useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { QUERY_ALL_TUTORIALS } from '../utils/queries';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
 import '../pages/tutorialCategories.css';
 
+//importing for search feature in navbar throughout all page
+import  { SearchContext } from '../components/search/SearchContext';
+
+
+
 function All() {
-  // Fetch all tutorials
   const { loading, data, error } = useQuery(QUERY_ALL_TUTORIALS);
-
-  const [searchTutorial, setSearchTerm] = useState('');
-
+  
+  // adding search tutorial to be used within search feature/ context
+  const { searchTutorial } = useContext(SearchContext);
   const navigate = useNavigate();
   const handleButtonClick = (buttonId) => {
     navigate('/categories/view-tutorial', { state: { clickButton: buttonId } });
@@ -26,17 +29,6 @@ function All() {
   return (
     <>
       <h3 className='title' style={{ 'textAlign': 'center', 'padding': '10px', fontSize: '50px' }}>All Tutorials</h3>
-      <Form className="d-flex justify-content-center mb-4 m-4">
-        <Form.Control
-          type="search"
-          placeholder="Looking for a specific tutorial?"
-          aria-label="Search"
-          value={searchTutorial}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ width: '40%' }}
-        />
-      </Form>
-
       {loading ? (
         <div>Loading...</div>
       ) : error ? (

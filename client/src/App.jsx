@@ -5,7 +5,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+//importing the universe search from components
+import { SearchProvider } from './components/search/SearchContext';
 import Navbar from './components/Navbar';
 
 const httpLink = createHttpLink({
@@ -29,12 +30,15 @@ const client = new ApolloClient({
 
 /* import Footer from './components/Footer' */
 
+// adding the universal search to wrap the entire webpage so the user can use it anywhere!
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Navbar />
-      <Outlet />
-      <ToastContainer position="top-center" autoClose={1200} />
+      <SearchProvider>
+        <Navbar />
+        <Outlet />
+        <ToastContainer position="top-center" autoClose={1200} />
+      </SearchProvider>
     </ApolloProvider>
   );
 }

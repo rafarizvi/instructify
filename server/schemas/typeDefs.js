@@ -12,7 +12,7 @@ const typeDefs = `#graphql
     _id: ID!
     title: String!
     content: String!
-    author: Profile!
+    author: Profile
     category: Category
     comments: [Comment!]
     videos: [Video!]!
