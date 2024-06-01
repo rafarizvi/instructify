@@ -9,7 +9,8 @@ const Donation = () => {
 
   useEffect(() => {
     if (window.Stripe) {
-      setStripe(window.Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx')); // Replace with your actual Stripe publishable key
+      // Test publishable api key
+      setStripe(window.Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx')); 
     }
   }, []);
 
@@ -32,9 +33,10 @@ const Donation = () => {
   return (
     <div>
       <h1>Donate</h1>
+      <h2>Please consider donating to Instructify to keep us up and running for free!</h2>
       <form onSubmit={handleDonate}>
         <label>
-          Donation Amount:
+          Donation Amount in whole number:
           <input
             type="number"
             value={amount}

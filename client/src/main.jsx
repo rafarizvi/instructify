@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       { path: 'tutorial/:id', element: <DashboardTutorial /> },
       { path: 'about', element: <About /> },
       { path: 'all', element: <All /> },    
-      { path: 'donation', element: <Donation /> }
+      { path: 'donate', element: <Donation /> }
 ],
   },
 ]);
