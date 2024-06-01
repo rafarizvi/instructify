@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link from react-router-dom
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
@@ -106,6 +106,11 @@ const Dashboard = () => {
     navigate('/categories/view-tutorial', { state: { clickButton: buttonId } });
   };
 
+  //adding variable to have user go right to creating a tutorial if user does not have any
+  const handleCreateClick = () => {
+    navigate('/tutorial')
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -139,26 +144,45 @@ const Dashboard = () => {
                       {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
                     </Card.Title>
                   </Button>
-                  <Button className="tutorialBtn" style={{ width: '80px' }} onClick={() => handleButtonClick(tutorial._id)}>
+
+                  <Button className="tutorialBtn" 
+                  style={{ width: '80px' }} 
+                  onClick={() => handleButtonClick(tutorial._id)}>
                     <Card.Title style={{ fontSize: '16px' }}>View</Card.Title>
                   </Button>
-                  <Button className="tutorialBtn" style={{ width: '80px' }} onClick={() => handleEditClick(tutorial)}>
+
+                  <Button className="tutorialBtn" 
+                  style={{ width: '80px' }} 
+                  onClick={() => handleEditClick(tutorial)}>
                     <Card.Title style={{ fontSize: '16px' }}>Edit</Card.Title>
                   </Button>
-                  <Button className="tutorialBtn" style={{ color: 'red', width: '80px' }} onClick={() => handleDeleteClick(tutorial._id)}>
+
+                  <Button className="tutorialBtn" 
+                  style={{ color: 'red', width: '80px' }} 
+                  onClick={() => handleDeleteClick(tutorial._id)}>
                     Delete
                   </Button>
                 </div>
+
                 {editFormState._id === tutorial._id && (
                   <form onSubmit={handleEditSubmit} className="edit-form">
                     <h3>Edit Tutorial</h3>
                     <div className="form-group">
                       <label htmlFor="title">Title</label>
-                      <input className="form-control" id="title" placeholder="Title" name="title" type="text" value={editFormState.title} onChange={handleEditChange} />
+                      <input className="form-control" 
+                      id="title" placeholder="Title" 
+                      name="title" type="text" 
+                      value={editFormState.title} 
+                      onChange={handleEditChange} />
                     </div>
                     <div className="form-group">
                       <label htmlFor="content">Content</label>
-                      <textarea className="form-control" id="content" placeholder="Content" name="content" rows="10" value={editFormState.content} onChange={handleEditChange} />
+                      <textarea className="form-control" 
+                      id="content" placeholder="Content" 
+                      name="content" 
+                      rows="10" 
+                      value={editFormState.content} 
+                      onChange={handleEditChange} />
                     </div>
                     <div className="form-group">
                       <label htmlFor="category">Category</label>
@@ -207,7 +231,10 @@ const Dashboard = () => {
               </div>
             ))
           ) : (
-            <div>No tutorials available</div>
+            <div className="no-tutorials text-center m-5">
+              <p>Looks like you do not have any tutorials yet! Why don't you share what you know?</p>
+              <Button onClick={handleCreateClick} className="tutorialBtn">Create a Tutorial</Button>
+            </div>
           )}
         </div>
       </div>
@@ -215,6 +242,6 @@ const Dashboard = () => {
       <ConfirmDelete show={showModal} handleClose={() => setShowModal(false)} handleDelete={handleDelete} />
     </div>
   );
-  };
+};
   
-  export default Dashboard;
+export default Dashboard;

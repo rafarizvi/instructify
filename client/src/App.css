@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap');
+
+
+
 /* General Styles */
 body, html {
   height: 100%;
@@ -38,6 +42,44 @@ body, html {
   padding: 2rem;
 }
 
+p {
+  font-family: 'Playpen Sans';
+  font-size: 20px;
+}
+
+
+a:hover {
+  text-shadow: 4px 5px 12px rgb(159, 171, 204);
+  font-size: 17px;
+  font-weight: bold;
+  text-decoration: none
+}
+
+a:active{
+  font-weight: 800;
+  font-size: 17px;
+  text-decoration: none; 
+}
+
+.nav-link {
+  font-family: 'Playpen Sans';
+  font-size: 16px;
+  text-decoration: none; 
+
+}
+
+#navbar-logout {
+  font-family: 'Playpen Sans';
+  font-size: 16px;
+  font-weight: 400;
+}
+
+#navbar-logout:hover {
+  text-shadow: 4px 5px 12px rgb(159, 171, 204);
+  font-size: 17px;
+  font-weight: bold;
+}
+
 /* Typography */
 .title, h1 {
   font-family: 'Cheerio', Arial, sans-serif;
@@ -45,6 +87,14 @@ body, html {
   background-clip: text; 
   -webkit-background-clip: text;
   color: transparent;
+}
+
+.dashboard-subtitle  {
+  font-family: 'Cheerio', Arial, sans-serif;
+  background: linear-gradient(to right, #58889b, #057ce7, #5538da, #6f50e6);
+  background-clip: text; 
+  -webkit-background-clip: text;
+  color: #004996;
 }
 
 h1.mb-4.text-center {
@@ -125,6 +175,7 @@ h1.all-tutorials-title {
   text-align: center;
   margin-bottom: 2rem;
 }
+
 
 .lead {
   padding-bottom: 30px;
