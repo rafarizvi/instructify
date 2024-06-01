@@ -10,10 +10,9 @@ import Card from 'react-bootstrap/Card';
 
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
+import './dashboard.css';
 
-import ConfirmDelete from '../components/ConfirmDelete'
 
-// adding categories that can be used via dropdown for user
 const categoryList = [
   'Tech',
   'Academics',
@@ -48,8 +47,6 @@ const Dashboard = () => {
   });
 
   const [expandedTutorialId, setExpandedTutorialId] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [tutorialToDelete, setTutorialToDelete] = useState(null);
 
   const handleEditChange = (event) => {
     const { name, value } = event.target;
@@ -76,23 +73,14 @@ const Dashboard = () => {
     }
   };
 
-  const handleDelete = async () => {
-    if (tutorialToDelete) {
-      try {
-        await removeTutorial({
-          variables: { id: tutorialToDelete },
-        });
-        setShowModal(false);
-        setTutorialToDelete(null);
-      } catch (e) {
-        console.error('Error during mutation:', e);
-      }
+  const handleDelete = async (tutorialId) => {
+    try {
+      await removeTutorial({
+        variables: { id: tutorialId },
+      });
+    } catch (e) {
+      console.error('Error during mutation:', e);
     }
-  };
-
-  const handleDeleteClick = (tutorialId) => {
-    setShowModal(true);
-    setTutorialToDelete(tutorialId);
   };
 
   const handleDeleteVideo = async (tutorialId, videoId) => {
@@ -179,7 +167,7 @@ const Dashboard = () => {
                 <Button
                   className="tutorialBtn"
                   style={{ color: 'red', marginLeft: '40%', marginRight: '40%', fontSize: '15px' }}
-                  onClick={() => handleDeleteClick(tutorial._id)}
+                  onClick={() => handleDelete(tutorial._id)}
                 >
                   Delete
                 </Button>
@@ -231,28 +219,28 @@ const Dashboard = () => {
                       <div>
                         <h4>Videos:</h4>
                         {editFormState.videos.map((video) => (
-                          <div key={video._id} className="col-md-4 mb-3 position-relative">
-                            <p>Title: {video.title}</p>
-                            <div className="video-embed mb-4 position-relative">
-                              <iframe
-                                width="100%"
-                                height="200"
-                                src={`https://www.youtube.com/embed/${video.videoId}`}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                title={video.title}
-                              ></iframe>
-                              <Button
-                                variant="link"
-                                className="btn btn-primary position-relative position-absolute top-15 start-75 translate-middle badge rounded-circle bg-danger large-delete-btn"
-                                onClick={() => handleDeleteVideo(editFormState._id, video._id)}
-                              >
-                                <FontAwesomeIcon icon={faTimes} />
-                              </Button>
+                            <div key={video._id} className="col-md-4 mb-3 position-relative">
+                              <p>Title: {video.title}</p>
+                              <div className="video-embed mb-4 position-relative">
+                                <iframe
+                                  width="100%"
+                                  height="200"
+                                  src={`https://www.youtube.com/embed/${video.videoId}`}
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                  title={video.title}
+                                ></iframe>
+                                <Button
+                                  variant="link"
+                                  className="btn btn-primary position-relative position-absolute top-15 start-75 translate-middle badge rounded-circle bg-danger large-delete-btn"
+                                  onClick={() => handleDeleteVideo(editFormState._id, video._id)}
+                                >
+                                  <FontAwesomeIcon icon={faTimes} />
+                                </Button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                     )}
                     <button className="btn-submit" type="submit">
@@ -267,12 +255,6 @@ const Dashboard = () => {
           )}
         </div>
       </div>
-
-      <ConfirmDelete
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        handleDelete={handleDelete}
-      />
     </div>
   );
 };
