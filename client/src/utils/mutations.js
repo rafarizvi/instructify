@@ -131,3 +131,11 @@ export const REMOVE_VIDEO_FROM_TUTORIAL = gql`
     }
   }
 `;
+
+export const GIVE_DONATION = gql`
+  mutation GiveDonation($amount: Float!) {
+    giveDonation(amount: $amount) {
+      session
+    }
+  }
+`;

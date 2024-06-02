@@ -336,7 +336,7 @@ h1.all-tutorials-title {
 .video-search-title {
   font-family: 'Cheerio', Arial, sans-serif;
   background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
-  background-clip: text; 
+  background-clip: text;
   -webkit-background-clip: text;
   font-size: 3rem !important;
   text-align: center;
@@ -347,7 +347,7 @@ h1.all-tutorials-title {
 
 .video-search-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: auto;
   padding: 20px;
   text-align: center;
 }
@@ -396,6 +396,7 @@ h1.all-tutorials-title {
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .search-prefix {
@@ -562,3 +563,6 @@ li {
   align-items: center;
 }
 
+.video-results {
+  margin-top: 20px; /* Ensure there's space between the search bar and results */
+}

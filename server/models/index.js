@@ -4,6 +4,7 @@ const Category = require('./Category');
 const Tutorial = require('./Tutorial');
 const Comment = require('./Comment');
 const Video = require('./Video');
+const Donation = require('./Donation');
 
 
 // Exporting out the models
@@ -12,5 +13,6 @@ module.exports = {
     Category, 
     Tutorial, 
     Comment,
-    Video
+    Video,
+    Donation
 };
