@@ -8,7 +8,9 @@ import Card from 'react-bootstrap/Card';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import ConfirmDelete from '../components/ConfirmDelete';
-import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial'
+import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial';
+
+import '../components/createTutorial/Tutorial.css'
 
 const categoryList = [
   'Tech', 'Academics', 'Home', 'Arts', 'Lifestyle/Hobbies', 'Business/Financial',
@@ -33,7 +35,7 @@ const Dashboard = () => {
   const [editFormState, setEditFormState] = useState({
     _id: '', title: '', content: '', category: '', videos: [],
   });
-  const [expandedTutorialId, setExpandedTutorialId] = useState(null);
+  // const [expandedTutorialId, setExpandedTutorialId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [tutorialToDelete, setTutorialToDelete] = useState(null);
 
@@ -88,9 +90,9 @@ const Dashboard = () => {
     }
   };
 
-  const toggleExpand = (tutorialId) => {
-    setExpandedTutorialId(expandedTutorialId === tutorialId ? null : tutorialId);
-  };
+  // const toggleExpand = (tutorialId) => {
+  //   setExpandedTutorialId(expandedTutorialId === tutorialId ? null : tutorialId);
+  // };
 
   const handleEditClick = (tutorial) => {
     setEditFormState({
@@ -127,38 +129,39 @@ const Dashboard = () => {
         <div className="tutorials-list">
           {data.me && data.me.tutorials && data.me.tutorials.length > 0 ? (
             data.me.tutorials.map((tutorial) => (
-              <div key={tutorial._id} className="tutorial-card card mt-5" style={{ backgroundColor: 'transparent', borderColor: '#2171e5', borderWidth: 'px' }}>
-                <h3 className="tutorial-title">{tutorial.title}</h3>
-                <p className="tutorial-category mt-4 badge text-bg-info" style={{ fontSize: '12px', marginRight: 'auto' }}>{tutorial.category?.name}</p>
-                <div className="tutorial-content" style={{ whiteSpace: 'pre-wrap' }}>
-                  {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
+              <div key={tutorial._id} className="tutorial-card card mt-5" style={{ backgroundColor: 'transparent', borderColor: '#2171e5', borderWidth: '1px', borderRadius: '30px' }}>
+                <h3 className="tutorial-title text-center">{tutorial.title}</h3>
+                <div className="d-flex justify-content-center">
+                  <p className="tutorial-category mt-4 badge text-bg-info" style={{ fontSize: '20px' }}>{tutorial.category?.name}</p>
                 </div>
+                {/* <div className="tutorial-content" style={{ whiteSpace: 'pre-wrap' }}>
+                  {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
+                </div> */}
 
                 <br />
                 <DateFormatTutorial createdAt={tutorial.createdAt} /> 
 
-                
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Button className="tutorialBtn" onClick={() => toggleExpand(tutorial._id)}>
+                  {/* <Button className="tutorialBtn" onClick={() => toggleExpand(tutorial._id)}>
                     <Card.Title style={{ fontSize: '16px' }}>
                       {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
                     </Card.Title>
-                  </Button>
+                  </Button> */}
 
-                  <Button className="tutorialBtn" 
-                  style={{ width: '80px' }} 
+                  <Button className="tutorialBtnDashboard tutorialBtn " 
+                  style={{ width: '200px' }} 
                   onClick={() => handleButtonClick(tutorial._id)}>
                     <Card.Title style={{ fontSize: '16px' }}>View</Card.Title>
                   </Button>
 
-                  <Button className="tutorialBtn" 
-                  style={{ width: '80px' }} 
+                  <Button className="tutorialBtnDashboard tutorialBtn " 
+                  style={{ width: '200px' }} 
                   onClick={() => handleEditClick(tutorial)}>
                     <Card.Title style={{ fontSize: '16px' }}>Edit</Card.Title>
                   </Button>
 
-                  <Button className="tutorialBtn" 
-                  style={{ color: 'red', width: '80px' }} 
+                  <Button className="tutorialBtnDashboard tutorialBtn " 
+                  style={{ color: 'red', width: '200px' }} 
                   onClick={() => handleDeleteClick(tutorial._id)}>
                     Delete
                   </Button>
@@ -223,7 +226,7 @@ const Dashboard = () => {
                         ))}
                       </div>
                     )}
-                    <button className="btn-submit" type="submit">
+                    <button className="tutorialBtnDashboard tutorialBtn" type="submit">
                       Update Tutorial
                     </button>
                   </form>

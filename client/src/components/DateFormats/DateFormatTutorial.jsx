@@ -1,6 +1,6 @@
 const DateFormatTutorial = ({ createdAt }) => {
   return (
-    <small>{new Date(parseInt(createdAt)).toLocaleDateString('en-US', 
+    <small className="text-center">{new Date(parseInt(createdAt)).toLocaleDateString('en-US', 
     { year: 'numeric', month: 'long', day: 'numeric' })}</small>
   )
 }

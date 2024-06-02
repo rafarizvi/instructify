@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial'
+import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial';
 import DateFormatComment from '../components/DateFormats/DateFormatComment';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import '../pages/viewTutorial.css';
+import TutorialDisplay from '../components/tutorialDisplay/TutorialDisplay';
 
 import { QUERY_TUTORIALS } from '../utils/queries';
 import { ADD_COMMENT, REMOVE_COMMENT } from '../utils/mutations';
-
 import Auth from '../utils/auth';
 
 const ViewTutorial = () => {
@@ -73,14 +73,14 @@ const ViewTutorial = () => {
     <div className='tutorialDiv'>
       <Card className='tutorialCard'>
         <Card.Body>
-          <h2 style={{ 'fontWeight': 'bold' }}>{clickedTutorial.title}</h2>
-          <h5>By {clickedTutorial.author?.name}</h5>
-          <span className="badge text-bg-info">{clickedTutorial.category?.name}</span>
-          <div style={{ 'paddingTop': '5%' }}>
-            <p style={{ 'fontSize': '18px', whiteSpace: 'pre-wrap' }}>{clickedTutorial.content}</p>
-            
-            <DateFormatTutorial createdAt={clickedTutorial.createdAt} />
-          </div>
+          <TutorialDisplay
+            title={clickedTutorial.title}
+            content={clickedTutorial.content}
+            author={clickedTutorial.author}
+            category={clickedTutorial.category}
+          />
+          <DateFormatTutorial createdAt={clickedTutorial.createdAt} />
+
 
           {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (
             <div className="tutorial-videos">
@@ -157,10 +157,9 @@ const ViewTutorial = () => {
               </div>
             ))}
           </div>
-            </Card.Body>
+        </Card.Body>
       </Card>
     </div>
-      
   );
 };
 

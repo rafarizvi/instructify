@@ -441,6 +441,10 @@ h1.all-tutorials-title {
   max-width: 500px;
 }
 
+content {
+  font-size: large;
+}
+
 .form-title {
   font-family: 'Cheerio', Arial, sans-serif;
   background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
@@ -457,6 +461,13 @@ h1.all-tutorials-title {
   gap: 1rem;
 }
 
+
+.tutorialBtnDashboard {
+  display: block;
+  width: 200px;
+  margin: 20px auto 0 auto; /* Center the button */
+}
+
 /* changing for all 'forms' which has caused an issue with the edit tutorial feature. 
 if this is needed, it needs a separate class name. will commentout for now */
 
@@ -468,6 +479,24 @@ div.form-group {
   width: 100%;
 }
 
+.form-input-signup, .form-input-login {
+  margin: 1%;
+  display: flex;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.ql-syntax {
+  font-size: 15px;
+}
+
+li {
+  font-size: 17px;
+}
+
 .form-input {
   display: flex;
   padding: 0.75rem;
@@ -476,6 +505,7 @@ div.form-group {
   font-size: 1rem;
   width: 100%;
 }
+
 
 .form-input:focus {
   border-color: #007bff;
