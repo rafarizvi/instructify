@@ -14,6 +14,7 @@
     "@apollo/client": "^3.10.4",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "google-auth-library": "^9.10.0",
     "googleapis": "^137.1.0",
