@@ -40,7 +40,7 @@ const Navbar = () => {
 
   // using a variable to exclude the searchbar from showing up on certain pages. 
   // easier to maintain if deciding to add more pages in the future- you can add the pages into this array
-  const excludedRoutes = ['/signup', '/login', '/about'];
+  const excludedRoutes = ['/signup', '/login', '/about', '/donate'];
 
 
   return (
