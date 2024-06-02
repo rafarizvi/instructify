@@ -1,12 +1,24 @@
 import { useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { ADD_TUTORIAL } from '../../utils/mutations';
-import { GET_CATEGORIES, QUERY_USER_TUTORIALS } from '../../utils/queries';
+import { QUERY_USER_TUTORIALS } from '../../utils/queries';
 import AuthService from '../../utils/auth';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './Tutorial.css';
+
+
+const categories =
+  [
+    'Tech',
+    'Academics',
+    'Home',
+    'Arts',
+    'Lifestyle/Hobbies',
+    'Business/Financial'
+  ]
+
 
 const modules = {
   toolbar: [
@@ -40,7 +52,7 @@ const Tutorial = () => {
 
   const navigate = useNavigate();
 
-  const { loading: categoriesLoading, data: categoriesData, error: categoriesError } = useQuery(GET_CATEGORIES);
+  // const { loading: categoriesLoading, data: categoriesData, error: categoriesError } = useQuery(GET_CATEGORIES);
 
   const [addTutorial, { error }] = useMutation(ADD_TUTORIAL, {
     context: {
@@ -73,7 +85,7 @@ const Tutorial = () => {
 
     try {
       await addTutorial({
-        variables: { 
+        variables: {
           title: formState.title,
           content: formState.content,
           category: formState.category
@@ -90,13 +102,13 @@ const Tutorial = () => {
     }
   };
 
-  if (categoriesLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (categoriesLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (categoriesError) {
-    return <div>Error: {categoriesError.message}</div>;
-  }
+  // if (categoriesError) {
+  //   return <div>Error: {categoriesError.message}</div>;
+  // }
 
   return (
     <div className="page-container">
@@ -132,11 +144,12 @@ const Tutorial = () => {
               onChange={(e) => handleChange('category', e.target.value)}
             >
               <option value="">Select a category</option>
-              {categoriesData.categories.map(category => (
-                <option key={category._id} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
+              <option value={categories[0]}>{categories[0]}</option>
+              <option value={categories[1]}>{categories[1]}</option>
+              <option value={categories[2]}>{categories[2]}</option>
+              <option value={categories[3]}>{categories[3]}</option>
+              <option value={categories[4]}>{categories[4]}</option>
+              <option value={categories[5]}>{categories[5]}</option>
             </select>
           </div>
           {minimumContent && (
