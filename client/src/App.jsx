@@ -6,6 +6,7 @@ import { setContext } from '@apollo/client/link/context';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import ErrorBoundary from './components/ErrorBoundary';
 import Navbar from './components/Navbar';
 
 const httpLink = createHttpLink({
@@ -32,9 +33,11 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
+      <ErrorBoundary>
       <Navbar />
       <Outlet />
       <ToastContainer position="top-center" autoClose={1200} />
+      </ErrorBoundary>
     </ApolloProvider>
   );
 }

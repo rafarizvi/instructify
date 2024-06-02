@@ -5,6 +5,7 @@ import './index.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+
 //importing from pages index.js
 import { 
   Home, 
@@ -13,13 +14,13 @@ import {
   All,
   TutorialCategories,
   ViewTutorial,
-  Donation } from './pages';
+  Donation, } from './pages';
 
 //importing from components index.js
 import { 
   VideoSearch, 
   Login, Signup, 
-  Tutorial, About } from './components';
+  Tutorial, About, Errorpage } from './components';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +38,8 @@ const router = createBrowserRouter([
       { path: 'tutorial/:id', element: <DashboardTutorial /> },
       { path: 'about', element: <About /> },
       { path: 'all', element: <All /> },    
-      { path: 'donate', element: <Donation /> }
+      { path: 'donate', element: <Donation /> },
+      { path: '*', element: <Errorpage error={{ status: 404, message: 'Not Found' }} /> },
 ],
   },
 ]);
