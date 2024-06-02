@@ -9,9 +9,10 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "build": "cd client && npm run build",
     "seed": "node seed.js",
-    "render-build": "cd client && npm install && npm run build",
+    "render-build": "npm install && npm run build",
     "dev": "vite",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "postinstall": "vite build"
   },
   "keywords": [],
   "author": "",
