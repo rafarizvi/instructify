@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
+import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial';
+import DateFormatComment from '../components/DateFormats/DateFormatComment';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import VideoCarousel from '../components/VideoCarousel';
 import '../pages/viewTutorial.css';
+import TutorialDisplay from '../components/tutorialDisplay/TutorialDisplay';
 import { QUERY_TUTORIALS } from '../utils/queries';
 import { ADD_COMMENT, REMOVE_COMMENT } from '../utils/mutations';
 import Auth from '../utils/auth';
@@ -65,71 +68,73 @@ const ViewTutorial = () => {
   }
 
   return (
-    <div className="tutorialDiv">
-      {clickedTutorial && (
-        <Card className="tutorialCard">
-          <Card.Body>
-            <h2 style={{ fontWeight: 'bold' }}>{clickedTutorial.title}</h2>
-            <h5>By {clickedTutorial.author?.name}</h5>
-            <span className="badge text-bg-info">{clickedTutorial.category?.name}</span>
-            <div style={{ paddingTop: '5%' }}>
-              <p style={{ fontSize: '18px', whiteSpace: 'pre-wrap' }}>{clickedTutorial.content}</p>
-            </div>
+    <div className='tutorialDiv'>
+      <Card className='tutorialCard'>
+        <Card.Body>
+          <TutorialDisplay
+            title={clickedTutorial.title}
+            content={clickedTutorial.content}
+            author={clickedTutorial.author}
+            category={clickedTutorial.category}
+          />
+          <DateFormatTutorial createdAt={clickedTutorial.createdAt} />
 
-            {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (
-              <VideoCarousel videos={clickedTutorial.videos} />
-            )}
 
-            <div className="commentDiv">
-              <div>
-                <h4>Add your comment</h4>
-                {Auth.loggedIn() ? (
-                  <Form onSubmit={handleFormSubmit}>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                      <Form.Control
-                        style={{ border: 'solid 1.5px black', marginBottom: '10px' }}
-                        as="textarea"
-                        rows={3}
-                        placeholder="Type here..."
-                        value={content}
-                        onChange={(event) => setContent(event.target.value)}
-                      />
-                      <div className="col-6 col-sm-3">
-                        <button className="btn btn-info" type="submit">
-                          Submit
-                        </button>
+          {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (
+            <VideoCarousel videos={clickedTutorial.videos} />
+          )}
+
+          <div className="commentDiv">
+            <div>
+              <h4>Add your comment</h4>
+              {Auth.loggedIn() ? (
+                <Form onSubmit={handleFormSubmit}>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                    <Form.Control
+                      style={{ border: 'solid 1.5px black', marginBottom: '10px' }}
+                      as="textarea"
+                      rows={3}
+                      placeholder="Type here..."
+                      value={content}
+                      onChange={(event) => setContent(event.target.value)}
+                    />
+                    <div className="col-6 col-sm-3">
+                      <button className="btn btn-info" type="submit">
+                        Submit
+                      </button>
+                    </div>
+                    {error && (
+                      <div className="col-12 my-3 bg-danger text-white p-3">
+                        {error.message}
                       </div>
-                      {error && (
-                        <div className="col-12 my-3 bg-danger text-white p-3">
-                          {error.message}
-                        </div>
-                      )}
-                    </Form.Group>
-                  </Form>
-                ) : (
-                  <p>
-                    You need to be logged in to add comments. Please{' '}
-                    <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
-                  </p>
-                )}
-              </div>
-
-              <h4 style={{ fontWeight: 'bold', paddingBottom: '10px' }}>Comments</h4>
-              {clickedTutorial.comments && clickedTutorial.comments.map((comment) => (
-                <div key={comment._id}>
-                  <span className="badge text-bg-secondary">{comment.author.name}</span>
-                  {comment.author._id === profileId && (
-                    <button className="badge text-bg-danger" style={{ marginLeft: '5px' }} onClick={() => deleteComment(comment._id)}>
-                      Delete
-                    </button>
-                  )}
-                  <p>{comment.content}</p>
-                </div>
-              ))}
+                    )}
+                  </Form.Group>
+                </Form>
+              ) : (
+                <p>
+                  You need to be logged in to add comments. Please{' '}
+                  <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
+                </p>
+              )}
             </div>
-          </Card.Body>
-        </Card>
-      )}
+
+            <h4 style={{ fontWeight: 'bold', paddingBottom: '10px' }}>Comments</h4>
+            {clickedTutorial.comments && clickedTutorial.comments.map((comment) => (
+              <div key={comment._id}>
+                <span className="badge text-bg-secondary">{comment.author.name}</span>
+                {comment.author._id === profileId && (
+                  <button className="badge text-bg-danger" style={{ marginLeft: '5px' }} onClick={() => deleteComment(comment._id)}>
+                    Delete
+                  </button>
+                )}
+                <p>{comment.content}
+                  <br />
+                  <DateFormatComment createdAt={comment.createdAt} /> </p>
+              </div>
+            ))}
+          </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

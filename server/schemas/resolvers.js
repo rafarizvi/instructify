@@ -87,7 +87,8 @@ const resolvers = {
           title,
           author: context.user._id,
           category: categoryDoc._id,
-          content
+          content,
+          createdAt: new Date(),
         });
 
         await Profile.findByIdAndUpdate(
@@ -154,7 +155,8 @@ const resolvers = {
           const addComment = await Comment.create({
             content,
             author: profileId,
-            tutorial: tutorialId
+            tutorial: tutorialId,
+            createdAt: new Date(),
           });
 
           await Profile.findByIdAndUpdate(
@@ -272,7 +274,7 @@ const resolvers = {
         console.error('Error saving video to tutorial:', error);
         throw new Error('Error saving video to tutorial: ' + error.message);
       }
-    },
+    },  
     removeVideoFromTutorial: async (parent, { tutorialId, videoId }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');

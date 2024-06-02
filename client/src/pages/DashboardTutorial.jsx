@@ -4,6 +4,7 @@ const DashboardTutorial = () => {
   return (
     <>
     <ViewTutorial />
+    
     </>
   )
   }

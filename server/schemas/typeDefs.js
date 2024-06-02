@@ -1,5 +1,4 @@
 const typeDefs = `#graphql
-
   type Profile {
     _id: ID!
     name: String!
@@ -13,12 +12,11 @@ const typeDefs = `#graphql
     _id: ID!
     title: String!
     content: String!
-    videoId: String!
-    thumbnail: String!
-    author: Profile!
+    author: Profile
     category: Category
     comments: [Comment!]
     videos: [Video!]!
+    createdAt: String!
   }
 
   type Category {
@@ -30,9 +28,9 @@ const typeDefs = `#graphql
   type Comment {
     _id: ID!
     content: String!
-    #had to make profile nullable due to issues. Will add back -tb
     author: Profile
     tutorial: Tutorial
+    createdAt: String!
   }
 
   type Query {
@@ -67,15 +65,13 @@ const typeDefs = `#graphql
     addTutorial(title: String!, content: String!, category: String!): Tutorial
     removeTutorial(_id: ID!): Tutorial
     updateTutorial(_id: ID!, title: String, content: String, category: String): Tutorial
-    # added profile ID to comments
     addComment(profileId: ID!, tutorialId: ID!, content: String!): Comment
     removeComment(_id: ID!): Comment
     updateComment(_id: ID!, content: String): Comment
-    saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String!, tutorialId:ID!): Tutorial
+    saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String!, tutorialId: ID!): Tutorial
     removeVideoFromTutorial(tutorialId: ID!, videoId: ID!): Tutorial
     giveDonation(amount: Float!): Checkout
 }
 `;
 
 module.exports = typeDefs;
-
