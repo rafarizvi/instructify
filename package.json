@@ -12,7 +12,7 @@
     "render-build": "npm install && npm run build",
     "dev": "vite",
     "serve": "vite preview",
-    "postinstall": "vite build"
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",
