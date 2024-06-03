@@ -22,3 +22,13 @@
   border-bottom: solid 1px rgb(134, 134, 134);
   padding-bottom: 1%;
 }
+
+
+.carousel.carousel-slider .control-arrow {
+  top: -8px;
+  color: #f00;
+  font-size: 26px;
+  bottom: 118px;
+  margin-top: 70px;
+  padding: 10px;
+}

@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-
-import VideoCarousel from '../components/VideoCarousel';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import ConfirmDelete from '../components/ConfirmDelete';
@@ -14,6 +12,7 @@ import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial';
 
 import '../components/createTutorial/Tutorial.css'
 import './dashboard.css';
+
 
 const categoryList = [
   'Tech', 'Academics', 'Home', 'Arts', 'Lifestyle/Hobbies', 'Business/Financial',
@@ -81,13 +80,9 @@ const Dashboard = () => {
     setTutorialToDelete(tutorialId);
   };
 
-  const handleDeleteVideo = async (videoId) => {
+  const handleDeleteVideo = async (tutorialId, videoId) => {
     try {
       await removeVideoFromTutorial({ variables: { tutorialId, videoId } });
-      await removeVideoFromTutorial({
-        variables: { tutorialId: editFormState._id, videoId },
-      });
-
       setEditFormState((prevState) => ({
         ...prevState,
         videos: prevState.videos.filter((video) => video._id !== videoId),
@@ -208,7 +203,29 @@ const Dashboard = () => {
                     {editFormState.videos.length > 0 && (
                       <div>
                         <h4>Videos:</h4>
-                        <VideoCarousel videos={editFormState.videos} handleDeleteVideo={handleDeleteVideo} showDeleteButton={true} />
+                        {editFormState.videos.map((video) => (
+                            <div key={video._id} className="col-md-4 mb-3 position-relative">
+                              <p>Title: {video.title}</p>
+                              <div className="video-embed mb-4 position-relative">
+                                <iframe
+                                  width="100%"
+                                  height="200"
+                                  src={`https://www.youtube.com/embed/${video.videoId}`}
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                  title={video.title}
+                                ></iframe>
+                                <Button
+                                  variant="link"
+                                  className="btn btn-primary position-relative position-absolute top-15 start-75 translate-middle badge rounded-circle bg-danger large-delete-btn"
+                                  onClick={() => handleDeleteVideo(editFormState._id, video._id)}
+                                >
+                                  <FontAwesomeIcon icon={faTimes} />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
                       </div>
                     )}
                     <button className="tutorialBtnDashboard tutorialBtn" type="submit">
