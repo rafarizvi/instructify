@@ -20,6 +20,8 @@ Instructify is a dynamic full-stack MERN (MongoDB, Express, React, Node.js) appl
 - **User Authentication:** Secure signup and login functionality with JWT.
 - **Interactive Tutorial Search:** Users can search for tutorials and view detailed information.
 - **Comment System:** Users can post comments on tutorials to facilitate discussion.
+- **YouTube Integration:** Users can search for tutorial videos with our YouTube API integration and can save specific YouTube videos to tutorials they write.
+- **Donation System:** Users can donate to support the platform via Stripe (currently in TEST mode).
 - **Responsive Design:** A polished UI that is fully responsive, ensuring a great experience on all devices.
 - **GraphQL API:** Efficient data fetching with queries and mutations for retrieving, adding, updating, and deleting data.
 - **Protected API Keys:** Ensuring sensitive information remains secure.
@@ -35,12 +37,7 @@ Instructify is a dynamic full-stack MERN (MongoDB, Express, React, Node.js) appl
 
 ### Front-end Setup with React + Vite
 
-This project uses Vite for the front-end setup to leverage fast Hot Module Replacement (HMR) and modern build tools. Vite is configured to work with React, providing an efficient and modern development experience.
-
-Currently, two official plugins are available for React:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh.
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh.
+This project uses [Vite](https://vitejs.dev/) for the front-end setup to leverage fast Hot Module Replacement (HMR) and modern build tools. Vite is configured to work with [React](https://react.dev/), providing an efficient and modern development experience.
 
 
 ## Getting Started
