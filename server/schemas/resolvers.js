@@ -32,9 +32,9 @@ const resolvers = {
     videos: async (parent) => parent.videos // Assuming videos are already populated
   },
 
-  Category: {
-    tutorials: async (parent) => Tutorial.find({ category: parent._id })
-  },
+  // Category: {
+  //   tutorials: async (parent) => Tutorial.find({ category: parent._id })
+  // },
 
   Comment: {
     author: async (parent) => Profile.findById(parent.author)
@@ -78,6 +78,8 @@ const resolvers = {
 
     addTutorial: async (parent, { title, category, content }, context) => {
       if (context.user) {
+
+        // const categoryDoc = await Category.findOne({ name: category });
         if (title === '' || category === "" || content === '') {
           throw new Error('Please fill out all fields');
         }
@@ -85,6 +87,7 @@ const resolvers = {
         const newTutorial = await Tutorial.create({
           title,
           author: context.user._id,
+          // category: categoryDoc.name,
           category,
           content,
           createdAt: new Date(),
@@ -129,14 +132,14 @@ const resolvers = {
     updateTutorial: async (parent, { _id, title, category, content }, context) => {
       if (context.user) {
         try {
-          const categoryDoc = await Category.findOne({ name: category });
-          if (!categoryDoc) {
-            throw new Error('Category not found');
-          }
+          // const categoryDoc = await Category.findOne({ name: category });
+          // if (!categoryDoc) {
+          //   throw new Error('Category not found');
+          // }
 
           const updatedTutorial = await Tutorial.findByIdAndUpdate(
             _id,
-            { title, content, category: categoryDoc._id },
+            { title, content, category },
             { new: true }
           ).populate('category');
 
