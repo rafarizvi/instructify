@@ -1,13 +1,11 @@
 import { defineConfig } from 'vite'
-
 import react from '@vitejs/plugin-react'
-
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-    server: {
-    port: 3000,
+  server: {
+    port: process.env.PORT || 3000,
     open: true,
     proxy: {
       '/graphql': {
@@ -16,10 +14,10 @@ export default defineConfig({
         secure: false,
       },
     },
-    build: {
-      rollupOptions: {
-        external: ['axios']
-      }
+  },
+  build: {
+    rollupOptions: {
+      // external: ['axios'] // Remove or comment out this line
     }
   }
 })
