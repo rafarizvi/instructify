@@ -72,7 +72,7 @@ After completing the installation steps, you're ready to start using Instructify
    - Open your web browser and visit http://localhost:3000. This will take you to Instructify's homepage.
    - If you see the main interface of the application, the server is running correctly!
 
-   ![Screenshot of the Tutorial Platform, showcasing the main landing page.](./client/src/assets/images/Instructify-Home.png)
+   ![Screenshot of the Tutorial Platform, showcasing the main landing page.](./client/src/assets/images/InstructifyHome.png)
 
 3. **Exploring Features**
    - **_Create an Account or Log In:_** To take full advantage of the platform's features, including posting and commenting on tutorials, you'll need to create an account or log in. Click on the "Signup" or "Login" navigation links to access these features.
