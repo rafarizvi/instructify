@@ -1,4 +1,8 @@
-# Instructify 
+![Instructify Logo](./client/src/assets/logo-for-readme.png) 
+<br>
+# Instructify
+<i>empowering knowledge sharing, one tutorial at a time </i>
+
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
 ## Description
