@@ -13,18 +13,17 @@ const typeDefs = `#graphql
     title: String!
     content: String!
     author: Profile
-    # category: Category
-    category: String!
+    category: Category
     comments: [Comment!]
     videos: [Video!]!
     createdAt: String!
   }
 
-  # type Category {
-  #   _id: ID!
-  #   name: String!
-  #   tutorials: [Tutorial!]
-  # }
+  type Category {
+    _id: ID!
+    name: String!
+    tutorials: [Tutorial!]
+  }
 
   type Comment {
     _id: ID!
@@ -40,7 +39,7 @@ const typeDefs = `#graphql
     me: Profile
     tutorials: [Tutorial!]
     tutorial(_id: ID!): Tutorial
-    # categories: [Category!]
+    categories: [Category!]
     comments: [Comment!]
   }
 

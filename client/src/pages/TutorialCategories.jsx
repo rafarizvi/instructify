@@ -28,22 +28,22 @@ const TutorialCategories = () => {
     const categoryArr = ['Tech', 'Academics', 'Home', 'Arts', 'Lifestyle/Hobbies', 'Business/Financial'];
 
 
-    if (tutorial.category === categoryArr[0]) {
+    if (tutorial.category.name === categoryArr[0]) {
       tech.push(tutorial)
     }
-    if (tutorial.category === categoryArr[1]) {
+    if (tutorial.category.name === categoryArr[1]) {
       academics.push(tutorial)
     }
-    if (tutorial.category === categoryArr[2]) {
+    if (tutorial.category.name === categoryArr[2]) {
       home.push(tutorial)
     }
-    if (tutorial.category === categoryArr[3]) {
+    if (tutorial.category.name === categoryArr[3]) {
       arts.push(tutorial)
     }
-    if (tutorial.category === categoryArr[4]) {
+    if (tutorial.category.name === categoryArr[4]) {
       lifestyleHobbies.push(tutorial)
     }
-    if (tutorial.category === categoryArr[5]) {
+    if (tutorial.category.name === categoryArr[5]) {
       businessFinancial.push(tutorial)
     }
   })
