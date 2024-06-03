@@ -1,10 +1,45 @@
 import { useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { ADD_TUTORIAL } from '../../utils/mutations';
-import { GET_CATEGORIES, QUERY_USER_TUTORIALS } from '../../utils/queries';
+import { QUERY_USER_TUTORIALS } from '../../utils/queries';
 import AuthService from '../../utils/auth';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import './Tutorial.css';
+
+
+const categories =
+  [
+    'Tech',
+    'Academics',
+    'Home',
+    'Arts',
+    'Lifestyle/Hobbies',
+    'Business/Financial'
+  ]
+
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    [{ font: [] }],
+    [{ color: [] }, { background: [] }],
+    ['bold', 'italic', 'underline'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['code-block'],
+    ['link'],
+  ]
+};
+
+const formats = [
+  'header', 'font', 'color', 'background',
+  'bold', 'italic', 'underline',
+  'list', 'bullet',
+  'link',
+  'code-block'
+];
+
 
 const Tutorial = () => {
   const [formState, setFormState] = useState({
@@ -13,9 +48,11 @@ const Tutorial = () => {
     category: ''
   });
 
+  const [minimumContent, setMinimumContent] = useState('');
+
   const navigate = useNavigate();
 
-  const { loading: categoriesLoading, data: categoriesData, error: categoriesError } = useQuery(GET_CATEGORIES);
+  // const { loading: categoriesLoading, data: categoriesData, error: categoriesError } = useQuery(GET_CATEGORIES);
 
   const [addTutorial, { error }] = useMutation(ADD_TUTORIAL, {
     context: {
@@ -29,21 +66,26 @@ const Tutorial = () => {
     refetchQueries: [{ query: QUERY_USER_TUTORIALS }]
   });
 
-  
-
-  const handleChange = event => {
-    const { name, value } = event.target;
+  const handleChange = (name, value) => {
     setFormState({
       ...formState,
       [name]: value
     });
+
+    setMinimumContent('');
   };
 
   const handleFormSubmit = async event => {
     event.preventDefault();
+
+    if ((formState.content.length) < 300) {
+      setMinimumContent('The tutorial content must be at least 300 characters long.');
+      return;
+    }
+
     try {
       await addTutorial({
-        variables: { 
+        variables: {
           title: formState.title,
           content: formState.content,
           category: formState.category
@@ -60,13 +102,14 @@ const Tutorial = () => {
     }
   };
 
-  if (categoriesLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (categoriesLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (categoriesError) {
-    return <div>Error: {categoriesError.message}</div>;
-  }
+  // if (categoriesError) {
+  //   return <div>Error: {categoriesError.message}</div>;
+  // }
+
   return (
     <div className="page-container">
       <div className="add-tutorial-container">
@@ -79,17 +122,18 @@ const Tutorial = () => {
               name="title"
               type="text"
               value={formState.title}
-              onChange={handleChange}
+              onChange={(e) => handleChange('title', e.target.value)}
             />
           </div>
           <div className="form-group">
-            <textarea
-              className="form-input"
-              placeholder="Write your tutorial!"
-              name="content"
-              rows="9"
+            <ReactQuill
+              theme="snow"
               value={formState.content}
-              onChange={handleChange}
+              onChange={(value) => handleChange('content', value)}
+              modules={modules}
+              formats={formats}
+              placeholder="Write your tutorial! Your tutorial must be a minimum of 300 characters."
+              className="react-quill"
             />
           </div>
           <div className="form-group">
@@ -97,17 +141,23 @@ const Tutorial = () => {
               className="form-input"
               name="category"
               value={formState.category}
-              onChange={handleChange}
+              onChange={(e) => handleChange('category', e.target.value)}
             >
               <option value="">Select a category</option>
-              {categoriesData.categories.map(category => (
-                <option key={category._id} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
+              <option value={categories[0]}>{categories[0]}</option>
+              <option value={categories[1]}>{categories[1]}</option>
+              <option value={categories[2]}>{categories[2]}</option>
+              <option value={categories[3]}>{categories[3]}</option>
+              <option value={categories[4]}>{categories[4]}</option>
+              <option value={categories[5]}>{categories[5]}</option>
             </select>
           </div>
-          <button className="tutorialBtn" style={{ color: 'white', marginLeft: '40%', marginRight: '40%', fontSize: '17px' }} type="submit">
+          {minimumContent && (
+            <p className="minimumMessage" style={{ color: 'red' }}>
+              {minimumContent}
+            </p>
+          )}
+          <button className="tutorialBtn" style={{ color: 'white' }} type="submit">
             Create
           </button>
         </form>

@@ -4,23 +4,25 @@ import { gql } from '@apollo/client';
 export const QUERY_TUTORIALS = gql`
   query Tutorials {
     tutorials {
-      title
       _id
+      title
       content
+      createdAt
       author {
-        name
         _id
+        name
       }
       category {
-        name
         _id
+        name
       }
       comments {
+        _id
         content
-          _id
+        createdAt
         author {
-          name
           _id
+          name
         }
       }
       videos {
@@ -32,13 +34,12 @@ export const QUERY_TUTORIALS = gql`
   }
 `;
 
-
 // All categories
 export const GET_CATEGORIES = gql`
   query Categories {
     categories {
-      name
       _id
+      name
     }
   }
 `;
@@ -48,8 +49,10 @@ export const QUERY_PROFILE_ID = gql`
     profile(_id: $id) {
       name
       tutorials {
+        _id
         title
         content
+        createdAt
         category {
           _id
           name
@@ -57,8 +60,8 @@ export const QUERY_PROFILE_ID = gql`
         comments {
           content
           author {
-            name
             _id
+            name
           }
         }
       }
@@ -76,15 +79,16 @@ export const QUERY_USER_TUTORIALS = gql`
         _id
         title
         content
+        createdAt
         category {
           _id
           name
         }
         videos {
-        _id
-        title
-        videoId
-      }
+          _id
+          title
+          videoId
+        }
       }
     }
   }
@@ -96,6 +100,7 @@ export const QUERY_ALL_TUTORIALS = gql`
       _id
       title
       content
+      createdAt
       author {
         _id
         name
@@ -106,7 +111,8 @@ export const QUERY_ALL_TUTORIALS = gql`
       }
     }
   }
-  `
+`;
+
 // Pulling all info for a single tutorial, including the comments + category
 export const QUERY_GET_TUTORIAL_DETAILS = gql`
   query GetSingleTutorial($tutorialId: ID!) {
@@ -114,6 +120,7 @@ export const QUERY_GET_TUTORIAL_DETAILS = gql`
       _id
       title
       content
+      createdAt
       author {
         _id
         name
@@ -138,23 +145,22 @@ export const QUERY_GET_TUTORIAL_DETAILS = gql`
       }
     }
   }
-`
+`;
 
-
-// adding query to retrieve all comments based on a single tutorial -tb
+// Adding query to retrieve all comments based on a single tutorial
 export const QUERY_GET_TUTORIAL_COMMENTS = gql`
-    query GetTutorialComments($tutorialId: ID!) {
-      tutorial(_id: $tutorialId) {
+  query GetTutorialComments($tutorialId: ID!) {
+    tutorial(_id: $tutorialId) {
+      _id
+      comments {
         _id
-        comments {
+        content
+        createdAt
+        author {
           _id
-
-          author {
-            _id
-            name
-          }
+          name
         }
       }
     }
-    `
-    
+  }
+`;

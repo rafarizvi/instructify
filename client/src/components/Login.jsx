@@ -37,7 +37,7 @@ const Login = () => {
         <h4 className="form-title">Login</h4>
         <form onSubmit={handleFormSubmit} className="form-content">
           <input
-            className="form-input"
+            className="form-input-login"
             placeholder="Your email"
             name="email"
             type="email"
@@ -45,7 +45,7 @@ const Login = () => {
             onChange={handleChange}
           />
           <input
-            className="form-input"
+            className="form-input-login"
             placeholder="Your password"
             name="password"
             type="password"

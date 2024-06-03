@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap');
+
+
+
 /* General Styles */
 body, html {
   height: 100%;
@@ -38,6 +42,44 @@ body, html {
   padding: 2rem;
 }
 
+p {
+  font-family: 'Playpen Sans';
+  font-size: 20px;
+}
+
+
+a:hover {
+  text-shadow: 4px 5px 12px rgb(159, 171, 204);
+  font-size: 17px;
+  font-weight: bold;
+  text-decoration: none
+}
+
+a:active{
+  font-weight: 800;
+  font-size: 17px;
+  text-decoration: none; 
+}
+
+.nav-link {
+  font-family: 'Playpen Sans';
+  font-size: 16px;
+  text-decoration: none; 
+
+}
+
+#navbar-logout {
+  font-family: 'Playpen Sans';
+  font-size: 16px;
+  font-weight: 400;
+}
+
+#navbar-logout:hover {
+  text-shadow: 4px 5px 12px rgb(159, 171, 204);
+  font-size: 17px;
+  font-weight: bold;
+}
+
 /* Typography */
 .title, h1 {
   font-family: 'Cheerio', Arial, sans-serif;
@@ -45,6 +87,14 @@ body, html {
   background-clip: text; 
   -webkit-background-clip: text;
   color: transparent;
+}
+
+.dashboard-subtitle  {
+  font-family: 'Cheerio', Arial, sans-serif;
+  background: linear-gradient(to right, #58889b, #057ce7, #5538da, #6f50e6);
+  background-clip: text; 
+  -webkit-background-clip: text;
+  color: #004996;
 }
 
 h1.mb-4.text-center {
@@ -125,6 +175,7 @@ h1.all-tutorials-title {
   text-align: center;
   margin-bottom: 2rem;
 }
+
 
 .lead {
   padding-bottom: 30px;
@@ -295,7 +346,6 @@ h1.all-tutorials-title {
 }
 
 .video-search-container {
-  max-width: 800px;
   margin: auto;
   padding: 20px;
   text-align: center;
@@ -379,6 +429,137 @@ h1.all-tutorials-title {
 
 .search-button:hover {
   background-color: #0056b3;
+}
+
+/* Form Styles */
+
+.form-container {
+  display: flex;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 80px;
+  max-width: 500px;
+}
+
+content {
+  font-size: large;
+}
+
+.form-title {
+  font-family: 'Cheerio', Arial, sans-serif;
+  background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+.tutorialBtnDashboard {
+  display: block;
+  width: 200px;
+  margin: 20px auto 0 auto; /* Center the button */
+}
+
+/* changing for all 'forms' which has caused an issue with the edit tutorial feature. 
+if this is needed, it needs a separate class name. will commentout for now */
+
+/* form {
+  align-self: center;
+} */
+
+div.form-group {
+  width: 100%;
+}
+
+.form-input-signup, .form-input-login {
+  margin: 1%;
+  display: flex;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.ql-syntax {
+  font-size: 15px;
+}
+
+li {
+  font-size: 17px;
+}
+
+.form-input {
+  display: flex;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.btn-block {
+  align-self: center;
+}
+
+.form-error {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Responsive Design for Forms */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .form-input {
+    font-size: 0.875rem;
+  }
+}
+
+/* Other Elements */
+.card {
+  padding: 2em;
+}
+
+/* Responsive Design for App Components */
+@media (max-width: 767px) {
+  .input-group {
+    width: 100%;
+  }
+}
+
+
+.large-delete-btn {
+  font-size: 24px; /* Adjust the size as needed */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .video-results {
