@@ -125,7 +125,19 @@ const Tutorial = () => {
               onChange={(e) => handleChange('title', e.target.value)}
             />
           </div>
+
           <div className="form-group">
+            <input
+              className="form-input"
+              placeholder="content"
+              name="content"
+              type="text"
+              value={formState.content}
+              onChange={(e) => handleChange('content', e.target.value)}
+            />
+          </div>
+
+          {/* <div className="form-group">
             <ReactQuill
               theme="snow"
               value={formState.content}
@@ -135,7 +147,7 @@ const Tutorial = () => {
               placeholder="Write your tutorial! Your tutorial must be a minimum of 300 characters."
               className="react-quill"
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <select
               className="form-input"
