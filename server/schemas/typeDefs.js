@@ -1,6 +1,6 @@
 const typeDefs = `#graphql
   type Profile {
-    _id: ID!
+    _id: ID
     name: String!
     email: String!
     password: String!
