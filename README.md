@@ -1,4 +1,9 @@
+![Instructify Logo](./client/src/assets/logo-for-readme.png) 
+<br>
 # Instructify
+<i>empowering knowledge sharing, one tutorial at a time </i>
+
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
 ## Description
 
@@ -20,6 +25,8 @@ Instructify is a dynamic full-stack MERN (MongoDB, Express, React, Node.js) appl
 - **User Authentication:** Secure signup and login functionality with JWT.
 - **Interactive Tutorial Search:** Users can search for tutorials and view detailed information.
 - **Comment System:** Users can post comments on tutorials to facilitate discussion.
+- **YouTube Integration:** Users can search for tutorial videos with our YouTube API integration and can save specific YouTube videos to tutorials they write.
+- **Donation System:** Users can donate to support the platform via Stripe (currently in TEST mode).
 - **Responsive Design:** A polished UI that is fully responsive, ensuring a great experience on all devices.
 - **GraphQL API:** Efficient data fetching with queries and mutations for retrieving, adding, updating, and deleting data.
 - **Protected API Keys:** Ensuring sensitive information remains secure.
@@ -35,12 +42,7 @@ Instructify is a dynamic full-stack MERN (MongoDB, Express, React, Node.js) appl
 
 ### Front-end Setup with React + Vite
 
-This project uses Vite for the front-end setup to leverage fast Hot Module Replacement (HMR) and modern build tools. Vite is configured to work with React, providing an efficient and modern development experience.
-
-Currently, two official plugins are available for React:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh.
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh.
+This project uses [Vite](https://vitejs.dev/) for the front-end setup to leverage fast Hot Module Replacement (HMR) and modern build tools. Vite is configured to work with [React](https://react.dev/), providing an efficient and modern development experience.
 
 
 ## Getting Started
@@ -72,7 +74,7 @@ After completing the installation steps, you're ready to start using Instructify
    - Open your web browser and visit http://localhost:3000. This will take you to Instructify's homepage.
    - If you see the main interface of the application, the server is running correctly!
 
-   ![Screenshot of the Tutorial Platform, showcasing the main landing page.](./client/src/assets/images/Instructify-Home.png)
+   ![Screenshot of the Tutorial Platform, showcasing the main landing page.](./client/src/assets/images/InstructifyHome.png)
 
 3. **Exploring Features**
    - **_Create an Account or Log In:_** To take full advantage of the platform's features, including posting and commenting on tutorials, you'll need to create an account or log in. Click on the "Signup" or "Login" navigation links to access these features.
