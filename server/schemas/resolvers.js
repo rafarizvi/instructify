@@ -86,7 +86,7 @@ const resolvers = {
         const newTutorial = await Tutorial.create({
           title,
           author: context.user._id,
-          category: categoryDoc._id,
+          category: categoryDoc.name,
           content,
           createdAt: new Date(),
         });
