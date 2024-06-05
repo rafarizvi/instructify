@@ -360,6 +360,7 @@ h1.all-tutorials-title {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  margin-top: 20%;
 }
 
 .video-search-container .alert {
