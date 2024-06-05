@@ -87,7 +87,7 @@ Your contributions are what make the community incredible. If you have an idea f
 
 ## Deployment
 
-This application is deployed on Render. You can access it [here](https://instructify.onrender.com/).
+This application is deployed on Render. You can access it [here](https://tamer-instructify.onrender.com/).
 
 ## Authors and Acknowledgments
 
