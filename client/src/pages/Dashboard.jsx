@@ -9,10 +9,10 @@ import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
 import ConfirmDelete from '../components/ConfirmDelete';
 import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial';
-
-import '../components/createTutorial/Tutorial.css'
+import ReactQuill from 'react-quill';
+// import 'react-quill/dist/quill.snow.css';
+import '../components/createTutorial/Tutorial.css';
 import './dashboard.css';
-
 
 const categoryList = [
   'Tech', 'Academics', 'Home', 'Arts', 'Lifestyle/Hobbies', 'Business/Financial',
@@ -37,12 +37,10 @@ const Dashboard = () => {
   const [editFormState, setEditFormState] = useState({
     _id: '', title: '', content: '', category: '', videos: [],
   });
-  // const [expandedTutorialId, setExpandedTutorialId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [tutorialToDelete, setTutorialToDelete] = useState(null);
 
-  const handleEditChange = (event) => {
-    const { name, value } = event.target;
+  const handleEditChange = (name, value) => {
     setEditFormState({ ...editFormState, [name]: value });
   };
 
@@ -92,10 +90,6 @@ const Dashboard = () => {
     }
   };
 
-  // const toggleExpand = (tutorialId) => {
-  //   setExpandedTutorialId(expandedTutorialId === tutorialId ? null : tutorialId);
-  // };
-
   const handleEditClick = (tutorial) => {
     setEditFormState({
       _id: tutorial._id,
@@ -107,10 +101,10 @@ const Dashboard = () => {
   };
 
   const handleButtonClick = (buttonId) => {
-    navigate('/categories/view-tutorial', { state: { clickButton: buttonId } });
+      navigate('/categories/view-tutorial', { state: { clickButton: buttonId } });
+
   };
 
-  //adding variable to have user go right to creating a tutorial if user does not have any
   const handleCreateClick = () => {
     navigate('/tutorial')
   }
@@ -136,20 +130,10 @@ const Dashboard = () => {
                 <div className="d-flex justify-content-center">
                   <p className="tutorial-category mt-4 badge text-bg-info" style={{ fontSize: '20px' }}>{tutorial.category?.name}</p>
                 </div>
-                {/* <div className="tutorial-content" style={{ whiteSpace: 'pre-wrap' }}>
-                  {expandedTutorialId === tutorial._id ? tutorial.content : `${tutorial.content.substring(0, 300)}...`}
-                </div> */}
-
                 <br />
                 <DateFormatTutorial createdAt={tutorial.createdAt} /> 
 
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  {/* <Button className="tutorialBtn" onClick={() => toggleExpand(tutorial._id)}>
-                    <Card.Title style={{ fontSize: '16px' }}>
-                      {expandedTutorialId === tutorial._id ? 'Collapse' : 'Expand'}
-                    </Card.Title>
-                  </Button> */}
-
                   <Button className="tutorialBtnDashboard tutorialBtn " 
                   style={{ width: '200px' }} 
                   onClick={() => handleButtonClick(tutorial._id)}>
@@ -178,20 +162,39 @@ const Dashboard = () => {
                       id="title" placeholder="Title" 
                       name="title" type="text" 
                       value={editFormState.title} 
-                      onChange={handleEditChange} />
+                      onChange={(e) => handleEditChange(e.target.name, e.target.value)} />
                     </div>
                     <div className="form-group">
                       <label htmlFor="content">Content</label>
-                      <textarea className="form-control" 
-                      id="content" placeholder="Content" 
-                      name="content" 
-                      rows="10" 
-                      value={editFormState.content} 
-                      onChange={handleEditChange} />
+                      <ReactQuill
+                        theme="snow"
+                        value={editFormState.content}
+                        onChange={(value) => handleEditChange('content', value)}
+                        modules={{
+                          toolbar: [
+                            [{ header: [1, 2, false] }],
+                            [{ font: [] }],
+                            [{ color: [] }, { background: [] }],
+                            ['bold', 'italic', 'underline'],
+                            [{ list: 'ordered' }, { list: 'bullet' }],
+                            ['code-block'],
+                            ['link'],
+                          ],
+                        }}
+                        formats={[
+                          'header', 'font', 'color', 'background',
+                          'bold', 'italic', 'underline',
+                          'list', 'bullet',
+                          'link',
+                          'code-block',
+                        ]}
+                        placeholder="Edit your tutorial content here"
+                        className="react-quill"
+                      />
                     </div>
                     <div className="form-group">
+                      <select className="form-control" id="category" name="category" value={editFormState.category} onChange={(e) => handleEditChange(e.target.name, e.target.value)}>
                       <label htmlFor="category">Category</label>
-                      <select className="form-control" id="category" name="category" value={editFormState.category} onChange={handleEditChange}>
                         <option value="">Select a category</option>
                         {categoryList.map((category) => (
                           <option key={category} value={category}>

@@ -1,13 +1,11 @@
 import { gql } from '@apollo/client';
 
-// All tutorials 
 export const QUERY_TUTORIALS = gql`
   query Tutorials {
     tutorials {
       _id
       title
       content
-      createdAt
       author {
         _id
         name
@@ -15,6 +13,12 @@ export const QUERY_TUTORIALS = gql`
       category {
         _id
         name
+      }
+      createdAt
+      videos {
+        _id
+        videoId
+        title
       }
       comments {
         _id
@@ -25,14 +29,10 @@ export const QUERY_TUTORIALS = gql`
           name
         }
       }
-      videos {
-        _id
-        title
-        videoId
-      }
     }
   }
 `;
+
 
 // All categories
 export const GET_CATEGORIES = gql`

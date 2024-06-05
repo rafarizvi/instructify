@@ -1,59 +1,86 @@
 @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap');
 
+.tutorial-title{
+  font-family: 'Cheerio', Arial, sans-serif;
+  background: linear-gradient(to right, #09a8e8, #057ce7, #5538da, #6f50e6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
-.page-container {
-    margin-top: 0px;
-  }
   .page-container {
     max-width: 1200px; /* Increase the max-width to make the container wider */
-    margin: 0 auto;
-    padding: 20px;
+    /* margin: 0 auto; */
+    /* padding: 20px; */
+    margin-top: 0px;
   }
   
   .add-tutorial-container {
-    max-width: 1000px; /* Ensure the container takes full width */
-    max-width: 1000px; /* Set a maximum width for the card */
-    margin: 0 auto; /* Center the card */
-    padding: 20px; /* Add padding inside the card */
-    border: 1px solid #ccc; /* Optional: Add border */
-    border-radius: 10px; /* Optional: Add border radius for rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add box shadow */
-    min-height: 1000px; /* Set a minimum height for the container */
-    height: auto; /* Ensure the height adapts to the content */
+    max-width: 1000px; 
+    max-width: 1000px; 
+    margin: 0 auto; 
+    padding: 20px; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    min-height: 1000px; 
+    height: auto; 
   }
   
   
   .react-quill {
-    height: 530px; /* Adjust the height as needed */
-    margin-bottom: 20px;
+    height: 470px; 
+    margin-bottom: 0px;
   }
+
+  .ql-editor {
+    font-size: 20px;
+  }
+
+  /* span {
+    font-family: Arial, Helvetica, sans-serif;
+  } */
 
   .ql-syntax {
     font-size: 17px;
+    background-color: black;
+    color: white;
     font-family: 'Courier New', Courier, monospace;
   }
 
   .content p {
-    font-size: 17px;
-    font-family:Arial, Helvetica, sans-serif
+    font-size: 20px;
    }
   
   .form-group {
     margin-bottom: 20px;
   }
-  
+/*   
+  .ql-editor p, 
+  .ql-editor ol, 
+  .ql-editor ul, 
+  .ql-editor pre, 
+  .ql-editor blockquote, 
+  .ql-editor h1, 
+  .ql-editor h2, 
+  .ql-editor h3, 
+  .ql-editor h4, 
+  .ql-editor h5, 
+  .ql-editor h6,
+  .ql-editor li
+   {
+   
+  } */
+
+  .ql-font-monospace {
+    font-family: 'monospace'
+  }
+
   .tutorialBtn {
     display: block;
     margin: 20px auto 0 auto; /* Center the button */
   }
 
-
-  .error-message {
-    color: red;
-    margin-top: 20px;
-    text-align: center;
-  }
-  
   .minimumMessage {
     color: red;
     margin-top: 10px;
@@ -144,4 +171,69 @@
     border: 1px solid #f5c6cb;
     border-radius: 4px;
   }
+
+  .add-tutorial-container {
+    max-width: 80%; /* Increase width */
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
   
+  .form-container {
+    width: 100%; /* Make sure it takes the full width of the container */
+  }
+  
+  .form-input, .form-group select {
+    width: 100%; /* Make sure inputs take the full width */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .tutorialBtn {
+    width: 100%; /* Make the button full width */
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .tutorialBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  .minimumMessage {
+    margin: 10px 0;
+    font-size: 15px;
+  }
+  
+  .clear-btn {
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    display: block; /* Ensure it takes a new line */
+    width: 100%; /* Full width */
+  }
+  
+  .clear-btn:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+  }
+  
+  .error-message {
+    width: 0;
+    height: 0;
+    font-size: 0;
+    background-color: transparent;
+    border-color: transparent;
+  }

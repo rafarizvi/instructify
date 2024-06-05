@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { ADD_TUTORIAL } from '../../utils/mutations';
@@ -7,20 +7,24 @@ import AuthService from '../../utils/auth';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './Tutorial.css';
+import WordCount from '../WordCount/WordCount';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.css';
 
+// Register highlight.js as the syntax module
+window.hljs = hljs;
 
-const categories =
-  [
-    'Tech',
-    'Academics',
-    'Home',
-    'Arts',
-    'Lifestyle/Hobbies',
-    'Business/Financial'
-  ]
-
+const categories = [
+  'Tech',
+  'Academics',
+  'Home',
+  'Arts',
+  'Lifestyle/Hobbies',
+  'Business/Financial',
+];
 
 const modules = {
+  syntax: true,
   toolbar: [
     [{ header: [1, 2, false] }],
     [{ font: [] }],
@@ -29,7 +33,7 @@ const modules = {
     [{ list: 'ordered' }, { list: 'bullet' }],
     ['code-block'],
     ['link'],
-  ]
+  ],
 };
 
 const formats = [
@@ -40,47 +44,66 @@ const formats = [
   'code-block'
 ];
 
-
 const Tutorial = () => {
   const [formState, setFormState] = useState({
     title: '',
     content: '',
-    category: ''
+    category: '',
   });
 
+  // added usestate for tutorial 
   const [minimumContent, setMinimumContent] = useState('');
+  const [maxContent, setMaxContent] = useState('');
+  const [minimumTitle, setMinimumTitle] = useState('');
+  const [missingFields, setMissingFields] = useState('');
 
   const navigate = useNavigate();
-
-  // const { loading: categoriesLoading, data: categoriesData, error: categoriesError } = useQuery(GET_CATEGORIES);
 
   const [addTutorial, { error }] = useMutation(ADD_TUTORIAL, {
     context: {
       headers: {
-        authorization: `Bearer ${AuthService.getToken()}`
-      }
+        authorization: `Bearer ${AuthService.getToken()}`,
+      },
     },
     onCompleted: () => {
       navigate('/dashboard');
     },
-    refetchQueries: [{ query: QUERY_USER_TUTORIALS }]
+    refetchQueries: [{ query: QUERY_USER_TUTORIALS }],
   });
 
   const handleChange = (name, value) => {
     setFormState({
       ...formState,
-      [name]: value
+      [name]: value,
     });
 
+    setMissingFields('');
     setMinimumContent('');
+    setMaxContent('');
+    setMinimumTitle('');
   };
 
-  const handleFormSubmit = async event => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    if ((formState.content.length) < 300) {
-      setMinimumContent('The tutorial content must be at least 300 characters long.');
+    if (formState.content.length < 500) {
+      setMinimumContent('The tutorial content must be at least 500 characters long.');
       return;
+    }
+
+    if (formState.content.split(' ').length > 2000) {
+      setMaxContent('You have exceeded the amount of words.');
+      return;
+    }
+
+    if (formState.title.split(' ') > 10) {
+      setMinimumTitle('Your title is too long.');
+      return;
+    }
+
+    if (!formState.value) {
+      setMissingFields('Please fill out all fields.');
+      console.log(formState.value);
     }
 
     try {
@@ -88,27 +111,24 @@ const Tutorial = () => {
         variables: {
           title: formState.title,
           content: formState.content,
-          category: formState.category
-        }
+          category: formState.category,
+        },
       });
 
       setFormState({
         title: '',
         content: '',
-        category: ''
+        category: '',
       });
     } catch (e) {
       console.error(e);
     }
   };
 
-  // if (categoriesLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (categoriesError) {
-  //   return <div>Error: {categoriesError.message}</div>;
-  // }
+  // For ReactQuill JavaScript code highlighting using code block
+  useEffect(() => {
+    hljs.highlightAll();
+  }, [formState.content]);
 
   return (
     <div className="page-container">
@@ -132,9 +152,11 @@ const Tutorial = () => {
               onChange={(value) => handleChange('content', value)}
               modules={modules}
               formats={formats}
-              placeholder="Write your tutorial! Your tutorial must be a minimum of 300 characters."
+              placeholder="Share what you know!"
               className="react-quill"
             />
+            <p><WordCount content={formState.content} style={{ fontSize: '15px' }} />
+            </p>
           </div>
           <div className="form-group">
             <select
@@ -144,17 +166,31 @@ const Tutorial = () => {
               onChange={(e) => handleChange('category', e.target.value)}
             >
               <option value="">Select a category</option>
-              <option value={categories[0]}>{categories[0]}</option>
-              <option value={categories[1]}>{categories[1]}</option>
-              <option value={categories[2]}>{categories[2]}</option>
-              <option value={categories[3]}>{categories[3]}</option>
-              <option value={categories[4]}>{categories[4]}</option>
-              <option value={categories[5]}>{categories[5]}</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
             </select>
           </div>
           {minimumContent && (
-            <p className="minimumMessage" style={{ color: 'red' }}>
+            <p className="minimumMessage" style={{ color: 'red', fontSize: '15px' }}>
               {minimumContent}
+            </p>
+          )}
+          {minimumTitle && (
+            <p className="minimumMessage" style={{ color: 'red', fontSize: '15px' }}>
+              {minimumTitle}
+            </p>
+          )}
+          {maxContent && (
+            <p className="minimumMessage" style={{ color: 'red', fontSize: '15px' }}>
+              {maxContent}
+            </p>
+          )}
+          {missingFields && (
+            <p className="minimumMessage" style={{ color: 'red', fontSize: '15px' }}>
+              {missingFields}
             </p>
           )}
           <button className="tutorialBtn" style={{ color: 'white' }} type="submit">

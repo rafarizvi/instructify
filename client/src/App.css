@@ -340,9 +340,8 @@ h1.all-tutorials-title {
   -webkit-background-clip: text;
   font-size: 3rem !important;
   text-align: center;
-  margin-top: 60px;
-  margin-bottom: 20px;
   color: transparent !important;
+  margin-top: -200px;
 }
 
 .video-search-container {

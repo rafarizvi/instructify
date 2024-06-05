@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
@@ -16,10 +16,20 @@ import Auth from '../utils/auth';
 const ViewTutorial = () => {
   const location = useLocation();
   const { clickButton } = location.state || {};
-  const { loading, data, error, refetch } = useQuery(QUERY_TUTORIALS);
-  const tutorials = data?.tutorials || [];
+  
+  //using code to refetch data before defining it. Name for tutorials were being defined before being read which led to errors- so this will ensure data is loaded before rendering data
+  const { loading, data, error, refetch } = useQuery(QUERY_TUTORIALS, {
+    fetchPolicy: 'network-only', 
+  });
+  const [clickedTutorial, setClickedTutorial] = useState(null);
 
-  const clickedTutorial = tutorials.find((tutorial) => tutorial._id === clickButton) || {};
+  useEffect(() => {
+    if (!loading && data && clickButton) {
+      console.log("Tutorial IDs in data:", data.tutorials.map(tutorial => tutorial._id));
+      const foundTutorial = data.tutorials.find((tutorial) => tutorial._id === clickButton);
+      setClickedTutorial(foundTutorial);
+    }
+  }, [data, clickButton, loading, error]);
 
   const profileId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
   const tutorialId = clickButton;
@@ -58,18 +68,17 @@ const ViewTutorial = () => {
       console.error('Error during mutation:', e);
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>Error: {error.message}</div>;
   }
 
+  if (!clickedTutorial) {
+    return <div className='text-center'>Loading tutorial details...</div>;
+  }
+
   return (
-    <div className='tutorialDiv'>
-      <Card className='tutorialCard'>
+    <div className="tutorialDiv">
+      <Card className="tutorialCard">
         <Card.Body>
           <TutorialDisplay
             title={clickedTutorial.title}
@@ -78,7 +87,6 @@ const ViewTutorial = () => {
             category={clickedTutorial.category}
           />
           <DateFormatTutorial createdAt={clickedTutorial.createdAt} />
-
 
           {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (
             <VideoCarousel videos={clickedTutorial.videos} />
