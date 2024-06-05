@@ -10,12 +10,35 @@ import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '..
 import ConfirmDelete from '../components/ConfirmDelete';
 import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial';
 import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.snow.css';
 import '../components/createTutorial/Tutorial.css';
 import './dashboard.css';
+
 const categoryList = [
   'Tech', 'Academics', 'Home', 'Arts', 'Lifestyle/Hobbies', 'Business/Financial',
 ];
+
+const modules = {
+  syntax: true,
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    [{ font: [] }],
+    [{ color: [] }, { background: [] }],
+    ['bold', 'italic', 'underline'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['code-block'],
+    ['link'],
+  ],
+};
+
+const formats = [
+  'header', 'font', 'color', 'background',
+  'bold', 'italic', 'underline',
+  'list', 'bullet',
+  'link',
+  'code-block',
+];
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const { loading, data, error, refetch } = useQuery(QUERY_USER_TUTORIALS);
@@ -31,14 +54,17 @@ const Dashboard = () => {
     onCompleted: () => refetch(),
     onError: (error) => console.error('Remove Video Error:', error),
   });
+
   const [editFormState, setEditFormState] = useState({
     _id: '', title: '', content: '', category: '', videos: [],
   });
   const [showModal, setShowModal] = useState(false);
   const [tutorialToDelete, setTutorialToDelete] = useState(null);
+
   const handleEditChange = (name, value) => {
     setEditFormState({ ...editFormState, [name]: value });
   };
+
   const handleEditSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -55,6 +81,7 @@ const Dashboard = () => {
       console.error('Error during mutation:', e);
     }
   };
+
   const handleDelete = async () => {
     if (tutorialToDelete) {
       try {
@@ -66,10 +93,12 @@ const Dashboard = () => {
       }
     }
   };
+
   const handleDeleteClick = (tutorialId) => {
     setShowModal(true);
     setTutorialToDelete(tutorialId);
   };
+
   const handleDeleteVideo = async (tutorialId, videoId) => {
     try {
       await removeVideoFromTutorial({ variables: { tutorialId, videoId } });
@@ -81,6 +110,7 @@ const Dashboard = () => {
       console.error('Error during mutation:', e);
     }
   };
+
   const handleEditClick = (tutorial) => {
     setEditFormState({
       _id: tutorial._id,
@@ -90,19 +120,23 @@ const Dashboard = () => {
       videos: tutorial.videos || [],
     });
   };
-  const handleButtonClick = (buttonId) => {
-      navigate('/categories/view-tutorial', { state: { clickButton: buttonId } });
 
+  const handleButtonClick = (buttonId) => {
+    navigate('/categories/view-tutorial', { state: { clickButton: buttonId } });
   };
+
   const handleCreateClick = () => {
     navigate('/tutorial')
   }
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-content">
@@ -152,31 +186,14 @@ const Dashboard = () => {
                         theme="snow"
                         value={editFormState.content}
                         onChange={(value) => handleEditChange('content', value)}
-                        modules={{
-                          toolbar: [
-                            [{ header: [1, 2, false] }],
-                            [{ font: [] }],
-                            [{ color: [] }, { background: [] }],
-                            ['bold', 'italic', 'underline'],
-                            [{ list: 'ordered' }, { list: 'bullet' }],
-                            ['code-block'],
-                            ['link'],
-                          ],
-                        }}
-                        formats={[
-                          'header', 'font', 'color', 'background',
-                          'bold', 'italic', 'underline',
-                          'list', 'bullet',
-                          'link',
-                          'code-block',
-                        ]}
+                        modules={modules}
+                        formats={formats}
                         placeholder="Edit your tutorial content here"
                         className="react-quill"
                       />
-                    </div>
                     <div className="form-group">
+                      <label htmlFor="category"></label>
                       <select className="form-control" id="category" name="category" value={editFormState.category} onChange={(e) => handleEditChange(e.target.name, e.target.value)}>
-                      <label htmlFor="category">Category</label>
                         <option value="">Select a category</option>
                         {categoryList.map((category) => (
                           <option key={category} value={category}>
@@ -184,6 +201,7 @@ const Dashboard = () => {
                           </option>
                         ))}
                       </select>
+                    </div>
                     </div>
                     {editFormState.videos.length > 0 && (
                       <div>
@@ -232,4 +250,5 @@ const Dashboard = () => {
     </div>
   );
 };
+
 export default Dashboard;
