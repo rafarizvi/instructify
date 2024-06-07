@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import './Categories.css';
+import './assets/categories.css';
 import '../../App.css';
+
+import { 
+  Link,
+  useNavigate,
+  PropTypes
+  } from './index'
 
 const CategoryList = ({ categories, title, all }) => {
   const navigate = useNavigate();

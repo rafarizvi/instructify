@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
-import { ADD_TUTORIAL } from '../../utils/mutations';
-import { QUERY_USER_TUTORIALS } from '../../utils/queries';
-import AuthService from '../../utils/auth';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import './Tutorial.css';
-import WordCount from '../WordCount/WordCount';
-import hljs from 'highlight.js';
+import './assets/createTutorial.css';
 import 'highlight.js/styles/atom-one-dark.css';
 
-// Register highlight.js as the syntax module
-window.hljs = hljs;
+import {
+  useState,
+  useEffect,
+  useMutation,
+  useNavigate,
+  ADD_TUTORIAL,
+  QUERY_USER_TUTORIALS,
+  AuthService,
+  ReactQuill,
+  WordCount,
+  hljs
+} from './index'
 
 const categories = [
   'Tech',
@@ -44,7 +45,7 @@ const formats = [
   'code-block'
 ];
 
-const Tutorial = () => {
+const CreateTutorial = () => {
   const [formState, setFormState] = useState({
     title: '',
     content: '',
@@ -96,8 +97,8 @@ const Tutorial = () => {
       return;
     }
 
-    if (formState.title.split(' ') > 10) {
-      setMinimumTitle('Your title is too long.');
+    if (formState.title.length > 30) {
+      setMinimumTitle('Your title is too long. Max 30 characters.');
       return;
     }
 
@@ -203,4 +204,4 @@ const Tutorial = () => {
   );
 };
 
-export default Tutorial;
+export default CreateTutorial;

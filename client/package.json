@@ -12,8 +12,12 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@mui/icons-material": "^5.15.19",
+    "@mui/material": "^5.15.19",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "google-auth-library": "^9.10.0",

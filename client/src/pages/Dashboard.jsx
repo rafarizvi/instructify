@@ -7,11 +7,11 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
-import ConfirmDelete from '../components/ConfirmDelete';
+import ConfirmDelete from '../components/ConfirmDelete/ConfirmDelete';
 import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import '../components/createTutorial/Tutorial.css';
+import '../components/CreateTutorial/assets/createTutorial.css';
 import './dashboard.css';
 
 const categoryList = [
@@ -44,11 +44,11 @@ const Dashboard = () => {
   const { loading, data, error, refetch } = useQuery(QUERY_USER_TUTORIALS);
   const [updateTutorial] = useMutation(UPDATE_TUTORIAL, {
     onCompleted: () => refetch(),
-    onError: (error) => console.error('Update Tutorial Error:', error),
+    onError: (error) => console.error('Update CreateTutorial Error:', error),
   });
   const [removeTutorial] = useMutation(REMOVE_TUTORIAL, {
     onCompleted: () => refetch(),
-    onError: (error) => console.error('Remove Tutorial Error:', error),
+    onError: (error) => console.error('Remove CreateTutorial Error:', error),
   });
   const [removeVideoFromTutorial] = useMutation(REMOVE_VIDEO_FROM_TUTORIAL, {
     onCompleted: () => refetch(),

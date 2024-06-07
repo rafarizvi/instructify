@@ -1,5 +1,9 @@
-
 // Adding format for date and passing it through as a prop to be used with dashboard, view tutorial and comments
+
+import {
+  PropTypes
+} from './index'
+
 const DateFormatComment = ({ createdAt }) => {
   return (
     <small>{new Date(parseInt(createdAt)).toLocaleString('en-US', 
@@ -7,5 +11,10 @@ const DateFormatComment = ({ createdAt }) => {
 
   )
 }
+
+DateFormatComment.propTypes = {
+  createdAt: PropTypes.string.isRequired
+}
+
 
 export default DateFormatComment

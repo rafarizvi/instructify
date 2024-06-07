@@ -1,11 +1,22 @@
-import { useState } from 'react';
-import { Form, Button, Alert, Card, Row, Col } from 'react-bootstrap';
-import '../App.css';
-import '../index.css';
-import { useMutation, useQuery } from '@apollo/client';
-import { SAVE_VIDEO_TO_TUTORIAL } from '../utils/mutations';
-import { QUERY_USER_TUTORIALS, QUERY_GET_TUTORIAL_DETAILS } from '../utils/queries';
-import { getVideos } from '../utils/youtubeApi';
+import '../../App.css'
+import '../../index.css'
+
+import {
+  useState,
+  Form,
+  Button,
+  Alert,
+  Card,
+  Row,
+  Col,
+  useMutation,
+  useQuery,
+  SAVE_VIDEO_TO_TUTORIAL,
+  QUERY_USER_TUTORIALS,
+  QUERY_GET_TUTORIAL_DETAILS,
+  getVideos
+} from './index'
+
 
 export default function VideoSearch() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -88,6 +99,12 @@ export default function VideoSearch() {
       },
     });
   };
+
+  if(loading) {
+    <div>
+      <p>Loading tutorials...please wait</p>
+    </div>
+  }
 
   return (
     <div className="video-search-container">

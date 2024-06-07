@@ -14,25 +14,31 @@ export const QUERY_TUTORIALS = gql`
         _id
         name
       }
-      createdAt
-      videos {
-        _id
-        videoId
-        title
-      }
       comments {
         _id
         content
-        createdAt
         author {
           _id
           name
         }
+        createdAt
       }
+      likes {
+        _id
+      }
+      dislikes {
+        _id
+      }
+      videos {
+        _id
+        title
+        videoId
+        thumbnail
+      }
+      createdAt
     }
   }
 `;
-
 
 // All categories
 export const GET_CATEGORIES = gql`
@@ -160,6 +166,21 @@ export const QUERY_GET_TUTORIAL_COMMENTS = gql`
           _id
           name
         }
+      }
+    }
+  }
+`;
+
+
+export const QUERY_GET_TUTORIAL_LIKES_DISLIKES = gql`
+  query GetTutorialLikesDislikes($tutorialId: ID!) {
+    tutorial(_id: $tutorialId) {
+      _id
+      likes {
+        _id
+      }
+      dislikes {
+        _id
       }
     }
   }

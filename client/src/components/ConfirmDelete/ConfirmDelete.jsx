@@ -1,5 +1,8 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import {
+  Button,
+  Modal,
+  PropTypes
+} from './index'
 
 //exporting to dashboard were user can delete their tutorial with confirmation
 const ConfirmDelete = ({ show, handleClose, handleDelete }) => {
@@ -20,5 +23,11 @@ const ConfirmDelete = ({ show, handleClose, handleDelete }) => {
     </Modal>
   );
 };
+
+ConfirmDelete.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired
+}
 
 export default ConfirmDelete;
