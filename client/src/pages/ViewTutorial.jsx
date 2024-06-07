@@ -90,7 +90,7 @@ const ViewTutorial = () => {
   const userThumbsUp = async () => {
     try {
       await likeTutorial({ variables: { tutorialId, profileId } });
-      setCountUp((prevCountUp) => prevCountUp + 1);
+      setCountUp((prevCountUp) => prevCountUp + 0);
       refetchLikesDislikes();
     } catch (error) {
       console.error('There was a query issue liking this tutorial', error);
@@ -100,7 +100,7 @@ const ViewTutorial = () => {
   const userThumbsDown = async () => {
     try {
       await dislikeTutorial({ variables: { tutorialId, profileId } });
-      setCountDown((prevCountDown) => prevCountDown + 1);
+      setCountDown((prevCountDown) => prevCountDown + 0);
       refetchLikesDislikes();
     } catch (error) {
       console.error('There was a query issue disliking this tutorial', error);
