@@ -1,62 +1,88 @@
-    import { 
-      useEffect,
-      useQuery, 
-      useMutation,
-      QUERY_GET_SAVED_REMOVED_TUTORIALS,
-      REMOVE_SAVED_TUTORIAL,
-      Auth,
-      Link
-      } from './index'
-    
-    
-      const Account = () => {
-        const { loading, data, refetch } = useQuery(QUERY_GET_SAVED_REMOVED_TUTORIALS);
-        const [removeSavedTutorial] = useMutation(REMOVE_SAVED_TUTORIAL);
+import {
+  useEffect,
+  useState,
+  useQuery,
+  useMutation,
+  QUERY_GET_SAVED_REMOVED_TUTORIALS,
+  REMOVE_SAVED_TUTORIAL,
+  Button,
+  Auth,
+  Link
+} from './index'
+
+import './assets/account.css'
+
+
+const Account = () => {
+  const { loading, data, refetch } = useQuery(QUERY_GET_SAVED_REMOVED_TUTORIALS);
+  const [removeSavedTutorial] = useMutation(REMOVE_SAVED_TUTORIAL);
+
+  const [changePassword, setChangePassword] = useState('');
+  const [changeUsername, setChangeUsername] = useState('');
+  const [changeEmail, setChangeEmail] = useState('');
+
+
+  useEffect(() => {
+    if (Auth.loggedIn()) {
+      refetch();
+    }
+  }, [refetch]);
+
+  if (loading) {
+    return <div>Loading account...</div>;
+  }
+
+  // const profileId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
+
+
+  const profile = data.me;
+  const profileId = profile._id;
+
+  const handleRemoveTutorial = async (tutorialId) => {
+    try {
+      await removeSavedTutorial({
+        variables: { tutorialId, profileId },
+      });
+      refetch();
+    } catch (error) {
+      console.error('There was a problem removing a tutorial', error);
+    }
+  };
+
+  return (
+    <div className='accountDiv'>
+      <h3 className='savedTutorials'>Saved Tutorials</h3>
+      {profile.savedTutorial.length ? (
+        <ul>
+          {profile.savedTutorial.map((tutorial) => (
+            <p key={tutorial._id}>
+              <Link to={`/tutorial/${tutorial._id}`}>{tutorial.title}</Link>
+              <Button className="removeSavedTutorialBtAcct" onClick={() => handleRemoveTutorial(tutorial._id)}>Remove</Button>
+            </p>
+          ))}
+        </ul>
+      ) : (
+        <p>You don't have any saved tutorials</p>
+      )}
+
+      <h2 className="text-center accountHeader">Account Information</h2>
+      <p>Email: {profile?.name}</p>
+      <div><Button onClick={() => setChangeUsername('Feature coming soon!')}>Change Username</Button> 
+      <div>{changeUsername}</div>
+      </div>
+
+      <p>Email: {profile?.email}</p>
+      <div><Button onClick={() => setChangeEmail('Feature coming soon!')}>Change Email</Button> 
+      <div>{changeEmail}</div>
+      </div>
       
-        useEffect(() => {
-          if (Auth.loggedIn()) {
-            refetch();
-          }
-        }, [refetch]);
-      
-        if (loading) {
-          return <div>Loading account...</div>;
-        }
-      
-        const profile = data?.me;
-        const profileId = profile?._id;
-      
-        const handleRemoveTutorial = async (tutorialId) => {
-          try {
-            await removeSavedTutorial({
-              variables: { tutorialId, profileId },
-            });
-            refetch();
-          } catch (error) {
-            console.error('There was a problem removing a tutorial', error);
-          }
-        };
-        
-        return (
-          <div>
-            <h3>Saved Tutorials</h3>
-            {profile?.savedTutorial?.length ? (
-              <ul>
-                {profile.savedTutorial.map((tutorial) => (
-                  <li key={tutorial._id}>
-                    <Link to={`/tutorial/${tutorial._id}`}>{tutorial.title}</Link>
-                    <button onClick={() => handleRemoveTutorial(tutorial._id)}>Remove</button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No saved tutorials!</p>
-            )}
-            <h2 className="text-center accountHeader">Account Information</h2>
-            <p>Name: {profile?.name}</p>
-            <p>Email: {profile?.email}</p>
-          </div>
-        );
-      };
-      
-      export default Account;
+      <p>Password</p>
+      <div><Button onClick={() => setChangePassword('Feature coming soon!')}>Change Password</Button> 
+      <div>{changePassword}</div>
+      </div>
+
+    </div>
+  );
+};
+
+export default Account;

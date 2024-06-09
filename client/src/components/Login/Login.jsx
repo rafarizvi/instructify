@@ -62,6 +62,8 @@ const Login = () => {
           >
             Submit
           </button>
+
+          <p className='text-center'>Don't have an account? <a href="/signup">Signup</a> here.</p>
         </form>
         {error && (
           <div className="form-error">

@@ -79,6 +79,9 @@ const Signup = () => {
                 >
                   Submit
                 </button>
+
+                <p className='text-center'>Already have an account? <a href="/login">Login</a> here.</p>
+
               </form>
             )}
             {errorMessage && (

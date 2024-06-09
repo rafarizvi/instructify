@@ -9,6 +9,14 @@ import {
   useNavigate, 
   useLocation,
   SearchBar,
+  LogoutIcon,
+  DashboardIcon,
+  CreateTwoToneIcon,
+  AccountBoxIcon,
+  VolunteerActivismIcon,
+  GroupIcon,
+  YouTubeIcon,
+  LoginIcon,
   logo,
   Auth
 } from './index'
@@ -72,38 +80,38 @@ const Navbar = () => {
       <div className="collapse navbar-collapse" id="navbarNav" ref={navbarCollapseRef}>
         <ul className="navbar-nav me-auto" id="navbar-left">
           <li className="nav-item">
-            <Link className="nav-link navbar-link" to="/about" onClick={handleNavItemClick}>About</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link navbar-link" to="/videoSearch" onClick={handleNavItemClick}>Search Videos</Link>
+            <Link className="nav-link navbar-link" to="/about" onClick={handleNavItemClick}><GroupIcon/></Link>
           </li>
             <li className="nav-item">
-              <Link className="nav-link navbar-link" to="/donate" onClick={handleNavItemClick}>Donate</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link navbar-link" to="/account" onClick={handleNavItemClick}>Account</Link>
+              <Link className="nav-link navbar-link" to="/donate" onClick={handleNavItemClick}><VolunteerActivismIcon/></Link>
             </li>
         </ul>
         <ul className="navbar-nav ms-auto" id="navbar-right">
           {!isLoggedIn ? (
             <>
               <li className="nav-item">
-                <Link className="nav-link navbar-link" to="/login" id="navbar-login" onClick={handleNavItemClick}>Login</Link>
+                <Link className="nav-link navbar-link" to="/login" id="navbar-login" onClick={handleNavItemClick}><LoginIcon/></Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link className="nav-link navbar-link" to="/signup" id="navbar-signup" onClick={handleNavItemClick}>Sign Up</Link>
-              </li>
+              </li> */}
             </>
           ) : (
             <>
               <li className="nav-item">
-                <Link className="nav-link navbar-link" to="/tutorial" id="navbar-create-tutorial" onClick={handleNavItemClick}>Create Tutorial</Link>
+                <Link className="nav-link navbar-link text-center" to="/tutorial" id="navbar-create-tutorial" onClick={handleNavItemClick}><CreateTwoToneIcon/></Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link navbar-link" to="/dashboard" id="navbar-dashboard" onClick={handleNavItemClick}>Dashboard</Link>
+            <Link className="nav-link navbar-link" to="/videoSearch" onClick={handleNavItemClick}><YouTubeIcon/></Link>
+          </li>
+              <li className="nav-item">
+                <Link className="nav-link navbar-link" to="/dashboard" id="navbar-dashboard" onClick={handleNavItemClick}><DashboardIcon/></Link>
               </li>
               <li className="nav-item">
-                <button className="nav-link navbar-link btn" onClick={handleLogout} id="navbar-logout">Logout</button>
+              <Link className="nav-link navbar-link" to="/account" onClick={handleNavItemClick}><AccountBoxIcon/></Link>
+            </li>
+              <li className="nav-item">
+                <button className="nav-link navbar-link btn" onClick={handleLogout} id="navbar-logout"><LogoutIcon/></button>
               </li>
             </>
           )}

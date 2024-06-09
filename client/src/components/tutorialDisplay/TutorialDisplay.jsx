@@ -1,3 +1,10 @@
+import './assets/tutorialDisplay.css'
+
+import { 
+  PropTypes 
+  } from './index'
+
+
 const TutorialDisplay = ({ title, content, author, category }) => {
   if (!author || !category) {
     return <div>Loading...</div>;
@@ -12,9 +19,17 @@ const TutorialDisplay = ({ title, content, author, category }) => {
       <br />
       <br />
       <br />
-      <div style={{ fontSize: '16px', whiteSpace: 'pre-wrap' }} className="content" dangerouslySetInnerHTML={{ __html: content }}></div>
+      <div style={{ fontSize: '16px', whiteSpace: 'pre-wrap' }} className="contentTutorialDisplay" dangerouslySetInnerHTML={{ __html: content }}></div>
     </div>
   );
 };
+
+// passing through proptypes to ensure they are passed through correctly
+TutorialDisplay.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  author: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired
+}
 
 export default TutorialDisplay;

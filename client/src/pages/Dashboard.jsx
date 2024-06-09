@@ -150,7 +150,6 @@ const Dashboard = () => {
                 <div className="d-flex justify-content-center">
                   <p className="tutorial-category mt-4 badge text-bg-info" style={{ fontSize: '20px' }}>{tutorial.category?.name}</p>
                 </div>
-                <br />
                 <DateFormatTutorial createdAt={tutorial.createdAt} />
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Button className="tutorialBtnDashboard tutorialBtn " 

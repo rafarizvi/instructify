@@ -61,3 +61,32 @@
   font-size: 19px;
   transition: 0.5s;
 }
+
+/* using !important to override icon import css */
+.removeSavedTutorialBtn {
+  color: red !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.removeSavedTutorialBtn:hover {
+  color: gray !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  margin: 0.1%;
+  transition: 0.5s;
+}
+
+.saveTutorialBtn {
+  color: rgb(174, 164, 164) !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.saveTutorialBtn:hover {
+  color:red !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  margin: 0.1%;
+  transition: 0.5s;
+}

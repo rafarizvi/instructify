@@ -6,6 +6,15 @@ import Auth from '../../utils/auth';
 // importing Search bar to use but it wont be IN the navbar, but under it
 import SearchBar from '../Search/SearchBar';
 
+import LogoutIcon from '@mui/icons-material/Logout';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CreateTwoToneIcon from '@mui/icons-material/CreateTwoTone';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import GroupIcon from '@mui/icons-material/Group';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import LoginIcon from '@mui/icons-material/Login';
+
 export {
   React,
   useState, 
@@ -16,5 +25,13 @@ export {
   Link, 
   SearchBar,
   logo,
-  Auth
+  Auth,
+  LogoutIcon,
+  DashboardIcon,
+  CreateTwoToneIcon,
+  AccountBoxIcon,
+  VolunteerActivismIcon,
+  GroupIcon,
+  YouTubeIcon,
+  LoginIcon
 }

@@ -10,32 +10,50 @@ import { Button } from 'react-bootstrap';
 import VideoCarousel from '../components/VideoCarousel/VideoCarousel';
 import '../pages/viewTutorial.css';
 import TutorialDisplay from '../components/TutorialDisplay/TutorialDisplay';
-import { QUERY_TUTORIALS, QUERY_GET_TUTORIAL_LIKES_DISLIKES } from '../utils/queries';
-import { ADD_COMMENT, REMOVE_COMMENT, LIKE_TUTORIAL, DISLIKE_TUTORIAL } from '../utils/mutations';
+import { QUERY_TUTORIALS, QUERY_GET_TUTORIAL_LIKES_DISLIKES, QUERY_GET_SAVED_REMOVED_TUTORIALS } from '../utils/queries';
+import { ADD_COMMENT, REMOVE_COMMENT, LIKE_TUTORIAL, DISLIKE_TUTORIAL, SAVE_TUTORIAL, REMOVE_SAVED_TUTORIAL } from '../utils/mutations';
 import Auth from '../utils/auth';
-
 
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+
+import FavoriteIcon from '@mui/icons-material/Favorite';
+// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const ViewTutorial = () => {
   const location = useLocation();
   const { clickButton } = location.state || {};
 
   const { loading, data, error, refetch } = useQuery(QUERY_TUTORIALS, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   });
 
-  const {
-    data: likesData, refetch: refetchLikesDislikes } = useQuery(QUERY_GET_TUTORIAL_LIKES_DISLIKES, {
-      variables: { tutorialId: clickButton },
-      fetchPolicy: 'network-only',
-    });
+  const { data: savedData, refetch: refetchSavedRemoved } = useQuery(QUERY_GET_SAVED_REMOVED_TUTORIALS, {
+    fetchPolicy: 'cache-and-network',
+  });
 
+  const { data: likesData, refetch: refetchLikesDislikes } = useQuery(QUERY_GET_TUTORIAL_LIKES_DISLIKES, {
+    variables: { tutorialId: clickButton },
+    fetchPolicy: 'cache-and-network',
+  });
+
+  // setting useState for liking, disliking, saving and removing tutorials when viewing tutorial
   const [clickedTutorial, setClickedTutorial] = useState(null);
+  // usestate for counting starts at 0
+  const [countUp, setCountUp] = useState(0);
+  const [countDown, setCountDown] = useState(0);
+  // usestate for saving tutorial is empty, can also be set to false
+  const [content, setContent] = useState('');
+  // usestate for if the user already saved a tutorial
+  const [tutorialIsSaved, setTutorialIsSaved] = useState('');
+
+  // bringing in mutations for useStates
   const [likeTutorial] = useMutation(LIKE_TUTORIAL);
   const [dislikeTutorial] = useMutation(DISLIKE_TUTORIAL);
+  const [saveTutorial] = useMutation(SAVE_TUTORIAL);
+  const [removeSavedTutorial] = useMutation(REMOVE_SAVED_TUTORIAL);
 
+  //using useeffect to find tutorial data on button click 
   useEffect(() => {
     if (!loading && data && clickButton) {
       const foundTutorial = data.tutorials.find((tutorial) => tutorial._id === clickButton);
@@ -43,6 +61,7 @@ const ViewTutorial = () => {
     }
   }, [data, clickButton, loading, error]);
 
+  // use effect for adding a count to each like / dislike to a tutorial
   useEffect(() => {
     if (likesData) {
       const { tutorial } = likesData;
@@ -51,10 +70,22 @@ const ViewTutorial = () => {
     }
   }, [likesData]);
 
+// adding a useEffect for updating the saved tutorial status
+useEffect(() => {
+  if (savedData) {
+    // taking the the saved tutorials from the fetched data using the 'me' query
+    const savingTutorial = savedData.me.savedTutorial
+    // then checking if the current tutorial (identified by clickButton) is already saved by the user
+    const isAlreadySaved = savingTutorial.find((savedTutorial) => savedTutorial._id === clickButton)
+    // updating the useState to reflect whether the tutorial is saved or not
+    setTutorialIsSaved(isAlreadySaved);
+  }
+}, [savedData, clickButton]);
+
+
   const profileId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
   const tutorialId = clickButton;
 
-  const [content, setContent] = useState('');
   const [addContent] = useMutation(ADD_COMMENT, {
     onCompleted: () => refetch(),
     onError: (error) => console.error('Add comment Error:', error),
@@ -62,12 +93,8 @@ const ViewTutorial = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      await addContent({
-        variables: { profileId, tutorialId, content },
-      });
-
+      await addContent({ variables: { profileId, tutorialId, content } });
       setContent('');
     } catch (err) {
       console.error(err);
@@ -81,9 +108,7 @@ const ViewTutorial = () => {
 
   const deleteComment = async (commentId) => {
     try {
-      await removeComment({
-        variables: { id: commentId },
-      });
+      await removeComment({ variables: { id: commentId } });
     } catch (e) {
       console.error('Error during mutation:', e);
     }
@@ -109,10 +134,32 @@ const ViewTutorial = () => {
     }
   };
 
-  const [countUp, setCountUp] = useState(0);
-  const [countDown, setCountDown] = useState(0);
+  // function for saving a tutorial
+  const handleSaveTutorial = async (tutorialId) => {
+  try {
+    // using saveTutorial mutation, passing the tutorialId and profileId as variables
+    await saveTutorial({ variables: { tutorialId, profileId } });
 
+    // once the mutation is done, update the useState to indicate the tutorial is saved (true)
+    setTutorialIsSaved(true);
 
+    // refetching the saved and removed tutorials data from the QUERY_GET_SAVED_REMOVED_TUTORIALS
+    refetchSavedRemoved();
+  } catch (error) {
+    console.error('There was a problem saving the tutorial', error);
+  }
+};
+
+  // function for removing a saved a tutorial
+  const handleRemoveSavedTutorial = async (tutorialId) => {
+    try {
+      await removeSavedTutorial({ variables: { tutorialId, profileId } });
+      setTutorialIsSaved(false);
+      refetchSavedRemoved();
+    } catch (error) {
+      console.error('There was a problem removing the tutorial', error);
+    }
+  };
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -141,13 +188,18 @@ const ViewTutorial = () => {
               <ThumbDownIcon />
               {countDown}
             </Button>
+
+            {tutorialIsSaved ? (
+            <Button className='removeSavedTutorialBtn' onClick={() => handleRemoveSavedTutorial(tutorialId)}><FavoriteIcon /></Button>
+            ) : (
+            <Button className='saveTutorialBtn' onClick={() => handleSaveTutorial(tutorialId)}><FavoriteIcon /> </Button>
+            )}
+          
           </div>
-          <br />
           <DateFormatTutorial createdAt={clickedTutorial.createdAt} />
           {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (
             <VideoCarousel videos={clickedTutorial.videos} />
           )}
-
           <div className="commentDiv">
             <div>
               <h4>Add your comment</h4>
@@ -191,7 +243,6 @@ const ViewTutorial = () => {
                   </button>
                 )}
                 <p>{comment.content}
-                  <br />
                   <DateFormatComment createdAt={comment.createdAt} /> </p>
               </div>
             ))}
