@@ -1,13 +1,11 @@
 import { gql } from '@apollo/client';
 
-// All tutorials 
 export const QUERY_TUTORIALS = gql`
   query Tutorials {
     tutorials {
       _id
       title
       content
-      createdAt
       author {
         _id
         name
@@ -19,22 +17,29 @@ export const QUERY_TUTORIALS = gql`
       comments {
         _id
         content
-        createdAt
         author {
           _id
           name
         }
+        createdAt
+      }
+      likes {
+        _id
+      }
+      dislikes {
+        _id
       }
       videos {
         _id
         title
         videoId
+        thumbnail
       }
+      createdAt
     }
   }
 `;
 
-// All categories
 export const GET_CATEGORIES = gql`
   query Categories {
     categories {
@@ -90,6 +95,14 @@ export const QUERY_USER_TUTORIALS = gql`
           videoId
         }
       }
+      savedTutorial {
+        _id
+        title
+      }
+      removedSavedTutorial {
+        _id
+        title
+      }
     }
   }
 `;
@@ -113,7 +126,6 @@ export const QUERY_ALL_TUTORIALS = gql`
   }
 `;
 
-// Pulling all info for a single tutorial, including the comments + category
 export const QUERY_GET_TUTORIAL_DETAILS = gql`
   query GetSingleTutorial($tutorialId: ID!) {
     tutorial(_id: $tutorialId) {
@@ -147,7 +159,6 @@ export const QUERY_GET_TUTORIAL_DETAILS = gql`
   }
 `;
 
-// Adding query to retrieve all comments based on a single tutorial
 export const QUERY_GET_TUTORIAL_COMMENTS = gql`
   query GetTutorialComments($tutorialId: ID!) {
     tutorial(_id: $tutorialId) {
@@ -164,3 +175,37 @@ export const QUERY_GET_TUTORIAL_COMMENTS = gql`
     }
   }
 `;
+
+export const QUERY_GET_TUTORIAL_LIKES_DISLIKES = gql`
+  query GetTutorialLikesDislikes($tutorialId: ID!) {
+    tutorial(_id: $tutorialId) {
+      _id
+      likes {
+        _id
+      }
+      dislikes {
+        _id
+      }
+    }
+  }
+`;
+
+export const QUERY_GET_SAVED_REMOVED_TUTORIALS = gql`
+  query GetSavedRemovedTutorials {
+    me {
+      _id
+      name
+      email
+      savedTutorial {
+        _id
+        title
+      }
+      removedSavedTutorial {
+        _id
+        title
+      }
+    }
+  }
+`;
+
+

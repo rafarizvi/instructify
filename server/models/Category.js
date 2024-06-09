@@ -5,7 +5,14 @@ const categorySchema = new Schema({
     name: {
         type: String,
         required: true
-    }
+    },
+    // added but not using- added category to MongoDb collection instead
+    // tutorials: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Tutorial',
+    //   },
+    // ]
 })
 
 const Category = model('Category', categorySchema);

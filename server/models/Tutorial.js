@@ -27,6 +27,30 @@ const tutorialSchema = new Schema({
     ref: 'Comment',
     required: false
   }],
+  likes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile',
+    },
+  ],
+  dislikes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile',
+    },
+  ],
+  savedTutorial: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile'
+    }
+  ],
+  removedSavedTutorial: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile'
+    }
+  ],
   videos: {
     type: [videoSchema],
     default: [],
@@ -34,7 +58,7 @@ const tutorialSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-}, 
+  },
 }, { timestamps: true });
 
 const Tutorial = model('Tutorial', tutorialSchema);

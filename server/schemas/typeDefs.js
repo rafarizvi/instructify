@@ -6,6 +6,10 @@ const typeDefs = `#graphql
     password: String!
     tutorials: [Tutorial!]
     comments: [Comment!]
+    likes: [Tutorial!]
+    dislikes: [Tutorial!]
+    savedTutorial: [Tutorial!]
+    removedSavedTutorial: [Tutorial!]
   }
 
   type Tutorial {
@@ -17,6 +21,11 @@ const typeDefs = `#graphql
     comments: [Comment!]
     videos: [Video!]!
     createdAt: String!
+    likes: [Profile!]
+    dislikes: [Profile!]
+    savedTutorial: [Profile!]
+    removedSavedTutorial: [Profile!]
+
   }
 
   type Category {
@@ -56,7 +65,7 @@ const typeDefs = `#graphql
   }
 
   type Checkout {
-  session: ID
+    session: ID
   }
 
   type Mutation {
@@ -71,7 +80,11 @@ const typeDefs = `#graphql
     saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String!, tutorialId: ID!): Tutorial
     removeVideoFromTutorial(tutorialId: ID!, videoId: ID!): Tutorial
     giveDonation(amount: Float!): Checkout
-}
+    likeTutorial(tutorialId: ID!, profileId: ID!): Tutorial
+    dislikeTutorial(tutorialId: ID!, profileId: ID!): Tutorial
+    savedTutorial(tutorialId: ID!, profileId: ID!): Profile
+    removedSavedTutorial(tutorialId: ID!, profileId: ID!): Profile
+  }
 `;
 
 module.exports = typeDefs;

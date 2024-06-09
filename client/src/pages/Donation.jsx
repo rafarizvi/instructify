@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { GIVE_DONATION } from '../utils/mutations';
 
@@ -42,7 +42,7 @@ const Donation = () => {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-        </label> <br></br>
+        </label>
         <button style={{'marginTop': '10px'}} className="btn btn-success" type="submit" disabled={loading}>
           {loading ? 'Processing...' : 'Donate'}
         </button>

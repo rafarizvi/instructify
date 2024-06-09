@@ -1,0 +1,20 @@
+.removeSavedTutorialBtAcct {
+  font-size: 10px;
+  color: white !important;
+  background-color: rgba(223, 23, 23, 0.83);
+  border-color: transparent;
+  margin: 1%;
+}
+
+.removeSavedTutorialBtAcct:hover {
+  font-size: 10px;
+  color: white !important;
+  background-color:rgba(255, 0, 0, 0.826);
+  border-color: transparent;
+}
+
+.accountDiv {
+  margin-left: 3%;
+}
+
+

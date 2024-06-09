@@ -12,13 +12,81 @@
 }
 
 .commentDiv {
-  border: solid 1.5px rgb(137, 137, 137);
-  border-radius: 10px;
+  border: solid 4px rgb(51, 59, 83);
+  border-radius: 30px;
   margin-top: 10%;
   padding: 3%;
 }
 
 .commentDiv p {
-  border-bottom: solid 1px rgb(134, 134, 134);
-  padding-bottom: 1%;
+  font-family: sans-serif;
+  border-bottom: solid 0.5px rgb(134, 134, 134);
+  padding-bottom: 2%;
+}
+
+.badge {
+  font-size: 13px;
+}
+
+.text-bg-danger {
+  font-size: 13px;
+  margin-top: 0.2%;
+  border: none;
+}
+
+.text-bg-danger:hover {
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.thumbsUp, .thumbsDown {
+  margin: 1%;
+  margin-left: auto;
+  background-position: 0ch;
+}
+
+.thumbsDown {
+  background-color: red;
+  border: none;
+  font-size: large;
+}
+
+.thumbsDown:hover {
+  background-color: red;
+  font-size: 20px;
+  transition: 0.5s;
+}
+
+.thumbsUp:hover {
+  font-size: 19px;
+  transition: 0.5s;
+}
+
+/* using !important to override icon import css */
+.removeSavedTutorialBtn {
+  color: red !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.removeSavedTutorialBtn:hover {
+  color: gray !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  margin: 0.1%;
+  transition: 0.5s;
+}
+
+.saveTutorialBtn {
+  color: rgb(174, 164, 164) !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.saveTutorialBtn:hover {
+  color:red !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  margin: 0.1%;
+  transition: 0.5s;
 }
