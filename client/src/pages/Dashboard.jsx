@@ -7,11 +7,11 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { QUERY_USER_TUTORIALS } from '../utils/queries';
 import { REMOVE_TUTORIAL, UPDATE_TUTORIAL, REMOVE_VIDEO_FROM_TUTORIAL } from '../utils/mutations';
-import ConfirmDelete from '../components/ConfirmDelete/ConfirmDelete';
-import DateFormatTutorial from '../components/DateFormats/DateFormatTutorial';
+import ConfirmDelete from '../components/confirmDelete/ConfirmDelete';
+import DateFormatTutorial from '../components/dateFormats/DateFormatTutorial';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import '../components/CreateTutorial/assets/createTutorial.css';
+import '../components/createTutorial/assets/createTutorial.css';
 import './dashboard.css';
 
 const categoryList = [

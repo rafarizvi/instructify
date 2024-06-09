@@ -10,7 +10,7 @@ import { QUERY_USER_TUTORIALS } from '../../utils/queries';
 //use of additional services / components to application
 import AuthService from '../../utils/auth';
 import ReactQuill from 'react-quill';
-import WordCount from '../WordCount/WordCount';
+import WordCount from '../wordCount/WordCount';
 import hljs from 'highlight.js';
 
 // exporting use of react and apollo clients
