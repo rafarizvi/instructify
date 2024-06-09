@@ -6,7 +6,7 @@ import { setContext } from '@apollo/client/link/context';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 //importing the universe search from components
-import { SearchProvider } from './components/Search/SearchContext';
+import { SearchProvider } from './components/search/SearchContext';
 import Navbar from './components/Navbar/Navbar';
 
 const httpLink = createHttpLink({

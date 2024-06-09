@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card';
 import '../pages/tutorialCategories.css';
 
 //importing for search feature in navbar throughout all page
-import  { SearchContext } from '../components/Search/SearchContext';
+import  { SearchContext } from '../components/search/SearchContext';
 
 
 

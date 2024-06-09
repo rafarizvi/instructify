@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../../assets/instructify-logo.png';
 import Auth from '../../utils/auth';
 // importing Search bar to use but it wont be IN the navbar, but under it
-import SearchBar from '../Search/SearchBar';
+import SearchBar from '../search/SearchBar';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
