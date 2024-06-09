@@ -6,7 +6,7 @@ import { PropTypes } from 'prop-types';
 // import { 
 //   createContext, 
 //   useState,
-//   PropTypes } from './index';
+//   PropTypes } from './search';
   
   const SearchContext = createContext();
   

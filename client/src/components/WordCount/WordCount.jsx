@@ -1,6 +1,6 @@
   import { 
     PropTypes 
-  } from './index'
+  } from './wordCount.js'
 
   import './assets/wordCount.css'
   

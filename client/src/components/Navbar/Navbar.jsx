@@ -19,7 +19,7 @@ import {
   LoginIcon,
   logo,
   Auth
-} from './index'
+} from './navbar.js'
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

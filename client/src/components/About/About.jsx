@@ -5,7 +5,7 @@ import {
   danielImage,
   tamerImage,
   rafaImage
-} from './index'
+} from './about.js'
 
 const teamMembers = [
   {

@@ -1,6 +1,6 @@
 import { 
   PropTypes 
-  } from './index';
+  } from './dateFormat.js';
 
 const DateFormatTutorial = ({ createdAt }) => {
   return (

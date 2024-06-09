@@ -5,7 +5,7 @@ import {
   useNavigate,
   LOGIN_USER,
   Auth
- } from './index'
+ } from './login.js'
 
 const Login = () => {
   const [formState, setFormState] = useState({ email: '', password: '' });

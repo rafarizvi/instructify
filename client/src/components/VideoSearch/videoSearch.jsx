@@ -15,7 +15,7 @@ import {
   QUERY_USER_TUTORIALS,
   QUERY_GET_TUTORIAL_DETAILS,
   getVideos
-} from './index'
+} from './videoSearch.js'
 
 
 export default function VideoSearch() {

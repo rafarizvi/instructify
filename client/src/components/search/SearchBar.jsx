@@ -3,7 +3,7 @@
 //   Form,
 //   PropTypes,
 //   SearchContext
-// } from './index'
+// } from './search'
 
 import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';

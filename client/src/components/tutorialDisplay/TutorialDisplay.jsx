@@ -2,7 +2,7 @@ import './assets/tutorialDisplay.css'
 
 import { 
   PropTypes 
-  } from './index'
+  } from './tutorialDisplay.js'
 
 
 const TutorialDisplay = ({ title, content, author, category }) => {

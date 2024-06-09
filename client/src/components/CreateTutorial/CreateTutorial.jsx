@@ -13,7 +13,7 @@ import {
   ReactQuill,
   WordCount,
   hljs
-} from './index'
+} from './createTutorial.js'
 
 const categories = [
   'Tech',

@@ -2,7 +2,7 @@ import {
   Button,
   Modal,
   PropTypes
-} from './index'
+} from './confirmDelete.js'
 
 //exporting to dashboard were user can delete their tutorial with confirmation
 const ConfirmDelete = ({ show, handleClose, handleDelete }) => {

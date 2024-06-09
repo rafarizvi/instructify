@@ -2,7 +2,7 @@
 
 import {
   PropTypes
-} from './index'
+} from './dateFormat.js'
 
 const DateFormatComment = ({ createdAt }) => {
   return (

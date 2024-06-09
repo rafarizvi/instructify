@@ -5,7 +5,7 @@ import {
   Link,
   useNavigate,
   PropTypes
-  } from './index'
+  } from './categoryList.js'
 
 const CategoryList = ({ categories, title, all }) => {
   const navigate = useNavigate();

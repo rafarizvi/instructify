@@ -5,7 +5,7 @@ import {
   useMutation,
   ADD_PROFILE,
   Auth
-} from './index'
+} from './signup.js'
 
 const Signup = () => {
   const [formState, setFormState] = useState({

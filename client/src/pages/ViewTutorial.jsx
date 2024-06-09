@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import VideoCarousel from '../components/videoCarousel/VideoCarousel';
 import '../pages/viewTutorial.css';
-import TutorialDisplay from '../components/tutorialDisplay/TutorialDisplay';
+import TutorialDisplay from '../components/tutorialDisplay/TutorialDisplay.jsx';
 import { QUERY_TUTORIALS, QUERY_GET_TUTORIAL_LIKES_DISLIKES, QUERY_GET_SAVED_REMOVED_TUTORIALS } from '../utils/queries';
 import { ADD_COMMENT, REMOVE_COMMENT, LIKE_TUTORIAL, DISLIKE_TUTORIAL, SAVE_TUTORIAL, REMOVE_SAVED_TUTORIAL } from '../utils/mutations';
 import Auth from '../utils/auth';

@@ -4,7 +4,7 @@ import {
   useEffect,
   Carousel,
   PropTypes
-} from './index'
+} from './videoCarousel.js'
 
 const VideoCarousel = ({ videos }) => {
   useEffect(() => {
