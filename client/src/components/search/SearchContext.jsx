@@ -1,7 +1,12 @@
-import { 
-  createContext, 
-  useState,
-  PropTypes } from './index';
+import React, { createContext, useState } from 'react';
+import { PropTypes } from 'prop-types';
+
+
+
+// import { 
+//   createContext, 
+//   useState,
+//   PropTypes } from './index';
   
   const SearchContext = createContext();
   

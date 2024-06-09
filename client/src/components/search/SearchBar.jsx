@@ -1,9 +1,16 @@
-import {
-  useContext,
-  Form,
-  PropTypes,
-  SearchContext
-} from './index'
+// import {
+//   useContext,
+//   Form,
+//   PropTypes,
+//   SearchContext
+// } from './index'
+
+import React, { useContext } from 'react';
+import Form from 'react-bootstrap/Form';
+import { SearchContext } from './SearchContext';
+import { PropTypes } from 'prop-types';
+
+
 
 import './assets/searchBar.css'
 
