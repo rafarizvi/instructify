@@ -14,6 +14,7 @@ import { QUERY_TUTORIALS, QUERY_GET_TUTORIAL_LIKES_DISLIKES } from '../utils/que
 import { ADD_COMMENT, REMOVE_COMMENT, LIKE_TUTORIAL, DISLIKE_TUTORIAL } from '../utils/mutations';
 import Auth from '../utils/auth';
 
+
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
@@ -25,10 +26,11 @@ const ViewTutorial = () => {
     fetchPolicy: 'network-only',
   });
 
-  const { data: likesData, refetch: refetchLikesDislikes } = useQuery(QUERY_GET_TUTORIAL_LIKES_DISLIKES, {
-    variables: { tutorialId: clickButton },
-    fetchPolicy: 'network-only',
-  });
+  const {
+    data: likesData, refetch: refetchLikesDislikes } = useQuery(QUERY_GET_TUTORIAL_LIKES_DISLIKES, {
+      variables: { tutorialId: clickButton },
+      fetchPolicy: 'network-only',
+    });
 
   const [clickedTutorial, setClickedTutorial] = useState(null);
   const [likeTutorial] = useMutation(LIKE_TUTORIAL);
@@ -110,6 +112,8 @@ const ViewTutorial = () => {
   const [countUp, setCountUp] = useState(0);
   const [countDown, setCountDown] = useState(0);
 
+
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
@@ -133,7 +137,7 @@ const ViewTutorial = () => {
               <ThumbUpIcon />
               {countUp}
             </Button>
-            <Button className='thumbsDown' onClick={userThumbsDown}>
+            <Button className='thumbsDown btn btn-danger' onClick={userThumbsDown}>
               <ThumbDownIcon />
               {countDown}
             </Button>

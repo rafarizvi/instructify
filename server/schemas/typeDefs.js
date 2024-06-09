@@ -8,6 +8,8 @@ const typeDefs = `#graphql
     comments: [Comment!]
     likes: [Tutorial!]
     dislikes: [Tutorial!]
+    savedTutorial: [Tutorial!]
+    removedSavedTutorial: [Tutorial!]
   }
 
   type Tutorial {
@@ -21,6 +23,9 @@ const typeDefs = `#graphql
     createdAt: String!
     likes: [Profile!]
     dislikes: [Profile!]
+    savedTutorial: [Profile!]
+    removedSavedTutorial: [Profile!]
+
   }
 
   type Category {
@@ -77,6 +82,8 @@ const typeDefs = `#graphql
     giveDonation(amount: Float!): Checkout
     likeTutorial(tutorialId: ID!, profileId: ID!): Tutorial
     dislikeTutorial(tutorialId: ID!, profileId: ID!): Tutorial
+    savedTutorial(tutorialId: ID!, profileId: ID!): Profile
+    removedSavedTutorial(tutorialId: ID!, profileId: ID!): Profile
   }
 `;
 

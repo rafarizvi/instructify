@@ -39,6 +39,18 @@ const tutorialSchema = new Schema({
       ref: 'Profile',
     },
   ],
+  savedTutorial: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile'
+    }
+  ],
+  removedSavedTutorial: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile'
+    }
+  ],
   videos: {
     type: [videoSchema],
     default: [],

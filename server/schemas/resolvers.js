@@ -3,37 +3,65 @@ const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
+  // all coming from type Query via TypeDefs
   Query: {
-    profiles: async () => Profile.find({}),
-    profile: async (_, { _id }) => Profile.findById(_id).populate('likes dislikes'),
+    // for pulling a single tutorial
+    profiles: async () => Profile.find({}).populate('savedTutorial'),
+    // for pulling a single tutorial with their likes and dislikes
+    profile: async (_, { _id }) => Profile.findById(_id).populate('likes dislikes comments savedTutorial removedSavedTutorial'),
+    // me query that populates all user data referring to Profile model
     me: async (parent, args, context) => {
+      console.log('display context.user data if working ->', context.user);
       if (context.user) {
         return Profile.findOne({ _id: context.user._id }).populate({
           path: 'tutorials',
-          populate: 'category'
+          populate: [
+            { path: 'category' },
+            { path: 'comments', populate: { path: 'author' } }, // populate authors within comments
+            { path: 'likes' }, // likes are references to Profile schema
+            { path: 'dislikes' }, // dislikes are references to Profile schema
+            { path: 'savedTutorial' }, // savedTutorials are references to Profile schema
+            { path: 'removedSavedTutorial' }, // removedSavedTutorial are references to Profile schema
+            { path: 'author' }, // populate the author of the tutorial
+          ],
         });
       }
-      throw new AuthenticationError('Not authenticated');
-    },
-    tutorial: async (parent, { _id }) => Tutorial.findById(_id).populate('author category comments videos'),
-    tutorials: async () => Tutorial.find({}).populate('author category comments videos'),
+      throw new AuthenticationError('You need to be logged in to do that!');
+    },   
+    // finding tutorial by id and populating all things associated with said id via Tutorial model
+    tutorial: async (parent, { _id }) => Tutorial.findById(_id).populate
+      ('author category comments videos likes dislikes savedTutorial removedSavedTutorial'),
+    // finding all tutorials and populating all things associated with all tutorials via tutorial model
+    tutorials: async () => Tutorial.find({}).populate
+      ('author category comments videos likes dislikes savedTutorial removedSavedTutorial'),
+    // finding all categories via Category model
     categories: async () => Category.find({}),
+    // finding all comments via Comment model
     comments: async () => Comment.find({}),
   },
 
+  // data from profile schema 
   Profile: {
     tutorials: async (parent) => Tutorial.find({ author: parent._id }).populate('category comments videos'),
     comments: async (parent) => Comment.find({ author: parent._id }),
     likes: async (parent) => Tutorial.find({ _id: { $in: parent.likes } }),
+    // using $in to filter and check if said value exists in an array list and display the values
     dislikes: async (parent) => Tutorial.find({ _id: { $in: parent.dislikes } }),
+    savedTutorial: async (parent) => Tutorial.find({ _id: { $in: parent.savedTutorial } }),
+    // not sure if needed yet will keep for now
+    removedSavedTutorial: async (parent) => Tutorial.find({ _id: { $in: parent.savedTutorial } })
   },
 
+  // data from tutorial schema
   Tutorial: {
     author: async (parent) => Profile.findById(parent.author),
     comments: async (parent) => Comment.find({ tutorial: parent._id }),
     likes: async (parent) => Profile.find({ _id: { $in: parent.likes } }),
     dislikes: async (parent) => Profile.find({ _id: { $in: parent.dislikes } }),
+    savedTutorial: async (parent) => Profile.find({ _id: { $in: parent.savedTutorial } }),
+    removedSavedTutorial: async (parent) => Profile.find({ _id: { $in: parent.savedTutorial } })
   },
+
   Category: {
     tutorials: async (parent) => Tutorial.find({ category: parent._id }),
   },
@@ -71,7 +99,7 @@ const resolvers = {
 
       const correctPw = await profile.isCorrectPassword(password);
       if (!correctPw) {
-        throw new AuthenticationError('Incorrect password.');
+        throw new AuthenticationError('Incorrect password or username.');
       }
 
       const token = signToken(profile);
@@ -79,6 +107,7 @@ const resolvers = {
     },
 
     addTutorial: async (parent, { title, category, content }, context) => {
+      // console.log('context user working? ->', context.user);
       if (context.user) {
         const categoryDoc = await Category.findOne({ name: category });
 
@@ -98,7 +127,7 @@ const resolvers = {
 
         return Tutorial.findById(newTutorial._id).populate('author category');
       }
-      throw new AuthenticationError('Not authenticated');
+      throw new AuthenticationError
     },
 
     removeTutorial: async (parent, { _id }, context) => {
@@ -121,7 +150,7 @@ const resolvers = {
           return findTutorial;
         } catch (error) {
           console.error('Remove tutorial error:', error);
-          throw new AuthenticationError('Not authenticated');
+          throw new AuthenticationError
         }
       }
     },
@@ -143,7 +172,7 @@ const resolvers = {
           return updatedTutorial;
         } catch (error) {
           console.error('Update tutorial error:', error);
-          throw new AuthenticationError('Not authenticated');
+          throw new AuthenticationError
         }
       }
     },
@@ -173,7 +202,7 @@ const resolvers = {
           return addComment.populate('author tutorial');
         } catch (error) {
           console.error('Add comment error:', error);
-          throw new AuthenticationError('Not authenticated');
+          throw new AuthenticationError
         }
       }
     },
@@ -204,7 +233,7 @@ const resolvers = {
           return comment;
         } catch (error) {
           console.error('Remove comment error:', error);
-          throw new AuthenticationError('Not authenticated');
+          throw new AuthenticationError
         }
       }
     },
@@ -227,7 +256,7 @@ const resolvers = {
           return findTutorial;
         } catch (error) {
           console.error('There was an error liking this tutorial', error);
-          throw new AuthenticationError('Not authenticated');
+          throw new AuthenticationError
         }
       }
     },
@@ -250,10 +279,70 @@ const resolvers = {
           return findTutorial;
         } catch (error) {
           console.error('There was an error disliking this tutorial', error);
-          throw new AuthenticationError('Not authenticated');
+          throw new AuthenticationError
         }
       }
     },
+
+
+    savedTutorial: async (parent, { tutorialId, profileId }, context) => {
+      if (context.user) {
+        try {
+          console.log('display context.user data if working ->', context.user);
+    
+          // updating the tutorial after it was saved by a specific user
+          const updatedTutorial = await Tutorial.findByIdAndUpdate(
+            tutorialId,
+            { $addToSet: { savedTutorial: profileId } },
+            { new: true, runValidators: true }
+          );
+    
+          // updating the user profile to reflect it saved the tutorial
+          const updatedProfile = await Profile.findByIdAndUpdate(
+            profileId,
+            { $addToSet: { savedTutorial: tutorialId } },
+            { new: true, runValidators: true }
+          ).populate('savedTutorial');
+    
+          return updatedProfile;
+        } catch (error) {
+          console.error('There was an error saving this tutorial', error);
+          throw new AuthenticationError('Whoops, looks like there was a problem saving this tutorial!');
+        }
+      } else {
+        throw new AuthenticationError('You need to be logged in to do that. Please log in or sign up.');
+      }
+    },
+    
+    removedSavedTutorial: async (parent, { tutorialId, profileId }, context) => {
+      if (context.user) {
+        try {
+          console.log('display context.user data if working ->', context.user);
+    
+          await Tutorial.findByIdAndUpdate(
+            tutorialId,
+            { $pull: { savedTutorial: profileId } },
+            { new: true, runValidators: true }
+          );
+    
+          const updatedProfile = await Profile.findByIdAndUpdate(
+            profileId,
+            { $pull: { savedTutorial: tutorialId } },
+            { new: true, runValidators: true }
+          ).populate('savedTutorial');
+    
+          return updatedProfile;
+        } catch (error) {
+          console.error('There was an error removing this tutorial', error);
+          throw new AuthenticationError('Whoops, there was an error removing this tutorial.');
+        }
+      } else {
+        throw new AuthenticationError('You need to be logged in to do that. Please log in or sign up.');
+      }
+    },
+    
+    
+ 
 
     saveVideoToTutorial: async (parent, { title, videoId, thumbnail, content, tutorialId }, context) => {
       if (!context.user) {

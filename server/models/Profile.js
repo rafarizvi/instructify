@@ -32,6 +32,18 @@ const profileSchema = new Schema({
       ref: 'Tutorial',
     },
   ],
+  savedTutorial: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Tutorial'
+    }
+  ],
+  removedSavedTutorial: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Tutorial'
+    }
+  ],
   tutorials: [
     {
       type: Schema.Types.ObjectId,

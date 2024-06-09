@@ -127,13 +127,8 @@ export const LIKE_TUTORIAL = gql`
   mutation LikeTutorial($tutorialId: ID!, $profileId: ID!) {
     likeTutorial(tutorialId: $tutorialId, profileId: $profileId) {
       _id
-      likes {
-        _id
-        name
-      }
       dislikes {
         _id
-        name
       }
     }
   }
@@ -143,13 +138,32 @@ export const DISLIKE_TUTORIAL = gql`
   mutation DislikeTutorial($tutorialId: ID!, $profileId: ID!) {
     dislikeTutorial(tutorialId: $tutorialId, profileId: $profileId) {
       _id
-      likes {
-        _id
-        name
-      }
       dislikes {
         _id
-        name
+      }
+    }
+  }
+`;
+
+export const SAVE_TUTORIAL = gql`
+  mutation SaveTutorial($tutorialId: ID!, $profileId: ID!) {
+    savedTutorial(tutorialId: $tutorialId, profileId: $profileId) {
+      _id
+      savedTutorial {
+        _id
+        title
+      }
+    }
+  }
+`;
+
+export const REMOVE_SAVED_TUTORIAL = gql`
+  mutation RemoveSavedTutorial($tutorialId: ID!, $profileId: ID!) {
+    removedSavedTutorial(tutorialId: $tutorialId, profileId: $profileId) {
+      _id
+      removedSavedTutorial {
+        _id
+        title
       }
     }
   }
@@ -159,56 +173,6 @@ export const GIVE_DONATION = gql`
   mutation GiveDonation($amount: Float!) {
     giveDonation(amount: $amount) {
       session
-    }
-  }
-`;
-
-export const QUERY_TUTORIALS = gql`
-  query tutorials {
-    tutorials {
-      _id
-      title
-      content
-      author {
-        _id
-        name
-      }
-      category {
-        _id
-        name
-      }
-      comments {
-        _id
-        content
-        author {
-          _id
-          name
-        }
-      }
-      likes {
-        _id
-        name
-      }
-      dislikes {
-        _id
-        name
-      }
-    }
-  }
-`;
-
-export const QUERY_GET_TUTORIAL_LIKES_DISLIKES = gql`
-  query GetTutorialLikesDislikes($tutorialId: ID!) {
-    tutorial(_id: $tutorialId) {
-      _id
-      likes {
-        _id
-        name
-      }
-      dislikes {
-        _id
-        name
-      }
     }
   }
 `;

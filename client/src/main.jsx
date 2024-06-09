@@ -13,7 +13,8 @@ import {
   All,
   TutorialCategories,
   ViewTutorial,
-  Donation } from './pages';
+  Donation,
+  Account } from './pages';
 
 //importing from components index.js
 import { 
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       { path: '/categories/view-tutorial', element: <ViewTutorial /> },
       { path: 'tutorial/:id', element: <DashboardTutorial /> },
       { path: 'about', element: <About /> },
+      { path: 'account', element: <Account /> },
       { path: 'all', element: <All /> },    
       { path: 'donate', element: <Donation /> }
 ],

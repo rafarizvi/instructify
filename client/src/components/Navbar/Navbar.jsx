@@ -80,6 +80,9 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link navbar-link" to="/donate" onClick={handleNavItemClick}>Donate</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link navbar-link" to="/account" onClick={handleNavItemClick}>Account</Link>
+            </li>
         </ul>
         <ul className="navbar-nav ms-auto" id="navbar-right">
           {!isLoggedIn ? (
