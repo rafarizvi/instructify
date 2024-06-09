@@ -25,7 +25,6 @@ const ViewTutorial = () => {
 
   useEffect(() => {
     if (!loading && data && clickButton) {
-      console.log("Tutorial IDs in data:", data.tutorials.map(tutorial => tutorial._id));
       const foundTutorial = data.tutorials.find((tutorial) => tutorial._id === clickButton);
       setClickedTutorial(foundTutorial);
     }
