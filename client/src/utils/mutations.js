@@ -72,6 +72,15 @@ export const UPDATE_TUTORIAL = gql`
   }
 `;
 
+// Remove image
+export const REMOVE_IMAGE = gql`
+  mutation Mutation($id: ID!) {
+    removeImage(_id: $id) {
+      _id
+  }
+}
+`
+
 // Ability to add a comment
 export const ADD_COMMENT = gql`
   mutation addComment($profileId: ID!, $tutorialId: ID!, $content: String!) {
@@ -138,4 +147,12 @@ export const GIVE_DONATION = gql`
       session
     }
   }
+`;
+
+export const ADD_IMAGE = gql`
+  mutation Mutation($profileId: ID!, $tutorialId: ID!, $link: String!) {
+    addImage(profileId: $profileId, tutorialId: $tutorialId, link: $link) {
+      link
+    }
+}
 `;

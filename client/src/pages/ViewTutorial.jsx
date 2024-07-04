@@ -76,6 +76,12 @@ const ViewTutorial = () => {
     return <div className='text-center'>Loading tutorial details...</div>;
   }
 
+
+
+
+
+  
+
   return (
     <div className="tutorialDiv">
       <Card className="tutorialCard">
@@ -85,7 +91,8 @@ const ViewTutorial = () => {
             content={clickedTutorial.content}
             author={clickedTutorial.author}
             category={clickedTutorial.category}
-          />
+            images={clickedTutorial.images}
+            />
           <DateFormatTutorial createdAt={clickedTutorial.createdAt} />
 
           {clickedTutorial.videos && clickedTutorial.videos.length > 0 && (

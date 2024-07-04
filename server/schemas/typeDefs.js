@@ -6,6 +6,7 @@ const typeDefs = `#graphql
     password: String!
     tutorials: [Tutorial!]
     comments: [Comment!]
+    images: [Image!]
   }
 
   type Tutorial {
@@ -15,6 +16,7 @@ const typeDefs = `#graphql
     author: Profile
     category: Category
     comments: [Comment!]
+    images: [Image!]
     videos: [Video!]!
     createdAt: String!
   }
@@ -33,14 +35,11 @@ const typeDefs = `#graphql
     createdAt: String!
   }
 
-  type Query {
-    profiles: [Profile!]
-    profile(_id: String): Profile
-    me: Profile
-    tutorials: [Tutorial!]
-    tutorial(_id: ID!): Tutorial
-    categories: [Category!]
-    comments: [Comment!]
+  type Image {
+    _id: ID!
+    link: String!
+    author: Profile
+    tutorial: Tutorial
   }
 
   type Auth {
@@ -59,6 +58,18 @@ const typeDefs = `#graphql
   session: ID
   }
 
+  type Query {
+    profiles: [Profile!]
+    profile(_id: String): Profile
+    me: Profile
+    tutorials: [Tutorial!]
+    tutorial(_id: ID!): Tutorial
+    categories: [Category!]
+    comments: [Comment!]
+
+    images: [Image!]
+  }
+
   type Mutation {
     addProfile(name: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
@@ -71,6 +82,9 @@ const typeDefs = `#graphql
     saveVideoToTutorial(title: String!, videoId: String!, thumbnail: String!, tutorialId: ID!): Tutorial
     removeVideoFromTutorial(tutorialId: ID!, videoId: ID!): Tutorial
     giveDonation(amount: Float!): Checkout
+
+    addImage(profileId: ID!, tutorialId: ID!, link: String!): Image
+    removeImage(_id: ID!): Image
 }
 `;
 

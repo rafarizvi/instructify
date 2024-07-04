@@ -19,3 +19,22 @@
   margin: 70px;
   margin-left: 40%;
 }
+
+.addImgDiv {
+  display:flex;
+  flex-wrap: wrap;
+}
+
+.addImg {
+  width: 120px;
+  margin-right: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.imgDelBtn {
+  position: absolute;
+  margin-left: -43px;
+  margin-top: 10px;
+  border-radius: 25px;
+}

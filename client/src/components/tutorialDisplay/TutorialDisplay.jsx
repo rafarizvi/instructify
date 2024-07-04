@@ -1,10 +1,10 @@
 //using to render the text AS the user writes it, with
 
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
+const TutorialDisplay = ({ title, content, author, category, images }) => {
 
-const TutorialDisplay = ({ title, content, author, category }) => {
-
-  
   return (
     <div className="tutorial-display" >
       <br />
@@ -14,7 +14,20 @@ const TutorialDisplay = ({ title, content, author, category }) => {
       <br />
       <br />
       <br />
-      <div style={{ 'fontSize': '16px', whiteSpace: 'pre-wrap' }} className="content" dangerouslySetInnerHTML={{ __html: content }}></div>
+
+      <div>
+        <PhotoProvider>
+          <div className="foo">
+            {images.map((image) => (
+              <PhotoView key={image._id} src={image.link}>
+                <img src={image.link} style={{ width: '135px', height: '135px', objectFit: 'cover', margin: '0 5px 5px 0', borderRadius: '10px' }}/>
+              </PhotoView>
+            ))}
+          </div>
+        </PhotoProvider>
+      </div>
+
+      <div style={{ 'fontSize': '16px', whiteSpace: 'pre-wrap', marginTop: '25px' }} className="content" dangerouslySetInnerHTML={{ __html: content }}></div>
     </div>
   );
 };

@@ -30,6 +30,10 @@ export const QUERY_TUTORIALS = gql`
         title
         videoId
       }
+      images {
+        _id
+        link
+      }
     }
   }
 `;
@@ -88,6 +92,10 @@ export const QUERY_USER_TUTORIALS = gql`
           _id
           title
           videoId
+        }
+        images {
+         _id
+          link
         }
       }
     }
