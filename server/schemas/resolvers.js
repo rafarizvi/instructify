@@ -1,4 +1,4 @@
-const { Profile, Category, Tutorial, Comment, Donation } = require('../models'); // Remove Video import
+const { Profile, Category, Tutorial, Comment, Donation, Image } = require('../models'); // Remove Video import
 const { signToken } = require('../utils/auth');
 const { AuthenticationError } = require('apollo-server-express');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
@@ -16,20 +16,23 @@ const resolvers = {
       }
       throw new AuthenticationError('Not authenticated');
     },
-    tutorial: async (parent, { _id }) => Tutorial.findById(_id).populate('author category comments videos'),
-    tutorials: async () => Tutorial.find({}).populate('author category comments videos'),
+    tutorial: async (parent, { _id }) => Tutorial.findById(_id).populate('author category comments videos images'),
+    tutorials: async () => Tutorial.find({}).populate('author category comments videos images'),
     categories: async () => Category.find({}),
     comments: async () => Comment.find({}),
+    images: async () => Image.find({})
   },
 
   Profile: {
     tutorials: async (parent) => Tutorial.find({ author: parent._id }).populate('category comments videos'),
-    comments: async (parent) => Comment.find({ author: parent._id })
+    comments: async (parent) => Comment.find({ author: parent._id }),
+    images: async (parent) => Image.find({ author: parent._id })
   },
 
   Tutorial: {
     comments: async (parent) => Comment.find({ tutorial: parent._id }),
-    videos: async (parent) => parent.videos // Assuming videos are already populated
+    videos: async (parent) => parent.videos, // Assuming videos are already populated
+    images: async (parent) => Image.find({ tutorial: parent._id })
   },
 
   Category: {
@@ -226,6 +229,68 @@ const resolvers = {
         }
       }
     },
+
+
+
+    addImage: async (parent, { profileId, tutorialId, link, }, context ) => {
+      if (context.user) {
+        try {
+          const addImage = await Image.create({
+            link,
+            author: profileId,
+            tutorial: tutorialId,
+          });
+
+          await Profile.findByIdAndUpdate(
+            profileId,
+            { $addToSet: { images: addImage._id } },
+            { new: true, runValidators: true }
+          );
+          await Tutorial.findByIdAndUpdate(
+            tutorialId,
+            { $addToSet: { images: addImage._id } },
+            { new: true, runValidators: true }
+          );
+          return addImage.populate('author tutorial')
+        } catch (error) {
+          console.error('Add image error:', error);
+          throw new AuthenticationError('Not authenticated');
+        }
+      }
+    },
+
+    removeImage: async (parent, { _id }, context) => {
+      if (context.user) {
+        try {
+          const image = await Image.findById(_id);
+
+          if (!image) {
+            throw new Error('Image not found');
+          }
+
+          await Image.findByIdAndDelete(_id);
+
+          await Profile.findByIdAndUpdate(
+            image.author,
+            { $pull: { images: _id } },
+            { new: true, runValidators: true }
+          );
+
+          await Tutorial.findByIdAndUpdate(
+            image.tutorial,
+            { $pull: { images: _id } },
+            { new: true, runValidators: true }
+          );
+
+          return image;
+        } catch (error) {
+          console.error('Remove image error:', error);
+          throw new AuthenticationError('Not authenticated');
+        }
+      }
+    },
+
+
 
     saveVideoToTutorial: async (parent, { title, videoId, thumbnail, content, tutorialId }, context) => {
       if (!context.user) {

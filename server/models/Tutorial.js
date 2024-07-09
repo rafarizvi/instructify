@@ -27,6 +27,11 @@ const tutorialSchema = new Schema({
     ref: 'Comment',
     required: false
   }],
+  images: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Image',
+    required: false
+  }],
   videos: {
     type: [videoSchema],
     default: [],

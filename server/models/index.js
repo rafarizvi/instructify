@@ -5,6 +5,7 @@ const Tutorial = require('./Tutorial');
 const Comment = require('./Comment');
 const Video = require('./Video');
 const Donation = require('./Donation');
+const Image = require('./Image')
 
 
 // Exporting out the models
@@ -14,5 +15,6 @@ module.exports = {
     Tutorial, 
     Comment,
     Video,
-    Donation
+    Donation,
+    Image
 };
